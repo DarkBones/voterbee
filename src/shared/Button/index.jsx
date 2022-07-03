@@ -2,7 +2,13 @@ import React from 'react'
 import { Button as MUIButton } from '@mui/material'
 import { borderRadius } from '@mui/system'
 
-const Button = ({ children, style, variant = "raised", onClick }) => {
+const Button = ({
+  children,
+  style,
+  variant = "raised",
+  onClick,
+  disabled = false,
+}) => {
   const buttonStyle = {
     backgroundColor: 'yellow',
     color: 'black',
@@ -12,8 +18,18 @@ const Button = ({ children, style, variant = "raised", onClick }) => {
     ...style,
   }
 
+  if (disabled) {
+    buttonStyle.backgroundColor = 'lightgrey'
+    buttonStyle.color = 'grey'
+  }
+
   return (
-    <MUIButton style={buttonStyle} variant={variant} onClick={onClick}>
+    <MUIButton
+      style={buttonStyle}
+      variant={variant}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </MUIButton>
   )
