@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <div className={style.navbar}>
       <Link to="/">
-        <h1>VoteBee</h1>
+        <h1>VoterBee</h1>
       </Link>
       <p>Preferential voting made easy and anonymous</p>
     </div>
