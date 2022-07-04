@@ -1,5 +1,5 @@
-import firebase from "firebase/compat/app"
-import "firebase/compat/database"
+import { initializeApp } from "firebase/app"
+import { getDatabase } from "firebase/database"
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -9,11 +9,8 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_FIREBASE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: "G-DD0MTEN056"
-};
+  measurementId: "G-DD0MTEN056",
+}
 
-firebase.initializeApp(firebaseConfig)
-const databaseRef = firebase.database.ref()
-
-export const appRef = databaseRef.child("app")
-export default firebase
+const app = initializeApp(firebaseConfig)
+export const db = getDatabase(app)
