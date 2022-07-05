@@ -28,14 +28,15 @@ const StartElection = () => {
       })
   }
 
+  const buttonText = disabled ? 'Creating Election...' : 'New Election'
+
   return (
     <div>
       <Button
         onClick={handleClick}
         disabled={disabled}
-        loading={disabled}
       >
-        Start Election
+        {buttonText}
       </Button>
     </div>
   )
