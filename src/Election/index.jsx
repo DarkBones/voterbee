@@ -8,10 +8,16 @@ import {
   equalTo,
   orderByChild,
 } from "firebase/database"
+import Panel from 'shared/Panel'
+import Spinner from 'shared/Spinner'
+import { getOrSetUserId } from 'shared/utils'
+import Configurator from './components/Configurator'
 
 const Election = () => {
   const { electionId } = useParams()
+  const userId = getOrSetUserId()
   const [election, setElection] = useState({})
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     const q = query(ref(db, 'elections'), orderByChild("id"), equalTo(electionId))
     let el = {}
@@ -20,12 +26,26 @@ const Election = () => {
         el = child.val()
         console.log('!!!EL', el)
       })
+      if (el.isConfigured || el.creator === userId) {
+        setLoading(false)
+      }
       setElection(el)
     })
   }, [electionId])
 
+  let content = <Spinner />
+  if (!loading) {
+    if (!election.isConfigured) {
+      content = <Configurator />
+    } else {
+      content = <h3>Election {election.id}</h3>
+    }
+  }
+
   return (
-    <h2>Election {election ? election.id : 'NADA'}</h2>
+    <Panel>
+      {content}
+    </Panel>
   )
 }
 
