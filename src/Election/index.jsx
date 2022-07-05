@@ -18,6 +18,7 @@ const Election = () => {
     onValue(q, (snapshot) => {
       snapshot.forEach((child) => {
         el = child.val()
+        console.log('!!!EL', el)
       })
       setElection(el)
     })

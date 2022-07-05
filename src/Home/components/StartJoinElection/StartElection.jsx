@@ -14,8 +14,6 @@ const StartElection = () => {
 
     const userId = getOrSetUserId()
     const electionId = Math.random().toString(36).substr(2, 5).toUpperCase()
-    console.log('!!!', userId)
-
     const election = {
       id: electionId,
       creator: userId,
@@ -35,6 +33,7 @@ const StartElection = () => {
       <Button
         onClick={handleClick}
         disabled={disabled}
+        loading={disabled}
       >
         Start Election
       </Button>
