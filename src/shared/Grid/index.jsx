@@ -7,10 +7,12 @@ const Grid = ({
   spacing = 2,
   xs = 6,
   style,
+  alignItems = "center",
+  ...otherProps
 }) => {
 
   const gridStyle = {
-    alignItems: "center",
+    alignItems,
     ...style,
   }
 
@@ -20,6 +22,8 @@ const Grid = ({
         container
         spacing={spacing}
         style={gridStyle}
+        alignItems={alignItems}
+        {...otherProps}
       >
         {children}
       </MUIGrid>
@@ -29,6 +33,7 @@ const Grid = ({
         item
         xs={xs}
         style={gridStyle}
+        {...otherProps}
       >
         {children}
       </MUIGrid>

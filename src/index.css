@@ -26,3 +26,7 @@ code {
   cursor: not-allowed;
   opacity: 0.3;
 }
+
+.hoverable:hover {
+  background-color: rgb(188, 227, 240);
+}

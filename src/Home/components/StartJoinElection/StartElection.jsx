@@ -16,7 +16,7 @@ const StartElection = () => {
     const electionId = Math.random().toString(36).substr(2, 5).toUpperCase()
     const election = {
       id: electionId,
-      creator: userId,
+      creator: userId.id,
       createdDate: Date.now(),
       isConfigured: false,
       isFinished: false,

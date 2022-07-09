@@ -12,6 +12,7 @@ import Panel from 'shared/Panel'
 import Spinner from 'shared/Spinner'
 import { getOrSetUserId } from 'shared/utils'
 import Configurator from './components/Configurator'
+import VotingBooth from './components/VotingBooth'
 
 const Election = () => {
   const { electionId } = useParams()
@@ -30,7 +31,7 @@ const Election = () => {
           el = child.val()
           id = child.key
         })
-        if (el.isConfigured || el.creator === userId) {
+        if (el.isConfigured || el.creator === userId.id) {
           setLoading(false)
           setElection({
             ...el,
@@ -50,7 +51,12 @@ const Election = () => {
         />
       )
     } else {
-      content = <h3>Election {election.id}</h3>
+      content = (
+        <VotingBooth
+          election={election}
+          userId={userId}
+        />
+      )
     }
   }
 
