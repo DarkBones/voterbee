@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { db } from '../firebase'
+import { debounce } from 'lodash'
+import { db } from 'shared/utils/firebase'
 import {
   ref,
   query,
   onValue,
   equalTo,
   orderByChild,
-} from "firebase/database"
+  update,
+} from 'firebase/database'
 import Panel from 'shared/Panel'
 import Spinner from 'shared/Spinner'
 import { getOrSetUserId } from 'shared/utils'
@@ -18,25 +20,51 @@ const Election = () => {
   const userId = getOrSetUserId()
   const [election, setElection] = useState({})
   const [loading, setLoading] = useState(true)
+
   useEffect(() => {
-    const q = query(ref(db, 'elections'), orderByChild("id"), equalTo(electionId))
-    let el = {}
-    onValue(q, (snapshot) => {
-      snapshot.forEach((child) => {
-        el = child.val()
-        console.log('!!!EL', el)
+    onValue(
+      query(ref(db, 'elections'), orderByChild('id'), equalTo(electionId)),
+      (snapshot) => {
+        let el = {}
+        let id = ''
+
+        snapshot.forEach((child) => {
+          el = child.val()
+          id = child.key
+        })
+        if (el.isConfigured || el.creator === userId) {
+          setLoading(false)
+          setElection({
+            ...el,
+            fullId: id,
+          })
+        }
       })
-      if (el.isConfigured || el.creator === userId) {
-        setLoading(false)
-      }
-      setElection(el)
-    })
   }, [electionId])
+
+  const uploadConfig = useRef(
+    debounce((id, name, candidates) => {
+      update(ref(db, `elections/${id}`), {
+        name,
+        candidates,
+      })
+    }, 300)
+  ).current
+
+  const handleChange = (newElection) => {
+    setElection(newElection)
+    uploadConfig(newElection.fullId, newElection.name, newElection.candidates)
+  }
 
   let content = <Spinner />
   if (!loading) {
     if (!election.isConfigured) {
-      content = <Configurator />
+      content = (
+        <Configurator
+          election={election}
+          onChange={handleChange}
+        />
+      )
     } else {
       content = <h3>Election {election.id}</h3>
     }

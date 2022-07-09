@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import Button from 'shared/Button'
-import { db } from '../../../firebase'
-import { ref, push } from "firebase/database"
+import { db } from 'shared/utils/firebase'
+import { ref, push } from 'firebase/database'
 import { getOrSetUserId } from 'shared/utils'
 
 const StartElection = () => {

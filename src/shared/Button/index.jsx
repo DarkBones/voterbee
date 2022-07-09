@@ -7,6 +7,7 @@ const Button = ({
   variant = "raised",
   onClick,
   disabled = false,
+  danger = false,
   ...otherProps
 }) => {
   const buttonStyle = {
@@ -21,6 +22,11 @@ const Button = ({
   if (disabled) {
     buttonStyle.backgroundColor = 'lightgrey'
     buttonStyle.color = 'grey'
+  }
+
+  if (danger) {
+    buttonStyle.backgroundColor = '#DC3545'
+    buttonStyle.color = 'white'
   }
 
   return (

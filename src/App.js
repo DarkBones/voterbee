@@ -7,6 +7,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom'
+import db from 'shared/utils/firebase'
 
 function App() {
   return (
