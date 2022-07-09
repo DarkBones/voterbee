@@ -93,12 +93,18 @@ const ConfigureCandidates = ({ candidates, onChange, suggestions }) => {
           />
         )
       })}
-      <Button
-        style={{ width: '100%' }}
-        onClick={handleAddCandidate}
-      >
-        <GoDiffAdded size={23} />
-      </Button>
+      <Grid container>
+        <Grid item xs={2} />
+        <Grid item xs={10}>
+          <Button
+            style={{ width: '100%' }}
+            onClick={handleAddCandidate}
+            secondary
+          >
+            <GoDiffAdded size={23} />
+          </Button>
+        </Grid>
+      </Grid>
     </>
   )
 }

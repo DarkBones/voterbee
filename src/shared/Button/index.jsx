@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button as MUIButton } from '@mui/material'
+import { Button as MUIButton, Tooltip } from '@mui/material'
 
 const Button = ({
   children,
@@ -8,6 +8,8 @@ const Button = ({
   onClick,
   disabled = false,
   danger = false,
+  secondary = false,
+  errors = [],
   ...otherProps
 }) => {
   const buttonStyle = {
@@ -19,17 +21,17 @@ const Button = ({
     ...style,
   }
 
-  if (disabled) {
+  if (disabled || errors.length > 0) {
     buttonStyle.backgroundColor = 'lightgrey'
     buttonStyle.color = 'grey'
-  }
-
-  if (danger) {
+  } else if (danger) {
     buttonStyle.backgroundColor = '#DC3545'
     buttonStyle.color = 'white'
+  } else if (secondary) {
+    buttonStyle.backgroundColor = '#007BFF'
   }
 
-  return (
+  const button = (
     <MUIButton
       style={buttonStyle}
       variant={variant}
@@ -40,6 +42,14 @@ const Button = ({
       {children}
     </MUIButton>
   )
+
+  return errors.length === 0
+    ? button
+    : (
+      <Tooltip title={errors.join(', ')} placement="top" arrow>
+        {button}
+      </Tooltip>
+    )
 }
 
 export default Button

@@ -14,12 +14,15 @@ import Panel from 'shared/Panel'
 import Spinner from 'shared/Spinner'
 import { getOrSetUserId } from 'shared/utils'
 import Configurator from './components/Configurator'
+import Button from 'shared/Button'
+import { validateElectionConfig } from './utils'
 
 const Election = () => {
   const { electionId } = useParams()
   const userId = getOrSetUserId()
   const [election, setElection] = useState({})
   const [loading, setLoading] = useState(true)
+  const [clickedStartElection, setClickedStartElection] = useState(false)
 
   useEffect(() => {
     onValue(
@@ -51,19 +54,38 @@ const Election = () => {
     }, 300)
   ).current
 
-  const handleChange = (newElection) => {
+  const handleConfigChange = (newElection) => {
+    if (clickedStartElection) return
+
     setElection(newElection)
     uploadConfig(newElection.fullId, newElection.name, newElection.candidates)
   }
 
+  const handleStartElection = () => {
+    console.log('START ELECTION')
+    setClickedStartElection(true)
+  }
+
   let content = <Spinner />
+  let footer
+  const errors = validateElectionConfig(election)
   if (!loading) {
     if (!election.isConfigured) {
       content = (
         <Configurator
           election={election}
-          onChange={handleChange}
+          onChange={handleConfigChange}
         />
+      )
+      footer = (
+        <Panel>
+          <Button
+            errors={errors}
+            onClick={handleStartElection}
+          >
+            Start Election
+          </Button>
+        </Panel>
       )
     } else {
       content = <h3>Election {election.id}</h3>
@@ -71,9 +93,12 @@ const Election = () => {
   }
 
   return (
-    <Panel>
-      {content}
-    </Panel>
+    <>
+      <Panel>
+        {content}
+      </Panel>
+      {footer}
+    </>
   )
 }
 
