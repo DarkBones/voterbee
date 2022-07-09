@@ -11,7 +11,7 @@ export const SUGGESTIONS = [
     name: 'What should we do?',
     candidates: [
       'Eat chicken wings',
-      'Go to a theme park',
+      'Go to the movies',
       'Karting',
     ],
   },

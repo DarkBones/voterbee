@@ -1,4 +1,4 @@
-import { MIN_CANDIDATES } from './components/Configurator/constants'
+import { MIN_CANDIDATES } from './constants'
 import { get } from 'lodash'
 
 export const validateElectionConfig = (election) => {

@@ -28,7 +28,7 @@ const ConfigureCandidate = ({
   const deleteButton = (
     <InputAdornment position="end" style={{
       marginRight: '-10px',
-      marginTop: '-10px',
+      marginTop: '-20px',
     }}>
       <div className={candidateCount > MIN_CANDIDATES ? "clickable" : "not_clickable"}
         onClick={handleDelete}
@@ -80,7 +80,7 @@ const ConfigureCandidates = ({ candidates, onChange, suggestions }) => {
   return (
     <>
       <h4>Candidates</h4>
-      {candidates.map((candidate, index) => {
+      {candidates && candidates.map((candidate, index) => {
         return (
           <ConfigureCandidate
             key={`c${index + 1}`}
