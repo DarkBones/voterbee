@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Panel from 'shared/Panel'
 import Grid from 'shared/Grid'
 import { AiOutlineCheck, AiFillCrown } from 'react-icons/ai'
+import CandidatesList from './CandidatesList'
 
 const User = ({ user, creatorId }) => {
   return (
@@ -23,12 +24,37 @@ const User = ({ user, creatorId }) => {
   )
 }
 
+const randomArray = (length) => {
+  let array = []
+  for (let i = 0; i < length; i++) {
+    array.push(i)
+  }
+
+  let currentIndex = array.length, randomIndex
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]]
+  }
+
+  return array
+}
+
 const VoteSession = ({
   candidates,
   userId,
   usersInRoom,
+  userVotes,
   creatorId,
+  onChangeOrder,
 }) => {
+  const [candidateOrder, setCandidateOrder] = useState([])
+  useEffect(() => {
+    setCandidateOrder(userVotes || randomArray(candidates.length))
+  }, [userVotes])
+
   return (
     <div style={{ height: '100%' }}>
       <Grid container alignItems="flex-start">
@@ -47,6 +73,11 @@ const VoteSession = ({
         <Grid item xs={9}>
           <Panel>
             <h3>Candidates</h3>
+            <CandidatesList
+              candidates={candidates}
+              order={candidateOrder}
+              onChangeOrder={onChangeOrder}
+            />
           </Panel>
         </Grid>
       </Grid>

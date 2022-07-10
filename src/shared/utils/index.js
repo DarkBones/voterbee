@@ -12,7 +12,7 @@ const getOrSetId = (key, length = 10) => {
 export const getOrSetUserId = () => {
   return {
     id: getOrSetId('user_id'),
-    idSecret: getOrSetId('user_id_secret'),
+    idSecret: getOrSetId('user_id_secret', 36),
   }
 }
 
