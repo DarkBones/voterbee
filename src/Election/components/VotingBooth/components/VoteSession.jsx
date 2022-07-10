@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { get } from 'lodash'
 import Panel from 'shared/Panel'
+import { InputAdornment, Snackbar, Alert } from '@mui/material'
 import Grid from 'shared/Grid'
+import Spacer from 'shared/Spacer'
+import Button from 'shared/Button'
+import TextField from 'shared/FormControl/TextField'
 import { AiOutlineCheck, AiFillCrown } from 'react-icons/ai'
 import CandidatesList from './CandidatesList'
+import { MdContentCopy } from 'react-icons/md'
 
 const User = ({ user, creatorId }) => {
   return (
@@ -49,14 +55,64 @@ const VoteSession = ({
   userVotes,
   creatorId,
   onChangeOrder,
+  electionId,
 }) => {
   const [candidateOrder, setCandidateOrder] = useState([])
+  const [copyMessageOpen, setCopyMessageOpen] = useState(false)
   useEffect(() => {
-    setCandidateOrder(userVotes || randomArray(candidates.length))
+    setCandidateOrder(get(userVotes, 'order') || randomArray(candidates.length))
   }, [userVotes])
 
+  const isCreator = userId.id === creatorId
+
+  const handleClickedCopy = (e) => {
+    e.stopPropagation()
+
+    navigator.clipboard.writeText(`https://voterbee.io/${electionId}`)
+      .then(() => setCopyMessageOpen(true))
+  }
+
+  const copyLinkButton = (
+    <InputAdornment position="end" style={{
+      marginRight: '-10px',
+      marginTop: '20px',
+    }}>
+      <div
+        className="clickable"
+        onClick={handleClickedCopy}
+      >
+        <MdContentCopy size={20} />
+      </div>
+    </InputAdornment >
+  )
+
   return (
-    <div style={{ height: '100%' }}>
+    <div>
+      {isCreator && (
+        <Panel>
+          <h3>Share this link with your friends / colleagues</h3>
+          <div style={{ maxWidth: '250px', margin: '0 auto' }}>
+            <TextField
+              variant="filled"
+              value={`https://voterbee.io/${electionId}`}
+              onClick={handleClickedCopy}
+              size="small"
+              InputProps={{ endAdornment: copyLinkButton }}
+            />
+            <Snackbar
+              open={copyMessageOpen}
+              autoHideDuration={4000}
+              onClose={() => setCopyMessageOpen(false)}
+            >
+              <Alert
+                severity="success"
+              >
+                Copied to clipboard
+              </Alert>
+            </Snackbar>
+          </div>
+        </Panel>
+      )}
       <Grid container alignItems="flex-start">
         <Grid item xs={12} md={3}>
           <Panel>
@@ -68,6 +124,14 @@ const VoteSession = ({
                 )
               })}
             </div>
+            {isCreator && (
+              <>
+                <Spacer />
+                <Button>
+                  Count Votes
+                </Button>
+              </>
+            )}
           </Panel>
         </Grid>
         <Grid item xs={12} md={9}>

@@ -25,9 +25,6 @@ const Candidate = ({ candidate, index }) => {
             <Grid item xs>
               <div className={style.candidate_value}>
                 {candidate}
-                {index === 2 && (
-                  <span>this is a candidate with a very, very, very, in fact rediculously long name. Phew, that took a while to type out. Vote for me! I should really explain what this candidate is against and for in greater detail.</span>
-                )}
               </div>
             </Grid>
           </Grid>
@@ -41,6 +38,8 @@ const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder })
   const [candidates, setCandidates] = useState([])
   const [tmpOrder, setTmpOrder] = useState([])
   useEffect(() => {
+    if (!order) return
+
     if (tmpOrder.length > 0) {
       if (tmpOrder.join(',') !== order.join(',')) return
     } else {
@@ -48,7 +47,6 @@ const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder })
     }
 
     const cs = []
-    const rotateRange = 15
     order.forEach((i) => {
       cs.push(candidatesInitial[i])
     })
