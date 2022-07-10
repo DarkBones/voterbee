@@ -17,7 +17,7 @@ const User = ({ user, creatorId }) => {
         <Grid item xs={10} style={{ marginTop: '-16px', textAlign: 'left', wordWrap: 'break-word' }}>
           {user.name}
           {user.id === creatorId && (
-            <span style={{ marginLeft: 5 }}>
+            <span style={{ marginLeft: 5, color: 'green' }}>
               <AiFillCrown size={15} />
             </span>
           )}
