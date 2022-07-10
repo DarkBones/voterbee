@@ -6,13 +6,13 @@ import JoinElection from './JoinElection'
 const StartJoinElection = () => {
   return (
     <Grid container>
-      <Grid xs={4}>
+      <Grid xs={12} md={4}>
         <StartElection />
       </Grid>
-      <Grid xs={4}>
+      <Grid xs={12} md={4}>
         ... or ...
       </Grid>
-      <Grid xs={4}>
+      <Grid xs={12} md={4}>
         <JoinElection />
       </Grid>
     </Grid>

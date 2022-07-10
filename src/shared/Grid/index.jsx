@@ -5,7 +5,7 @@ const Grid = ({
   children,
   container = false,
   spacing = 2,
-  xs = 6,
+  // xs = 6,
   style,
   alignItems = "center",
   ...otherProps
@@ -31,7 +31,6 @@ const Grid = ({
     : (
       <MUIGrid
         item
-        xs={xs}
         style={gridStyle}
         {...otherProps}
       >

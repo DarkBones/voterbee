@@ -34,3 +34,4 @@ export const SUGGESTIONS = [
 ]
 
 export const MIN_CANDIDATES = 2
+export const MAX_CANDIDATES = 99

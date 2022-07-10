@@ -6,7 +6,7 @@ import Button from 'shared/Button'
 import { BiTrash } from 'react-icons/bi'
 import { GoDiffAdded } from 'react-icons/go'
 import { InputAdornment } from '@mui/material'
-import { MIN_CANDIDATES } from './constants'
+import { MIN_CANDIDATES, MAX_CANDIDATES } from './constants'
 
 const ConfigureCandidate = ({
   candidate,
@@ -99,6 +99,11 @@ const ConfigureCandidates = ({ candidates, onChange, suggestions }) => {
           <Button
             style={{ width: '100%' }}
             onClick={handleAddCandidate}
+            errors={
+              candidates.length >= MAX_CANDIDATES
+                ? [`Can't have more than ${MAX_CANDIDATES} candidates`]
+                : []
+            }
             secondary
           >
             <GoDiffAdded size={23} />

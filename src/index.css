@@ -28,5 +28,5 @@ code {
 }
 
 .hoverable:hover {
-  background-color: rgb(188, 227, 240);
+  background-color: cyan;
 }

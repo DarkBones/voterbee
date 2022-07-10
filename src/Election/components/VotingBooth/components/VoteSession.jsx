@@ -58,7 +58,7 @@ const VoteSession = ({
   return (
     <div style={{ height: '100%' }}>
       <Grid container alignItems="flex-start">
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3}>
           <Panel>
             <h3>Voters</h3>
             <div>
@@ -70,7 +70,7 @@ const VoteSession = ({
             </div>
           </Panel>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12} md={9}>
           <Panel>
             <h3>Candidates</h3>
             <CandidatesList

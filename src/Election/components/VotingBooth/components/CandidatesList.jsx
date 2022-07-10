@@ -4,10 +4,36 @@ import {
   Droppable,
   Draggable,
 } from 'react-beautiful-dnd'
+import style from './CandidatesList.module.scss'
+import Grid from 'shared/Grid'
 
-const Candidate = ({ candidate }) => {
+const Candidate = ({ candidate, index }) => {
   return (
-    <div style={{ width: '100%', height: '50px', backgroundColor: 'red' }}>{candidate}</div>
+    <div className={style.candidate_container}>
+      <div className={style.candidate}>
+        <div className={style.grid_container}>
+          <Grid container>
+            <Grid item style={{ width: '70px' }} alignItems="center">
+              <div className={style.index_box}>
+                <div style={{
+                  transform: `rotate(-7.5deg)`,
+                }}>
+                  {index + 1}
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs>
+              <div className={style.candidate_value}>
+                {candidate}
+                {index === 2 && (
+                  <span>this is a candidate with a very, very, very, in fact rediculously long name. Phew, that took a while to type out. Vote for me! I should really explain what this candidate is against and for in greater detail.</span>
+                )}
+              </div>
+            </Grid>
+          </Grid>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -22,6 +48,7 @@ const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder })
     }
 
     const cs = []
+    const rotateRange = 15
     order.forEach((i) => {
       cs.push(candidatesInitial[i])
     })
@@ -59,7 +86,10 @@ const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder })
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <Candidate candidate={candidate} />
+                    <Candidate
+                      candidate={candidate}
+                      index={index}
+                    />
                   </div>
                 )}
               </Draggable>
