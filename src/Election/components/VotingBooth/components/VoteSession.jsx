@@ -69,6 +69,7 @@ const VoteSession = ({
 }) => {
   const [candidateOrder, setCandidateOrder] = useState([])
   const [copyMessageOpen, setCopyMessageOpen] = useState(false)
+
   useEffect(() => {
     setCandidateOrder(get(userVotes, 'order') || randomArray(candidates.length))
   }, [userVotes])
