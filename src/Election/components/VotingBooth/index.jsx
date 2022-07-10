@@ -6,6 +6,7 @@ import { get, map, find } from 'lodash'
 import NameConfigurator from './components/NameConfigurator'
 import VoteSession from './components/VoteSession'
 import { getValues } from 'shared/utils'
+import { countVotes } from './utils'
 
 const VotingBooth = ({ election, userId }) => {
   const [usersInRoom, setUsersInRoom] = useState([])
@@ -53,12 +54,13 @@ const VotingBooth = ({ election, userId }) => {
     })
   }
 
-  const handleCastVote = () => {
+  const handleCastVote = (newOrder) => {
     update(
       ref(
         db, `elections/${election.fullId}/votes/${userId.idSecret}`
       ),
       {
+        order: newOrder,
         castedVote: true,
       },
     ).then(() => {
@@ -73,6 +75,16 @@ const VotingBooth = ({ election, userId }) => {
     }).then(() => {
       setVoteMessageOpen(true)
     })
+  }
+
+  const handleCountVotes = () => {
+    if (userId.id !== election.creator) return
+
+    const results = countVotes(
+      election.candidates,
+      map(castedVotes, 'order'),
+      true,
+    )
   }
 
   const content = map(usersInRoom, 'id').includes(userId.id)
@@ -93,6 +105,7 @@ const VotingBooth = ({ election, userId }) => {
         }
         castedVotes={castedVotes.length}
         user={user}
+        onCountVotes={handleCountVotes}
       />
       <Snackbar
         open={voteMessageOpen}

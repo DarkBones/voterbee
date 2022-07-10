@@ -5,6 +5,7 @@ import { InputAdornment, Snackbar, Alert } from '@mui/material'
 import Grid from 'shared/Grid'
 import Spacer from 'shared/Spacer'
 import Button from 'shared/Button'
+import { randomArray } from 'shared/utils'
 import TextField from 'shared/FormControl/TextField'
 import { AiOutlineCheck, AiFillCrown } from 'react-icons/ai'
 import CandidatesList from './CandidatesList'
@@ -36,24 +37,6 @@ const User = ({ user, creatorId }) => {
   )
 }
 
-const randomArray = (length) => {
-  let array = []
-  for (let i = 0; i < length; i++) {
-    array.push(i)
-  }
-
-  let currentIndex = array.length, randomIndex
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]]
-  }
-
-  return array
-}
-
 const VoteSession = ({
   candidates,
   userId,
@@ -66,6 +49,7 @@ const VoteSession = ({
   errors,
   castedVotes,
   user,
+  onCountVotes,
 }) => {
   const [candidateOrder, setCandidateOrder] = useState([])
   const [copyMessageOpen, setCopyMessageOpen] = useState(false)
@@ -96,6 +80,10 @@ const VoteSession = ({
       </div>
     </InputAdornment >
   )
+
+  const handleCastVote = () => {
+    onCastVote(candidateOrder)
+  }
 
   return (
     <div>
@@ -141,6 +129,7 @@ const VoteSession = ({
                 <Spacer />
                 <Button
                   errors={errors}
+                  onClick={onCountVotes}
                 >
                   Count Votes
                 </Button>
@@ -157,7 +146,7 @@ const VoteSession = ({
               onChangeOrder={onChangeOrder}
             />
             <Button
-              onClick={onCastVote}
+              onClick={handleCastVote}
               errors={
                 user.hasVoted
                   ? ['Already voted. Reorder your preferences to ammend your vote']
