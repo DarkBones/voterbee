@@ -22,7 +22,13 @@ const User = ({ user, creatorId }) => {
             </span>
           )}
         </Grid>
-        <Grid item xs={2} style={{ marginTop: '-16px', textAlign: 'right', color: user.hasVotes ? 'green' : 'lightgrey' }}>
+        <Grid item xs={2} style={
+          {
+            marginTop: '-16px',
+            textAlign: 'right',
+            color: user.hasVoted ? 'green' : 'cyan'
+          }
+        }>
           <AiOutlineCheck size={20} />
         </Grid>
       </Grid>
@@ -56,6 +62,10 @@ const VoteSession = ({
   creatorId,
   onChangeOrder,
   electionId,
+  onCastVote,
+  errors,
+  castedVotes,
+  user,
 }) => {
   const [candidateOrder, setCandidateOrder] = useState([])
   const [copyMessageOpen, setCopyMessageOpen] = useState(false)
@@ -117,6 +127,7 @@ const VoteSession = ({
         <Grid item xs={12} md={3}>
           <Panel>
             <h3>Voters</h3>
+            <p>Votes cast: {castedVotes} / {usersInRoom.length}</p>
             <div>
               {usersInRoom.map((user) => {
                 return (
@@ -127,7 +138,9 @@ const VoteSession = ({
             {isCreator && (
               <>
                 <Spacer />
-                <Button>
+                <Button
+                  errors={errors}
+                >
                   Count Votes
                 </Button>
               </>
@@ -142,6 +155,16 @@ const VoteSession = ({
               order={candidateOrder}
               onChangeOrder={onChangeOrder}
             />
+            <Button
+              onClick={onCastVote}
+              errors={
+                user.hasVoted
+                  ? ['Already voted. Reorder your preferences to ammend your vote']
+                  : []
+              }
+            >
+              Cast Vote
+            </Button>
           </Panel>
         </Grid>
       </Grid>

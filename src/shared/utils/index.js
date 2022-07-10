@@ -1,5 +1,3 @@
-import { values } from "lodash"
-
 const getOrSetId = (key, length = 10) => {
   let id = localStorage.getItem(key)
   if (!id) {
@@ -21,7 +19,10 @@ export const getValues = (obj) => {
   if (!obj) return
 
   Object.keys(obj).forEach(key => {
-    values.push(obj[key])
+    values.push({
+      ...obj[key],
+      fb_key: key,
+    })
   })
   return values
 }
