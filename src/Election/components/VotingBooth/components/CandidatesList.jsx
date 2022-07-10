@@ -13,27 +13,33 @@ const Candidate = ({ candidate }) => {
 
 const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder }) => {
   const [candidates, setCandidates] = useState([])
-  const [tmpOrder, setTmpOrder] = useState(order)
+  const [tmpOrder, setTmpOrder] = useState([])
   useEffect(() => {
+    if (tmpOrder.length > 0) {
+      if (tmpOrder.join(',') !== order.join(',')) return
+    } else {
+      setTmpOrder(order)
+    }
+
     const cs = []
-    let o = tmpOrder
-    if (o.length === 0) o = order
-    o.forEach((i) => {
+    order.forEach((i) => {
       cs.push(candidatesInitial[i])
     })
     setCandidates(cs)
-  }, [order, tmpOrder])
+  }, [order, candidatesInitial, tmpOrder])
 
   const handleDragEnd = (result) => {
     if (!result.destination) return
 
-    let newOrder = [...order]
-    if (tmpOrder.length > 0) {
-      newOrder = [...tmpOrder]
-    }
+    const newOrder = [...order]
     const [removed] = newOrder.splice(result.source.index, 1)
     newOrder.splice(result.destination.index, 0, removed)
+    const cs = []
+    newOrder.forEach((i) => {
+      cs.push(candidatesInitial[i])
+    })
     setTmpOrder(newOrder)
+    setCandidates(cs)
     onChangeOrder(newOrder)
   }
 

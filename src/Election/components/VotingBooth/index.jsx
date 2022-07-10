@@ -18,9 +18,12 @@ const VotingBooth = ({ election, userId }) => {
   }, [election, userId])
 
   const handleChangeOrder = (newOrder) => {
-    setTimeout(() => {
-      set(ref(db, `elections/${election.fullId}/votes/${userId.idSecret}`), newOrder)
-    }, 2000)
+    set(
+      ref(
+        db, `elections/${election.fullId}/votes/${userId.idSecret}`
+      ),
+      newOrder
+    )
   }
 
   const content = map(usersInRoom, 'id').includes(userId.id)
