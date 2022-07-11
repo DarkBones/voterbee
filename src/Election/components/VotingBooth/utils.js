@@ -1,36 +1,27 @@
 import { randomArray } from 'shared/utils'
-import { map } from 'lodash'
+import { map, cloneDeep } from 'lodash'
 
-const spoofVotes = (candidates, n) => {
-  const voters = []
-  for (let i = 0; i < n; i++) {
-    voters.push(randomArray(candidates.length))
+export const countVotes = (candidates, votes, results = null, round = 0) => {
+  if (round > 1000) {
+    return results
   }
 
-  return voters
-}
+  console.log(votes)
 
-export const countVotes = (candidates, votes, debug = false, rounds = 0) => {
-  // let votes = _votes
-  if (debug) {
-    console.clear()
-    console.error('START')
-    votes = spoofVotes(candidates, 2)
+  if (!results) {
+    results = {}
+    results[round] = candidates.map((c, index) => {
+      return {
+        index: index,
+        name: c,
+        votes: 0,
+        eliminated: false,
+        round: round,
+      }
+    })
+  } else {
+    results[round] = cloneDeep(results[round - 1])
   }
-
-  if (rounds > 10) {
-    console.error('MAXROUNDS')
-    return
-  }
-
-  const results = candidates.map((c, index) => {
-    return {
-      index: index,
-      name: c,
-      votes: 0,
-      eliminated: false,
-    }
-  })
   const majority = Math.floor(votes.length / 2) + 1
   const winners = []
   const losers = []
@@ -38,21 +29,42 @@ export const countVotes = (candidates, votes, debug = false, rounds = 0) => {
   // get all first choices
   votes.forEach((vote, index) => {
     if (vote.length > 0) {
-      results[vote[0]].votes += 1
+      results[round][vote[0]].votes += 1
     } else {
       // if voter is out of votes, remove them
       votes.splice(index, 1)
-      if (votes.length === 0) {
-        console.error('NO VOTES', results)
-        return
-      }
     }
   })
 
-  const max = Math.max(...map(results, 'votes'))
-  const min = Math.min(...map(results, 'votes').filter((v) => v > 0))
+  if (votes.length === 0) {
+    const max = Math.max(...map(results[round], 'votes'))
+    const output = {}
+    let foundWinner = false
+    Object.keys(results).forEach((r) => {
+      if (!foundWinner) {
+        output[r] = { ...results[r] }
+      }
 
-  results.forEach((result) => {
+      const winners = []
+      results[r].forEach((v, i) => {
+        if (v.votes === max) {
+          winners.push(v)
+        }
+      })
+
+      if (winners.length > 0 && !foundWinner) {
+        foundWinner = true
+        return output
+      }
+    })
+
+    return output
+  }
+
+  const max = Math.max(...map(results[round], 'votes'))
+  const min = Math.min(...map(results[round], 'votes').filter((v) => v > 0))
+
+  results[round].forEach((result) => {
     if (result.votes === max) {
       winners.push(result)
     }
@@ -61,37 +73,19 @@ export const countVotes = (candidates, votes, debug = false, rounds = 0) => {
     }
   })
 
-  console.log('RESULTS', results)
-  console.log('MIN_MAX', min, max)
-  console.log('WINNERS', winners)
-  console.log('LOSERS', losers)
-
-  // if (max === min) {
-  //   console.error('TIE', results)
-  //   return results
-  // }
-
   if (max >= majority && winners.length === 1) {
-    console.error('WINNER', rounds)
     return results
   }
 
-  console.log('!!!NO WINNER')
-
-  results.forEach((result) => {
+  results[round].forEach((result) => {
     if (result.votes <= min) {
       result.eliminated = true
     }
   })
 
   votes.forEach((vote) => {
-    if (vote.length > 0) {
-      if (map(losers, 'index').includes(vote[0])) {
-        vote.shift()
-      }
-    }
+    vote.shift()
   })
 
-  console.log('VOTES', votes)
-  return countVotes(candidates, votes, false, rounds + 1)
+  return countVotes(candidates, votes, results, round + 1)
 }

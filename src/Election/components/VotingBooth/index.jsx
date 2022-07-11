@@ -83,7 +83,6 @@ const VotingBooth = ({ election, userId }) => {
     const results = countVotes(
       election.candidates,
       map(castedVotes, 'order'),
-      true,
     )
   }
 
