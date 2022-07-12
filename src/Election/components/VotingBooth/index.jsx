@@ -21,7 +21,7 @@ const VotingBooth = ({ election, userId }) => {
     const users = getValues(get(election, 'userNames'))
     setUsersInRoom(users)
     setCastedVotes(
-      getValues(get(election, 'votes'))
+      getValues(get(election, 'votes', {}))
         .filter((vote) => vote.castedVote)
     )
     setUserVotes(get(election, 'votes'))
@@ -84,6 +84,8 @@ const VotingBooth = ({ election, userId }) => {
       election.candidates,
       map(castedVotes, 'order'),
     )
+
+    console.log('!!!RESULTS', castedVotes)
   }
 
   const content = map(usersInRoom, 'id').includes(userId.id)

@@ -55,8 +55,12 @@ const VoteSession = ({
   const [copyMessageOpen, setCopyMessageOpen] = useState(false)
 
   useEffect(() => {
-    setCandidateOrder(get(userVotes, 'order') || randomArray(candidates.length))
-  }, [userVotes])
+    if (get(userVotes, 'order', []).length !== candidates.length) {
+      setCandidateOrder(randomArray(candidates.length))
+    } else {
+      setCandidateOrder(userVotes.order)
+    }
+  }, [userVotes, candidates])
 
   const isCreator = userId.id === creatorId
 

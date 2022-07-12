@@ -6,9 +6,14 @@ export const countVotes = (candidates, votes, results = null, round = 0) => {
     return results
   }
 
-  console.log(votes)
+  console.log(round, results)
 
   if (!results) {
+    console.clear()
+    console.log('==============')
+    votes.forEach((v) => console.log(v))
+    console.log('==============')
+
     results = {}
     results[round] = candidates.map((c, index) => {
       return {
@@ -37,6 +42,7 @@ export const countVotes = (candidates, votes, results = null, round = 0) => {
   })
 
   if (votes.length === 0) {
+    console.log('NO VOTES', results)
     const max = Math.max(...map(results[round], 'votes'))
     const output = {}
     let foundWinner = false

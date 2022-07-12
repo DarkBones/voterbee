@@ -100,7 +100,7 @@ const ConfigureCandidates = ({ candidates, onChange, suggestions }) => {
             style={{ width: '100%' }}
             onClick={handleAddCandidate}
             errors={
-              candidates.length >= MAX_CANDIDATES
+              get(candidates, 'length', 0) >= MAX_CANDIDATES
                 ? [`Can't have more than ${MAX_CANDIDATES} candidates`]
                 : []
             }
