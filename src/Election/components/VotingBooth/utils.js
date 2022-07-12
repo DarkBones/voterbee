@@ -1,18 +1,18 @@
 import { randomArray } from 'shared/utils'
 import { map, cloneDeep } from 'lodash'
 
-export const countVotes = (candidates, votes, results = null, round = 0) => {
+export const countVotes = (candidates, votesInitial, results = null, round = 0) => {
   if (round > 1000) {
     return results
   }
 
-  console.log(round, results)
+  let votes = cloneDeep(votesInitial)
 
   if (!results) {
-    console.clear()
-    console.log('==============')
-    votes.forEach((v) => console.log(v))
-    console.log('==============')
+    votes = []
+    votesInitial.forEach((vote) => {
+      votes.push(map(vote.filter((v) => !v.isDiscarded), 'value'))
+    })
 
     results = {}
     results[round] = candidates.map((c, index) => {
@@ -21,7 +21,6 @@ export const countVotes = (candidates, votes, results = null, round = 0) => {
         name: c,
         votes: 0,
         eliminated: false,
-        round: round,
       }
     })
   } else {
@@ -42,7 +41,6 @@ export const countVotes = (candidates, votes, results = null, round = 0) => {
   })
 
   if (votes.length === 0) {
-    console.log('NO VOTES', results)
     const max = Math.max(...map(results[round], 'votes'))
     const output = {}
     let foundWinner = false

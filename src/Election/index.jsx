@@ -13,6 +13,7 @@ import Spinner from 'shared/Spinner'
 import { getOrSetUserId } from 'shared/utils'
 import Configurator from './components/Configurator'
 import VotingBooth from './components/VotingBooth'
+import ElectionResults from './components/ElectionResults'
 
 const Election = () => {
   const { electionId } = useParams()
@@ -51,12 +52,19 @@ const Election = () => {
         />
       )
     } else {
-      content = (
-        <VotingBooth
-          election={election}
-          userId={userId}
-        />
-      )
+      content = election.isFinished
+        ? (
+          <ElectionResults
+            election={election}
+            userId={userId}
+          />
+        )
+        : (
+          <VotingBooth
+            election={election}
+            userId={userId}
+          />
+        )
     }
   }
 

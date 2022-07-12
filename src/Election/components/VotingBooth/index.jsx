@@ -85,7 +85,15 @@ const VotingBooth = ({ election, userId }) => {
       map(castedVotes, 'order'),
     )
 
-    console.log('!!!RESULTS', castedVotes)
+    update(
+      ref(
+        db, `elections/${election.fullId}`
+      ),
+      {
+        results: results,
+        isFinished: true,
+      },
+    )
   }
 
   const content = map(usersInRoom, 'id').includes(userId.id)
