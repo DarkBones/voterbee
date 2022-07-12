@@ -55,8 +55,21 @@ const VoteSession = ({
   const [copyMessageOpen, setCopyMessageOpen] = useState(false)
 
   useEffect(() => {
-    if (get(userVotes, 'order', []).length !== candidates.length) {
-      setCandidateOrder(randomArray(candidates.length))
+    // if (get(userVotes, 'order', []).length !== candidates.length) {
+    //   setCandidateOrder(randomArray(candidates.length))
+    // } else {
+    //   setCandidateOrder(userVotes.order)
+    // }
+    const fbVotes = get(userVotes, 'order', [])
+    const cs = []
+    if (fbVotes.length !== candidates.length) {
+      randomArray(candidates.length).forEach((i) => {
+        cs.push({
+          value: i,
+          isDiscarded: false,
+        })
+      })
+      setCandidateOrder(cs)
     } else {
       setCandidateOrder(userVotes.order)
     }
@@ -144,6 +157,10 @@ const VoteSession = ({
         <Grid item xs={12} md={9}>
           <Panel>
             <h3>Candidates</h3>
+            <p>
+              Order from favourite to least favourite, and discard any candidates you don't have an opinion on.
+            </p>
+            <Spacer />
             <CandidatesList
               candidates={candidates}
               order={candidateOrder}

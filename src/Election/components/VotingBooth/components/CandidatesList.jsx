@@ -4,12 +4,27 @@ import {
   Droppable,
   Draggable,
 } from 'react-beautiful-dnd'
+import { find, cloneDeep } from 'lodash'
 import style from './CandidatesList.module.scss'
 import Grid from 'shared/Grid'
+import Switch from 'shared/FormControl/Switch'
 
-const Candidate = ({ candidate, index }) => {
+const Candidate = ({
+  candidate,
+  index,
+  onDiscardCandidate,
+  isDiscarded,
+  candidateIndex,
+}) => {
+  const handleDiscard = ({ target: { checked } }) => {
+    onDiscardCandidate(candidateIndex, !checked)
+  }
+  const containerClass = isDiscarded
+    ? style.candidate_container_discarded
+    : style.candidate_container
+
   return (
-    <div className={style.candidate_container}>
+    <div className={containerClass}>
       <div className={style.candidate}>
         <div className={style.grid_container}>
           <Grid container>
@@ -18,7 +33,7 @@ const Candidate = ({ candidate, index }) => {
                 <div style={{
                   transform: `rotate(-7.5deg)`,
                 }}>
-                  {index + 1}
+                  {index}
                 </div>
               </div>
             </Grid>
@@ -27,6 +42,12 @@ const Candidate = ({ candidate, index }) => {
                 {candidate}
               </div>
             </Grid>
+            <Grid item style={{ width: '70px' }}>
+              <Switch
+                checked={!isDiscarded}
+                onChange={handleDiscard}
+              />
+            </Grid>
           </Grid>
         </div>
       </div>
@@ -34,8 +55,7 @@ const Candidate = ({ candidate, index }) => {
   )
 }
 
-const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder }) => {
-  const [candidates, setCandidates] = useState([])
+const CandidatesList = ({ candidates, order, onChangeOrder }) => {
   const [tmpOrder, setTmpOrder] = useState([])
   useEffect(() => {
     if (!order) return
@@ -45,58 +65,70 @@ const CandidatesList = ({ candidates: candidatesInitial, order, onChangeOrder })
     } else {
       setTmpOrder(order)
     }
-
-    const cs = []
-    order.forEach((i) => {
-      cs.push(candidatesInitial[i])
-    })
-    setCandidates(cs)
-  }, [order, candidatesInitial, tmpOrder])
+  }, [order, candidates, tmpOrder])
 
   const handleDragEnd = (result) => {
     if (!result.destination) return
 
-    const newOrder = [...order]
+    let newOrder = [...order.filter((o) => !o.isDiscarded)]
     const [removed] = newOrder.splice(result.source.index, 1)
     newOrder.splice(result.destination.index, 0, removed)
-    const cs = []
-    newOrder.forEach((i) => {
-      cs.push(candidatesInitial[i])
-    })
+    newOrder = [...newOrder, ...order.filter((o) => o.isDiscarded)]
     setTmpOrder(newOrder)
-    setCandidates(cs)
+    onChangeOrder(newOrder)
+  }
+
+  const handleDiscardCandidate = (index, discard) => {
+    const newOrder = cloneDeep(tmpOrder)
+    find(newOrder, (o) => o.value === index).isDiscarded = discard
+    setTmpOrder(newOrder)
     onChangeOrder(newOrder)
   }
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="droppable" >
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {candidates.map((candidate, index) => (
-              <Draggable draggableId={index.toString()} index={index} key={index.toString()}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <Candidate
-                      candidate={candidate}
-                      index={index}
-                    />
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppable" >
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {tmpOrder.filter((o) => !o.isDiscarded).map(({ value: candidateIndex }, index) => (
+                <Draggable draggableId={index.toString()} index={index} key={index.toString()}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <Candidate
+                        candidateIndex={candidateIndex}
+                        candidate={candidates[candidateIndex]}
+                        index={index + 1}
+                        onDiscardCandidate={handleDiscardCandidate}
+                        isDiscarded={false}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {tmpOrder.filter((o) => o.isDiscarded).map(({ value: candidateIndex }) => (
+        <Candidate
+          key={candidateIndex.toString()}
+          candidateIndex={candidateIndex}
+          candidate={candidates[candidateIndex]}
+          index="-"
+          onDiscardCandidate={handleDiscardCandidate}
+          isDiscarded
+        />
+      ))}
+    </>
   )
 }
 
