@@ -8,9 +8,6 @@ const Home = () => {
       <Panel>
         <StartJoinElection />
       </Panel>
-      <div className="divtest">
-        test2
-      </div>
     </>
   )
 }
