@@ -80,7 +80,7 @@ const VoteSession = ({
   const handleClickedCopy = (e) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`https://voterbee.io/${electionId}`)
+    navigator.clipboard.writeText(window.location.href)
       .then(() => setCopyMessageOpen(true))
   }
 
@@ -110,7 +110,7 @@ const VoteSession = ({
           <div style={{ maxWidth: '250px', margin: '0 auto' }}>
             <TextField
               variant="filled"
-              value={`https://voterbee.io/${electionId}`}
+              value={window.location.href}
               onClick={handleClickedCopy}
               size="small"
               InputProps={{ endAdornment: copyLinkButton }}
