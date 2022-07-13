@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <div className={style.navbar}>
       <Link to="/">
-        <h1>VoterBee</h1>
+        <img src="/logo.png" alt="voterbee" />
       </Link>
       <p>Preferential voting made easy and anonymous</p>
     </div>

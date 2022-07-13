@@ -50,6 +50,7 @@ const VoteSession = ({
   castedVotes,
   user,
   onCountVotes,
+  electionName,
 }) => {
   const [candidateOrder, setCandidateOrder] = useState([])
   const [copyMessageOpen, setCopyMessageOpen] = useState(false)
@@ -156,7 +157,7 @@ const VoteSession = ({
         </Grid>
         <Grid item xs={12} md={9}>
           <Panel>
-            <h3>Candidates</h3>
+            <h3>{electionName}</h3>
             <p>
               Order from favourite to least favourite, and discard any candidates you don't have an opinion on.
             </p>

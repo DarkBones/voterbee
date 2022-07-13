@@ -115,6 +115,7 @@ const VotingBooth = ({ election, userId }) => {
         castedVotes={castedVotes.length}
         user={user}
         onCountVotes={handleCountVotes}
+        electionName={election.name}
       />
       <Snackbar
         open={voteMessageOpen}
