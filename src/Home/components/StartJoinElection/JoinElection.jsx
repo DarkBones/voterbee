@@ -15,6 +15,11 @@ const JoinElection = () => {
     history.push(`/${electionId}`)
   }
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode !== 13) return
+    handleClick()
+  }
+
   const joinButton = (
     <InputAdornment position="end" style={{
       marginRight: '-10px',
@@ -36,6 +41,7 @@ const JoinElection = () => {
       value={electionId}
       size="small"
       placeholder="Enter Election ID"
+      onKeyDown={handleKeyDown}
     />
   )
 }
