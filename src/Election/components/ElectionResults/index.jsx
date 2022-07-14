@@ -42,8 +42,8 @@ const ElectionResults = ({ election, userId }) => {
       <h1>{winText}</h1>
       <Spacer />
       <Grid container>
-        {winners.map((winner) => (
-          <Grid item xs>
+        {winners.map((winner, index) => (
+          <Grid item xs key={index.toString()}>
             <div className={style.winner}>
               {winner.name}
               <span className={style.vote_count}>
