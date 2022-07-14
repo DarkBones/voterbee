@@ -12,11 +12,18 @@ import Spacer from 'shared/Spacer'
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
 
 const PaymentForm = ({ value }) => {
+  const [isValid, setIsValid] = useState(false)
+  const handleChange = ({ error, complete }) => {
+    console.log(error, complete)
+    setIsValid(!error && complete)
+  }
   return (
     <>
-      <CardElement />
+      <CardElement onChange={handleChange} />
       <Spacer />
-      <Button>
+      <Button
+        disabled={!isValid}
+      >
         Donate ${parseFloat(value).toFixed(2)}
       </Button>
     </>
