@@ -7,6 +7,20 @@
     "*.test.js",
     "*.test.jsx"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".jstest",
+          ".jsx"
+        ],
+        "paths": [
+          "./src",
+          "client/src"
+        ]
+      }
+    }
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
