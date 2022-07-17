@@ -1,12 +1,10 @@
-// import Panel from 'shared/components/Panel'
-import Panel from 'shared/components/Panel'
+import { Panel } from 'shared/components'
 
 function Home() {
   return (
-    <>
-      <div>HOME</div>
-      <Panel />
-    </>
+    <Panel>
+      PANEL
+    </Panel>
   )
 }
 
