@@ -3,6 +3,10 @@
     "browser": true,
     "es2021": true
   },
+  "ignorePatterns": [
+    "*.test.js",
+    "*.test.jsx"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
