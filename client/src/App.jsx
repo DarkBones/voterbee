@@ -1,23 +1,17 @@
-import { useState, useEffect } from 'react'
-import logo from './logo.svg'
+import { BrowserRouter as Router } from 'react-router-dom'
 import './App.css'
+import Layout from './components/Layout'
+import Routes from './Routes'
 
 function App() {
-  const [data, setData] = useState()
-
-  useEffect(() => {
-    fetch('/api')
-      .then((res) => res.json())
-      .then(({ message }) => setData(message))
-  }, [])
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? 'Loading...' : data}</p>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Layout>
+          <Routes />
+        </Layout>
+      </div>
+    </Router>
   )
 }
 
