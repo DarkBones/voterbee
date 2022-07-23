@@ -1,8 +1,13 @@
 import { Grid, Button } from 'shared/components'
 
 function CreateElection() {
+  const handleCreateElection = () => {
+    console.log('CREATE ELECTION')
+  }
   return (
-    <Button>
+    <Button
+      onClick={handleCreateElection}
+    >
       Create Election
     </Button>
   )
