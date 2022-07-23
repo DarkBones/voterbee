@@ -6,7 +6,9 @@ const baseOptions = {
   },
 }
 
-export const get = (path) => fetch(path, {
+const baseUrl = `/api/v${process.env.REACT_APP_NODE_API_VERSION}`
+
+export const get = (path) => fetch(`${baseUrl}/${path}`, {
   ...baseOptions,
   method: 'GET',
 })
@@ -18,7 +20,7 @@ export const get = (path) => fetch(path, {
     return res.json()
   })
 
-export const post = (path, payload) => fetch(path, {
+export const post = (path, payload) => fetch(`${baseUrl}/${path}`, {
   ...baseOptions,
   method: 'POST',
   body: JSON.stringify(payload),
