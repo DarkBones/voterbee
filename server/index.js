@@ -1,18 +1,13 @@
-require('dotenv').config()
 const express = require('express')
 
 const PORT = process.env.PORT || 3001
 const app = express()
 const baseUrl = '/api/v1'
-const {
-  initializeApp,
-  applicationDefault,
-} = require('firebase-admin/app')
+const { db } = require('./firebase')
 
-initializeApp({
-  credential: applicationDefault(),
-  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-})
+const electionRef = db.ref('elections')
+electionRef.get()
+  .then((res) => console.log(res.val()))
 
 app.get(baseUrl, (req, res) => {
   res.json({ message: 'Hello from server!' })
