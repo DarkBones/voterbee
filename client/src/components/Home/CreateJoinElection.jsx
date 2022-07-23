@@ -1,8 +1,17 @@
 import { Grid, Button } from 'shared/components'
+import { post, get } from 'shared/utils'
 
 function CreateElection() {
   const handleCreateElection = () => {
+    console.clear()
     console.log('CREATE ELECTION')
+    get('/api')
+      .then((res) => console.log(res))
+      .catch((err) => console.log('!!!ERROR', err))
+
+    post('/api/elections/create', { test: 'yay' })
+      .then((res) => console.log(res))
+      .catch((err) => console.log('!!!ERROR', err))
   }
   return (
     <Button
