@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/DarkBones/electify#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "firebase-admin": "^11.0.0"
   },
   "devDependencies": {
     "eslint": "^8.20.0",
