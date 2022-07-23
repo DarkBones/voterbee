@@ -1,10 +1,18 @@
-import { Grid } from 'shared/components'
+import { Grid, Button } from 'shared/components'
+
+function CreateElection() {
+  return (
+    <Button>
+      Create Election
+    </Button>
+  )
+}
 
 function CreateJoinElection() {
   return (
     <Grid container>
       <Grid xs={12} sm={4}>
-        CREATE
+        <CreateElection />
       </Grid>
       <Grid xs={12} sm={4}>
         ... or ...

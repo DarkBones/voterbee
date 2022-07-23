@@ -25,11 +25,6 @@ function Grid({
         spacing={spacing}
         style={gridStyle}
         alignItems={alignItems}
-        xs={xs}
-        sm={sm}
-        md={md}
-        lg={lg}
-        xl={xl}
       >
         {children}
       </MUIGrid>
