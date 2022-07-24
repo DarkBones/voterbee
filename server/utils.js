@@ -2,7 +2,6 @@ const { times, random } = require('lodash')
 
 const generateUniqueId = (existingIds, length = 5, upperCase = true) => {
   const newId = () => {
-    // const i = crypto.randomBytes(256).toString('md5').substring(0, length)
     const i = times(length, () => random(35).toString(36)).join('')
     return upperCase ? i.toUpperCase() : i
   }
@@ -22,9 +21,9 @@ const resSuccess = (obj) => {
   }
 }
 
-const resFail = (obj) => {
+const resFail = (obj, status = 500) => {
   return {
-    status: 500,
+    status,
     ...obj,
   }
 }

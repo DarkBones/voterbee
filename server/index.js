@@ -1,11 +1,15 @@
 const express = require('express')
+const bodyParser = require('body-parser');
 
+const { get } = require('lodash')
 const { newElection } = require('./election')
 const { newUserId } = require('./user')
 const { resSuccess, resFail, res_success } = require('./utils')
 
 const PORT = process.env.PORT || 3001
 const app = express()
+app.use(bodyParser.json())
+
 const baseUrl = '/api/v1'
 
 app.get(baseUrl, (req, res) => {
@@ -19,8 +23,14 @@ app.get(`${baseUrl}/users/new_id`, (req, res) => {
 })
 
 app.post(`${baseUrl}/elections/create`, (req, res) => {
-  newElection()
-  res.json({ message: 'POST SUCCESSFUL' })
+  const user = get(req, 'body.user')
+  if (!user) {
+    res.json(resFail({ message: 'No user ID found' }, 400))
+    return
+  }
+
+  newElection(user)
+    .then((id) => res.json(resSuccess({ election_id: id })))
 })
 
 app.listen(PORT, () => {

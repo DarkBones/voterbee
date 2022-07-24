@@ -1,23 +1,31 @@
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from 'contexts'
 import { Grid, Button } from 'shared/components'
-import { post, get } from 'shared/utils'
+import { post } from 'shared/utils'
 
 function CreateElection() {
-  const handleCreateElection = () => {
-    console.clear()
-    console.log('CREATE ELECTION')
-    get('')
-      .then((res) => console.log(res))
-      .catch((err) => console.log('!!!ERROR', err))
+  const user = useContext(UserContext)
+  const navigate = useNavigate()
+  const [isCreating, setIsCreating] = useState(false)
 
-    post('elections/create', { test: 'yay' })
-      .then((res) => console.log(res))
-      .catch((err) => console.log('!!!ERROR', err))
+  const handleCreateElection = () => {
+    setIsCreating(true)
+
+    post('elections/create', { user })
+      .then(({ election_id: id }) => navigate(`/${id}`))
+      .catch(() => {
+        // TODO: Show error toast
+        setIsCreating(false)
+      })
   }
+  const buttonText = isCreating ? 'Creating Election...' : 'Create Election'
   return (
     <Button
       onClick={handleCreateElection}
+      isDisabled={isCreating}
     >
-      Create Election
+      {buttonText}
     </Button>
   )
 }
