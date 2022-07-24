@@ -26,7 +26,7 @@ export const post = (path, payload) => fetch(`${baseUrl}/${path}`, {
   body: JSON.stringify(payload),
 })
   .then((res) => {
-    if (res.status !== 200) {
+    if (res.status === 200) {
       return Promise.reject(res)
     }
 

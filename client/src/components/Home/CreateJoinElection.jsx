@@ -1,13 +1,18 @@
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from 'contexts'
-import { Grid, Button } from 'shared/components'
+import {
+  Grid,
+  Button,
+  Snackbar,
+} from 'shared/components'
 import { post } from 'shared/utils'
 
 function CreateElection() {
   const user = useContext(UserContext)
   const navigate = useNavigate()
   const [isCreating, setIsCreating] = useState(false)
+  const [isErrorOpen, setIsErrorOpen] = useState(false)
 
   const handleCreateElection = () => {
     setIsCreating(true)
@@ -15,18 +20,27 @@ function CreateElection() {
     post('elections/create', { user })
       .then(({ election_id: id }) => navigate(`/${id}`))
       .catch(() => {
-        // TODO: Show error toast
+        setIsErrorOpen(true)
         setIsCreating(false)
       })
   }
   const buttonText = isCreating ? 'Creating Election...' : 'Create Election'
   return (
-    <Button
-      onClick={handleCreateElection}
-      isDisabled={isCreating}
-    >
-      {buttonText}
-    </Button>
+    <>
+      <Snackbar
+        isOpen={isErrorOpen}
+        onClose={() => setIsErrorOpen(false)}
+        severity="error"
+      >
+        Something went wrong. Please try again later.
+      </Snackbar>
+      <Button
+        onClick={handleCreateElection}
+        isDisabled={isCreating}
+      >
+        {buttonText}
+      </Button>
+    </>
   )
 }
 
