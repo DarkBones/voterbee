@@ -9,7 +9,7 @@ import translations from 'i18n'
 
 const detectionOptions = {
   order: ['path', 'cookie', 'navigator', 'localStorage', 'subdomain', 'queryString', 'htmlTag'],
-  lookupFromPathIndex: 0,
+  lookupFromPathIndex: 0
 }
 
 i18n
