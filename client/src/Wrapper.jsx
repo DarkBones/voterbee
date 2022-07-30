@@ -19,6 +19,7 @@ i18n
     resources: {
       en: { translation: translations.en },
       fr: { translation: translations.fr },
+      nl: { translation: translations.nl },
     },
     fallbackLng: 'en',
     detection: detectionOptions,

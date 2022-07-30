@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { UserContext } from 'contexts'
 import {
   Grid,
@@ -9,6 +10,7 @@ import {
 import { post } from 'shared/utils'
 
 function CreateElection() {
+  const { t } = useTranslation()
   const user = useContext(UserContext)
   const navigate = useNavigate()
   const [isCreating, setIsCreating] = useState(false)
@@ -24,7 +26,10 @@ function CreateElection() {
         setIsCreating(false)
       })
   }
-  const buttonText = isCreating ? 'Creating Election...' : 'Create Election'
+  // const buttonText = isCreating ? 'Creating Election...' : 'Create Election'
+  const buttonText = isCreating
+    ? t('create_election.creating')
+    : t('create_election.create')
   return (
     <>
       <Snackbar
@@ -32,7 +37,7 @@ function CreateElection() {
         onClose={() => setIsErrorOpen(false)}
         severity="error"
       >
-        Something went wrong. Please try again later.
+        {t('errors.generic')}
       </Snackbar>
       <Button
         onClick={handleCreateElection}
@@ -45,16 +50,17 @@ function CreateElection() {
 }
 
 function CreateJoinElection() {
+  const { t } = useTranslation()
   return (
     <Grid container>
       <Grid xs={12} sm={4}>
         <CreateElection />
       </Grid>
       <Grid xs={12} sm={4}>
-        ... or ...
+        {t('create_election.or')}
       </Grid>
       <Grid xs={12} sm={4}>
-        JOIN
+        {t('create_election.join')}
       </Grid>
     </Grid>
   )
