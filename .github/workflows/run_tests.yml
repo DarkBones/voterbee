@@ -8,10 +8,21 @@ on:
     branches:
       - '*'
 jobs:
-  run-tests:
+  run-client-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: |
-          npm i --prefix client
-          npm run test --prefix client
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm i --prefix client
+
+      - name: Run test command
+        run: npm run test --prefix client
