@@ -2,7 +2,6 @@ const translations = {
   en: {
     navbar: {
       tagline: 'Preferential voting made easy and anonymous',
-      test: 'fail',
     },
   },
   fr: {
