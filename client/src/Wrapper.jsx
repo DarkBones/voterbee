@@ -2,7 +2,22 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { get } from 'shared/utils'
 import { UserContext } from 'contexts'
-import I18n from 'I18n'
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import translations from 'i18n'
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: { translation: translations.en },
+    },
+    lng: 'en',
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false,
+    },
+  })
 
 function Wrapper({ children }) {
   const [user, setUser] = useState('')
@@ -25,9 +40,7 @@ function Wrapper({ children }) {
 
   return (
     <UserContext.Provider value={user}>
-      <I18n>
-        {children}
-      </I18n>
+      {children}
     </UserContext.Provider>
   )
 }
