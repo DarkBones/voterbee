@@ -3,17 +3,25 @@ import { useState, useEffect } from 'react'
 import { get } from 'shared/utils'
 import { UserContext } from 'contexts'
 import i18n from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 import translations from 'i18n'
 
+const detectionOptions = {
+  order: ['path', 'cookie', 'navigator', 'localStorage', 'subdomain', 'queryString', 'htmlTag'],
+  lookupFromPathIndex: 0,
+}
+
 i18n
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
       en: { translation: translations.en },
+      fr: { translation: translations.fr },
     },
-    lng: 'en',
     fallbackLng: 'en',
+    detection: detectionOptions,
     interpolation: {
       escapeValue: false,
     },
