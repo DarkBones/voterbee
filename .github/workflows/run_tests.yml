@@ -1,4 +1,4 @@
-name: Run tests
+name: Run Tests
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
 jobs:
   run-client-tests:
     runs-on: ubuntu-latest
+    name: Run Client Tests
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
