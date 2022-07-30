@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { get } from 'shared/utils'
 import { UserContext } from 'contexts'
+import I18n from 'I18n'
 
 function Wrapper({ children }) {
   const [user, setUser] = useState('')
@@ -24,7 +25,9 @@ function Wrapper({ children }) {
 
   return (
     <UserContext.Provider value={user}>
-      {children}
+      <I18n>
+        {children}
+      </I18n>
     </UserContext.Provider>
   )
 }
