@@ -45,5 +45,5 @@ jobs:
       - name: Install dependencies
         run: npm i --prefix client
 
-      - name: Run link
+      - name: Run lint
         run: npm run lint --prefix client
