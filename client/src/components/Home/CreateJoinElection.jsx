@@ -1,4 +1,9 @@
-import { useContext, useState } from 'react'
+import {
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { UserContext } from 'contexts'
@@ -7,6 +12,7 @@ import {
   Button,
   Snackbar,
 } from 'shared/components'
+import { TextField } from 'shared/components/forms'
 import { post } from 'shared/utils'
 
 function CreateElection() {
@@ -49,18 +55,47 @@ function CreateElection() {
   )
 }
 
+function JoinElection() {
+  const { t } = useTranslation()
+  const buttonRef = useRef(null)
+  const [buttonWidth, setButtonWidth] = useState(0)
+  useEffect(() => {
+    setButtonWidth(buttonRef.current.offsetWidth)
+  }, [buttonRef])
+  // {t('create_election.join')}
+  return (
+    <Grid container spacing={0}>
+      <Grid xs>
+        <TextField
+          placeholder={t('join_election.placeholder')}
+          className="with-button"
+        />
+      </Grid>
+      <Grid width={buttonWidth}>
+        <div ref={buttonRef}>
+          <Button
+            variant="with-input"
+          >
+            {t('create_election.join')}
+          </Button>
+        </div>
+      </Grid>
+    </Grid>
+  )
+}
+
 function CreateJoinElection() {
   const { t } = useTranslation()
   return (
     <Grid container>
-      <Grid xs={12} sm={4}>
+      <Grid xs={12} sm={5} md={4}>
         <CreateElection />
       </Grid>
-      <Grid xs={12} sm={4}>
+      <Grid xs={12} sm={2} md={4}>
         {t('create_election.or')}
       </Grid>
-      <Grid xs={12} sm={4}>
-        {t('create_election.join')}
+      <Grid xs={12} sm={5} md={4}>
+        <JoinElection />
       </Grid>
     </Grid>
   )

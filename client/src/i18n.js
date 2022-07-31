@@ -9,6 +9,9 @@ const translations = {
       or: '... or ...',
       join: 'Join',
     },
+    join_election: {
+      placeholder: 'Enter Election ID',
+    },
     errors: {
       generic: 'Something went wrong. Please try again later.',
     },
@@ -23,6 +26,9 @@ const translations = {
       or: '... ou ...',
       join: 'Joindre',
     },
+    join_election: {
+      placeholder: 'ID d\'élection',
+    },
     errors: {
       generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
     },
@@ -35,7 +41,10 @@ const translations = {
       creating: 'Laden...',
       create: 'Creëer Verkiezing',
       or: '... of ...',
-      join: 'Laad Verkiezing',
+      join: 'Meedoen',
+    },
+    join_election: {
+      placeholder: 'Verkiezing ID',
     },
     errors: {
       generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',

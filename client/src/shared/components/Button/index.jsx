@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types'
-import { Button as MUIButton, createTheme, ThemeProvider } from '@mui/material'
+import {
+  Button as MUIButton,
+  createTheme,
+  ThemeProvider,
+} from '@mui/material'
 import styleVariables from './Button.module.scss'
 
 function Button({
@@ -9,15 +13,6 @@ function Button({
   isDisabled,
   onClick,
 }) {
-  // const variantStyles = {
-  //   '&.MuiButton-root': {
-  //     border: '2px solid black',
-  //   },
-  //   '&.MuiButton-raised': {
-  //     backgroundColor: 'blue',
-  //   },
-  // }
-
   const buttonStyle = {
     ...style,
   }
@@ -31,6 +26,7 @@ function Button({
               backgroundColor: styleVariables.disabled,
             },
             backgroundColor: styleVariables.primary,
+            borderRadius: '4px',
             color: styleVariables.text,
             boxShadow: styleVariables.box_shadow,
             fontWeight: styleVariables.font_weight,
@@ -42,9 +38,11 @@ function Button({
         },
         variants: [
           {
-            props: { variant: 'test' },
+            props: { variant: 'with-input' },
             style: {
-              backgroundColor: 'red',
+              borderRadius: '0 4px 4px 0',
+              marginTop: '3px',
+              height: '40px',
             },
           },
         ],
@@ -72,7 +70,12 @@ Button.propTypes = {
     PropTypes.node,
   ]).isRequired,
   style: PropTypes.shape({}),
-  variant: PropTypes.string,
+  variant: PropTypes.oneOf([
+    'contained',
+    'outlined',
+    'text',
+    'with-input',
+  ]),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
 }

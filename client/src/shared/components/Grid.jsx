@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { set } from 'lodash'
 import { Grid as MUIGrid } from '@mui/material'
 
 function Grid({
@@ -7,6 +8,7 @@ function Grid({
   container,
   spacing,
   style,
+  width,
   xs,
   sm,
   md,
@@ -16,6 +18,10 @@ function Grid({
   const gridStyle = {
     alignItems,
     ...style,
+  }
+
+  if (width) {
+    set(gridStyle, 'width', `${width}px`)
   }
 
   return container
@@ -45,7 +51,13 @@ function Grid({
 }
 
 Grid.propTypes = {
-  alignItems: PropTypes.string,
+  alignItems: PropTypes.oneOf([
+    'flex-start',
+    'center',
+    'flex-end',
+    'stretch',
+    'baseline',
+  ]),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -53,11 +65,32 @@ Grid.propTypes = {
   container: PropTypes.bool,
   spacing: PropTypes.number,
   style: PropTypes.shape({}),
-  xs: PropTypes.number,
-  sm: PropTypes.number,
-  md: PropTypes.number,
-  lg: PropTypes.number,
-  xl: PropTypes.number,
+  width: PropTypes.number,
+  xs: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.oneOf(['auto']),
+  ]),
+  sm: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.oneOf(['auto']),
+  ]),
+  md: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.oneOf(['auto']),
+  ]),
+  lg: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.oneOf(['auto']),
+  ]),
+  xl: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.oneOf(['auto']),
+  ]),
 }
 
 Grid.defaultProps = {
@@ -65,6 +98,7 @@ Grid.defaultProps = {
   container: false,
   spacing: 2,
   style: {},
+  width: null,
   xs: null,
   sm: null,
   md: null,
