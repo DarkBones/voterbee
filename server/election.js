@@ -40,6 +40,8 @@ const getElection = async (electionId) => {
           status: 404,
         })
       }
+
+      return Promise.resolve({ message: 'election found' })
     })
 }
 

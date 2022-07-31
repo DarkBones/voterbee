@@ -24,7 +24,7 @@ app.get(`${baseUrl}/users/new_id`, (_req, res) => {
 
 app.get(`${baseUrl}/elections/:electionId`, (req, res) => {
   getElection(req.params.electionId.toUpperCase())
-    .then((res) => res.json(resSuccess({ election: res })))
+    .then((r) => res.json(resSuccess()))
     .catch((err) => res.json(resFail({ message: err.message }, err.status)))
 })
 

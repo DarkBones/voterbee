@@ -76,7 +76,7 @@ function JoinElection() {
           placeholder={t('join_election.placeholder')}
           className="with-button"
           onEnter={handleJoinElection}
-          onChange={({ target: { value } }) => setElectionId(value)}
+          onChange={({ target: { value } }) => setElectionId(value.toUpperCase())}
           value={electionId}
         />
       </Grid>

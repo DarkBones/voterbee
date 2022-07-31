@@ -7,12 +7,15 @@ import ElectionLoading from './components/ElectionLoading'
 function Election() {
   const { electionId } = useParams()
   const [electionStatus, setElectionStatus] = useState(0)
-  const [election, setElection] = useState({})
+  // const [election, setElection] = useState({})
   useEffect(() => {
     get(`elections/${electionId}`)
-      .then(({ status, message }) => {
-        setElectionStatus(status)
-        if (status === 200) setElection(message)
+      .then(({ status }) => {
+        if (status !== 200) {
+          setElectionStatus(status)
+          return
+        }
+        console.log('ELECTION FOUND')
       })
   }, [electionId])
 
@@ -21,8 +24,6 @@ function Election() {
     content = (
       <div>
         ELECTION FOUND
-        {' '}
-        {election.id}
       </div>
     )
   } else if (electionStatus === 404) {
