@@ -32,7 +32,6 @@ function CreateElection() {
         setIsCreating(false)
       })
   }
-  // const buttonText = isCreating ? 'Creating Election...' : 'Create Election'
   const buttonText = isCreating
     ? t('create_election.creating')
     : t('create_election.create')
