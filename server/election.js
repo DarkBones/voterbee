@@ -30,4 +30,17 @@ const newElection = async (user) => {
     })
 }
 
-module.exports = { newElection }
+const getElection = async (electionId) => {
+  const electionIdsRef = db.ref('election_ids')
+  return await electionIdsRef.get()
+    .then(async (snapshot) => {
+      if (!map(snapshot.val(), 'id').includes(electionId)) {
+        return Promise.reject({
+          message: 'election not found',
+          status: 404,
+        })
+      }
+    })
+}
+
+module.exports = { newElection, getElection }
