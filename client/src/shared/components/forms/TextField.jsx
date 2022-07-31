@@ -13,6 +13,8 @@ function TextField({
   className,
   size,
   fullWidth,
+  onEnter,
+  value,
 }) {
   const theme = createTheme({
     components: {
@@ -33,6 +35,13 @@ function TextField({
       },
     },
   })
+
+  const handleKeyDown = ({ keyCode }) => {
+    if (keyCode === 13) {
+      onEnter()
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <MUITextField
@@ -43,6 +52,8 @@ function TextField({
         className={className}
         size={className === 'with-button' ? 'small' : size}
         fullWidth={fullWidth}
+        onKeyDown={handleKeyDown}
+        value={value}
       />
     </ThemeProvider>
   )
@@ -65,6 +76,11 @@ TextField.propTypes = {
     'medium',
   ]),
   fullWidth: PropTypes.bool,
+  onEnter: PropTypes.func,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
 }
 
 TextField.defaultProps = {
@@ -75,6 +91,7 @@ TextField.defaultProps = {
   className: '',
   size: 'small',
   fullWidth: true,
+  onEnter: () => { },
 }
 
 export default TextField

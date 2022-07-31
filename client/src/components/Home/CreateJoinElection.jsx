@@ -59,22 +59,33 @@ function JoinElection() {
   const { t } = useTranslation()
   const buttonRef = useRef(null)
   const [buttonWidth, setButtonWidth] = useState(0)
+  const [electionId, setElectionId] = useState('')
+  const navigate = useNavigate()
+
   useEffect(() => {
     setButtonWidth(buttonRef.current.offsetWidth)
   }, [buttonRef])
-  // {t('create_election.join')}
+
+  const handleJoinElection = () => {
+    navigate(`/${electionId}`)
+  }
+
   return (
     <Grid container spacing={0}>
       <Grid xs>
         <TextField
           placeholder={t('join_election.placeholder')}
           className="with-button"
+          onEnter={handleJoinElection}
+          onChange={({ target: { value } }) => setElectionId(value)}
+          value={electionId}
         />
       </Grid>
       <Grid width={buttonWidth}>
         <div ref={buttonRef}>
           <Button
             variant="with-input"
+            onClick={handleJoinElection}
           >
             {t('create_election.join')}
           </Button>
