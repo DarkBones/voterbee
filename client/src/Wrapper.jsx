@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { get } from 'shared/utils'
-import { UserContext } from 'contexts'
+import { UserContext, DbContext } from 'contexts'
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 import translations from 'i18n'
+import db from './firebase'
 
 const detectionOptions = {
   order: ['path', 'cookie', 'navigator', 'localStorage', 'subdomain', 'queryString', 'htmlTag'],
@@ -48,9 +49,11 @@ function Wrapper({ children }) {
   }, [user])
 
   return (
-    <UserContext.Provider value={user}>
-      {children}
-    </UserContext.Provider>
+    <DbContext.Provider value={db}>
+      <UserContext.Provider value={user}>
+        {children}
+      </UserContext.Provider>
+    </DbContext.Provider>
   )
 }
 

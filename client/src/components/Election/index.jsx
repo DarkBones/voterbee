@@ -1,32 +1,69 @@
+import { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import {
+  ref,
+  query,
+  onValue,
+  equalTo,
+  orderByChild,
+} from 'firebase/database'
+import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
+import { get as _get } from 'lodash'
 import ElectionNotFound from './components/ElectionNotFound'
 import ElectionLoading from './components/ElectionLoading'
 
 function Election() {
+  const db = useContext(DbContext)
+  const user = useContext(UserContext)
   const { electionId } = useParams()
-  const [electionStatus, setElectionStatus] = useState(0)
-  // const [election, setElection] = useState({})
+  const [election, setElection] = useState({})
   useEffect(() => {
     get(`elections/${electionId}`)
       .then(({ status }) => {
         if (status !== 200) {
-          setElectionStatus(status)
+          setElection({ status })
           return
         }
-        console.log('ELECTION FOUND')
+
+        onValue(
+          query(ref(db, 'elections'), orderByChild('id'), equalTo(electionId)),
+          (snapshot) => {
+            let el = {}
+            let id = ''
+
+            snapshot.forEach((child) => {
+              el = child.val()
+              id = child.key
+            })
+            if (
+              (el.isConfigured && _get(el, 'users', []).includes(user))
+              || el.creator === user
+            ) {
+              setElection({
+                ...el,
+                status: 200,
+                fullId: id,
+              })
+              return
+            }
+
+            setElection({ status: 404 })
+          },
+        )
       })
-  }, [electionId])
+  }, [db, electionId, user])
 
   let content = <ElectionLoading />
-  if (electionStatus === 200) {
+  if (election.status === 200) {
     content = (
       <div>
         ELECTION FOUND
+        {' '}
+        {election.fullId}
       </div>
     )
-  } else if (electionStatus === 404) {
+  } else if (election.status === 404) {
     content = <ElectionNotFound />
   }
 
