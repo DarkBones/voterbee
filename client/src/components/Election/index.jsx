@@ -4,8 +4,8 @@ import {
   ref,
   query,
   onValue,
-  equalTo,
-  orderByChild,
+  // equalTo,
+  // orderByChild,
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
@@ -20,22 +20,16 @@ function Election() {
   const [election, setElection] = useState({})
   useEffect(() => {
     get(`elections/${electionId}`)
-      .then(({ status }) => {
+      .then(({ status, fbId }) => {
         if (status !== 200) {
           setElection({ status })
           return
         }
 
         onValue(
-          query(ref(db, 'elections'), orderByChild('id'), equalTo(electionId)),
+          query(ref(db, `elections/${fbId}`)),
           (snapshot) => {
-            let el = {}
-            let id = ''
-
-            snapshot.forEach((child) => {
-              el = child.val()
-              id = child.key
-            })
+            const el = snapshot.val()
             if (
               (el.isConfigured && _get(el, 'users', []).includes(user))
               || el.creator === user
@@ -43,7 +37,7 @@ function Election() {
               setElection({
                 ...el,
                 status: 200,
-                fullId: id,
+                fullId: fbId,
               })
               return
             }

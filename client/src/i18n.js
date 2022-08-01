@@ -41,7 +41,7 @@ const translations = {
   },
   nl: {
     navbar: {
-      tagline: 'Voorkeurstemmen, gemakkelijk én anoniem',
+      tagline: 'Voorkeurstemmen, gemakkelijk en anoniem',
     },
     create_election: {
       creating: 'Laden...',

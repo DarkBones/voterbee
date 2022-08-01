@@ -32,6 +32,7 @@ const newElection = async (user) => {
 
 const getElection = async (electionId) => {
   const electionIdsRef = db.ref('election_ids')
+  const electionsRef = db.ref('elections')
   return await electionIdsRef.get()
     .then(async (snapshot) => {
       if (!map(snapshot.val(), 'id').includes(electionId)) {
@@ -41,7 +42,20 @@ const getElection = async (electionId) => {
         })
       }
 
-      return Promise.resolve({ message: 'election found' })
+      try {
+        return await electionsRef.orderByChild('id').equalTo(electionId)
+          .once('value', () => Promise.resolve())
+          .then(async (snapshot) => {
+            let fbId
+            snapshot.forEach((child) => {
+              fbId = child.key
+            })
+
+            return await Promise.resolve(fbId)
+          })
+      } catch (err) {
+        return Promise.reject(err)
+      }
     })
 }
 
