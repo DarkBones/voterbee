@@ -1,22 +1,20 @@
 import { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
   ref,
   query,
   onValue,
-  // equalTo,
-  // orderByChild,
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
 import { get as _get } from 'lodash'
-import ElectionNotFound from './components/ElectionNotFound'
 import ElectionLoading from './components/ElectionLoading'
 
 function Election() {
   const db = useContext(DbContext)
   const user = useContext(UserContext)
   const { electionId } = useParams()
+  const navigate = useNavigate()
   const [election, setElection] = useState({})
   useEffect(() => {
     get(`elections/${electionId}`)
@@ -58,7 +56,7 @@ function Election() {
       </div>
     )
   } else if (election.status === 404) {
-    content = <ElectionNotFound />
+    navigate('/', { state: { error: 'election_not_found', id: electionId } })
   }
 
   return (

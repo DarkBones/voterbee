@@ -14,9 +14,7 @@ const translations = {
     },
     errors: {
       generic: 'Something went wrong. Please try again later.',
-    },
-    elections: {
-      not_found: 'Election not found',
+      election_not_found: 'Election {{id}} not found',
     },
   },
   fr: {
@@ -34,9 +32,7 @@ const translations = {
     },
     errors: {
       generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
-    },
-    elections: {
-      not_found: 'Élection introuvable',
+      election_not_found: 'Élection {{id}} introuvable',
     },
   },
   nl: {
@@ -54,9 +50,7 @@ const translations = {
     },
     errors: {
       generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
-    },
-    elections: {
-      not_found: 'Verkiezing niet gevonden',
+      election_not_found: 'Verkiezing {{id}} niet gevonden',
     },
   },
 }
