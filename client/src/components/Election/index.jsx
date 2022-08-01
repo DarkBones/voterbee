@@ -17,10 +17,11 @@ function Election() {
   const navigate = useNavigate()
   const [election, setElection] = useState({})
   useEffect(() => {
+    const notFoundState = { error: 'election_not_found', id: electionId }
     get(`elections/${electionId}`)
       .then(({ status, fbId }) => {
         if (status !== 200) {
-          setElection({ status })
+          navigate('/', { state: notFoundState })
           return
         }
 
@@ -40,11 +41,11 @@ function Election() {
               return
             }
 
-            setElection({ status: 404 })
+            navigate('/', { state: notFoundState })
           },
         )
       })
-  }, [db, electionId, user])
+  }, [db, electionId, navigate, user])
 
   let content = <ElectionLoading />
   if (election.status === 200) {
@@ -55,8 +56,6 @@ function Election() {
         {election.fullId}
       </div>
     )
-  } else if (election.status === 404) {
-    navigate('/', { state: { error: 'election_not_found', id: electionId } })
   }
 
   return (
