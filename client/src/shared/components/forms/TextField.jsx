@@ -88,7 +88,7 @@ TextField.defaultProps = {
   variant: 'outlined',
   onChange: () => { },
   placeholder: '',
-  className: '',
+  className: null,
   size: 'small',
   fullWidth: true,
   onEnter: () => { },

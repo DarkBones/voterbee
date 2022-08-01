@@ -16,6 +16,15 @@ const translations = {
       generic: 'Something went wrong. Please try again later.',
       election_not_found: 'Election {{id}} not found',
     },
+    elections: {
+      configure: {
+        title: 'Configure your election',
+        name: {
+          label: 'Name',
+          placeholder: 'Name your election',
+        },
+      },
+    },
   },
   fr: {
     navbar: {
@@ -34,6 +43,15 @@ const translations = {
       generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
       election_not_found: 'Élection {{id}} introuvable',
     },
+    elections: {
+      configure: {
+        title: 'Configurez votre élection',
+        name: {
+          label: 'Nom',
+          placeholder: 'Nommez votre élection',
+        },
+      },
+    },
   },
   nl: {
     navbar: {
@@ -51,6 +69,15 @@ const translations = {
     errors: {
       generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
       election_not_found: 'Verkiezing {{id}} niet gevonden',
+    },
+    elections: {
+      configure: {
+        title: 'Configureer uw verkiezing',
+        name: {
+          label: 'Naam',
+          placeholder: 'Geef uw verkiezing een naam',
+        },
+      },
     },
   },
 }

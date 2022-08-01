@@ -30,7 +30,7 @@ i18n
   })
 
 function Wrapper({ children }) {
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState()
 
   useEffect(() => {
     if (!user) {

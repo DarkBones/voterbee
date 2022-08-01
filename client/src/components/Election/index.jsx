@@ -9,6 +9,7 @@ import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
 import { get as _get } from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
+import Configurator from './components/Configurator'
 
 function Election() {
   const db = useContext(DbContext)
@@ -18,6 +19,8 @@ function Election() {
   const [election, setElection] = useState({})
   useEffect(() => {
     const notFoundState = { error: 'election_not_found', id: electionId }
+    if (!user) return
+
     get(`elections/${electionId}`)
       .then(({ status, fbId }) => {
         if (status !== 200) {
@@ -49,13 +52,17 @@ function Election() {
 
   let content = <ElectionLoading />
   if (election.status === 200) {
-    content = (
-      <div>
-        ELECTION FOUND
-        {' '}
-        {election.fullId}
-      </div>
-    )
+    if (election.isConfigured) {
+      content = (
+        <div>
+          ELECTION FOUND
+          {' '}
+          {election.fullId}
+        </div>
+      )
+    } else {
+      content = <Configurator election={election} />
+    }
   }
 
   return (
