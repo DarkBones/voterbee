@@ -89,7 +89,7 @@ TextField.defaultProps = {
   onChange: () => { },
   placeholder: '',
   className: null,
-  size: 'small',
+  size: 'medium',
   fullWidth: true,
   onEnter: () => { },
 }

@@ -20,8 +20,11 @@ const translations = {
       configure: {
         title: 'Configure your election',
         name: {
-          label: 'Name',
-          placeholder: 'Name your election',
+          label: 'Name your election',
+          placeholder_0: 'What should we do today?',
+          placeholder_1: 'What is the best food?',
+          placeholder_2: 'Where should we go for lunch?',
+          placeholder_3: 'Who should organize the party?',
         },
       },
     },
@@ -47,8 +50,11 @@ const translations = {
       configure: {
         title: 'Configurez votre élection',
         name: {
-          label: 'Nom',
-          placeholder: 'Nommez votre élection',
+          label: 'Nommez votre élection',
+          placeholder_0: 'Que devons-nous faire aujourd\'hui ?',
+          placeholder_1: 'Quelle est la meilleure nourriture ?',
+          placeholder_2: 'Où devrions-nous aller déjeuner ?',
+          placeholder_3: 'Qui doit organiser la fête ?',
         },
       },
     },
@@ -74,8 +80,11 @@ const translations = {
       configure: {
         title: 'Configureer uw verkiezing',
         name: {
-          label: 'Naam',
-          placeholder: 'Geef uw verkiezing een naam',
+          label: 'Geef uw verkiezing een naam',
+          placeholder_0: 'Wat zullen we doen vandaag?',
+          placeholder_1: 'Wat is het lekkerst?',
+          placeholder_2: 'Waar gaan we heen voor lunch?',
+          placeholder_3: 'Wie zal het feest organiseren?',
         },
       },
     },
