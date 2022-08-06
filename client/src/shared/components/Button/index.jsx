@@ -61,6 +61,16 @@ function Button({
               },
             },
           },
+          {
+            props: { variant: 'secondary' },
+            style: {
+              backgroundColor: styleVariables.secondary,
+              color: styleVariables.paper,
+              '&:hover': {
+                backgroundColor: styleVariables.secondary_hover,
+              },
+            },
+          },
         ],
       },
     },
@@ -93,6 +103,7 @@ Button.propTypes = {
     'text',
     'with-input',
     'icon-text',
+    'secondary',
   ]),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,

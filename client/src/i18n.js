@@ -28,6 +28,7 @@ const translations = {
         },
         candidate: {
           name: 'Candidates',
+          add: 'Add Candidate',
           label: 'Candidate',
           placeholder_0_0: 'Eat chicken wings',
           placeholder_0_1: 'Go to the movies',
@@ -74,6 +75,7 @@ const translations = {
         },
         candidate: {
           name: 'Candidats',
+          add: 'Ajouter un candidat',
           label: 'Candidat',
           placeholder_0_0: 'Manger des ailes de poulet',
           placeholder_0_1: 'Aller au cinéma',
@@ -120,6 +122,7 @@ const translations = {
         },
         candidate: {
           name: 'Kandidaten',
+          add: 'Voeg Kandidaat toe',
           label: 'Kandidaat',
           placeholder_0_0: 'Kippenvleugels eten',
           placeholder_0_1: 'Naar de bioscoop gaan',

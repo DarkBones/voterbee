@@ -86,6 +86,7 @@ function Candidates({
 }) {
   const generateCandidateId = (cs) => generateUniqueId(map(cs, 'id'), 8)
   const lastCandidateRef = useRef(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (candidates.length === 0) {
@@ -146,8 +147,11 @@ function Candidates({
       ))}
       <Button
         onClick={handleAddCandidate}
+        variant="secondary"
       >
         <GoDiffAdded size={23} />
+        &nbsp;
+        {t('elections.configure.candidate.add')}
       </Button>
     </div>
   )
