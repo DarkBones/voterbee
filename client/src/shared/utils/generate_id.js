@@ -13,18 +13,4 @@ const generateUniqueId = (existingIds, length = 5, upperCase = true) => {
   return id
 }
 
-const resSuccess = (obj) => {
-  return {
-    status: 200,
-    ...obj,
-  }
-}
-
-const resFail = (obj, status = 500) => {
-  return {
-    status,
-    ...obj,
-  }
-}
-
-module.exports = { generateUniqueId, resSuccess, resFail }
+export default generateUniqueId

@@ -12,8 +12,9 @@ import {
 import { DbContext } from 'contexts'
 import { debounce, get } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { Panel } from 'shared/components'
+import { Panel, Spacer } from 'shared/components'
 import { TextField } from 'shared/components/forms'
+import Candidates from './Candidates'
 
 function Configurator({ election }) {
   const { t } = useTranslation()
@@ -52,6 +53,12 @@ function Configurator({ election }) {
         placeholder={t(`elections.configure.name.placeholder_${suggestionIndex}`)}
         value={get(config, 'name', '')}
         onChange={({ target: { value } }) => handleChange('name', value)}
+      />
+      <Spacer />
+      <Candidates
+        candidates={get(config, 'candidates', [])}
+        suggestionIndex={suggestionIndex}
+        onChange={handleChange}
       />
     </Panel>
   )
