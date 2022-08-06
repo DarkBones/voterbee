@@ -27,10 +27,10 @@ function Configurator({ election }) {
   }, [])
 
   const uploadConfig = useRef(
-    debounce(({ name }) => {
+    debounce(({ name, candidates }) => {
       update(ref(db, `elections/${election.fullId}`), {
         name,
-        // candidates,
+        candidates,
       })
     }, 300),
   ).current
@@ -55,6 +55,7 @@ function Configurator({ election }) {
         onChange={({ target: { value } }) => handleChange('name', value)}
       />
       <Spacer />
+      <h4>{t('elections.configure.candidate.name')}</h4>
       <Candidates
         candidates={get(config, 'candidates', [])}
         suggestionIndex={suggestionIndex}
