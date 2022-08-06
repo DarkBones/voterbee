@@ -71,7 +71,7 @@ function Candidates({
   onChange,
   focusOnLastCandidate,
 }) {
-  const generateCandidateId = (c) => generateUniqueId(map(c, 'id'), 8)
+  const generateCandidateId = (cs) => generateUniqueId(map(cs, 'id'), 8)
   const lastCandidateRef = useRef(null)
 
   useEffect(() => {
