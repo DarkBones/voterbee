@@ -17,6 +17,7 @@ function TextField({
   onTab,
   onBackspace,
   value,
+  autoFocus,
 }) {
   const theme = createTheme({
     components: {
@@ -60,6 +61,7 @@ function TextField({
         fullWidth={fullWidth}
         onKeyDown={handleKeyDown}
         value={value}
+        autoFocus={autoFocus}
       />
     </ThemeProvider>
   )
@@ -89,6 +91,7 @@ TextField.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
+  autoFocus: PropTypes.bool,
 }
 
 TextField.defaultProps = {
@@ -102,6 +105,7 @@ TextField.defaultProps = {
   onEnter: () => { },
   onTab: () => { },
   onBackspace: () => { },
+  autoFocus: false,
 }
 
 export default TextField

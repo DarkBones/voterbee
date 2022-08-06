@@ -53,6 +53,7 @@ function Configurator({ election }) {
         placeholder={t(`elections.configure.name.placeholder_${suggestionIndex}`)}
         value={get(config, 'name', '')}
         onChange={({ target: { value } }) => handleChange('name', value)}
+        autoFocus
       />
       <Spacer />
       <h4>{t('elections.configure.candidate.name')}</h4>
