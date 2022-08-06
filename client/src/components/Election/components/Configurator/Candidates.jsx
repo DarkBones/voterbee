@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { map, findIndex, cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +15,7 @@ function Candidate({
   onChange,
   onAddCandidate,
   onDeleteCandidate,
+  inputRef,
 }) {
   const { t, i18n } = useTranslation()
   const tPathBase = [
@@ -32,16 +33,18 @@ function Candidate({
   ].join('.')
   const label = `${t(tPathLabel)} ${index + 1}`
   const placeholder = i18n.exists(tPathSuggestion) ? t(tPathSuggestion) : label
-  const handleTab = () => {
+  const handleTab = (e) => {
     if (index === candidateCount - 1) {
+      e.preventDefault()
       onAddCandidate()
     }
   }
 
-  const handleBackspace = () => {
+  const handleBackspace = (e) => {
     if (index === candidateCount - 1) {
       if (candidate.name === '') {
-        onDeleteCandidate(candidate.id)
+        e.preventDefault()
+        onDeleteCandidate(candidate.id, true)
       }
     }
   }
@@ -55,6 +58,7 @@ function Candidate({
         onChange={({ target: { value } }) => onChange(candidate.id, value)}
         onTab={handleTab}
         onBackspace={handleBackspace}
+        inputRef={inputRef}
       />
       <Spacer />
     </>
@@ -65,8 +69,10 @@ function Candidates({
   candidates,
   suggestionIndex,
   onChange,
+  focusOnLastCandidate,
 }) {
   const generateCandidateId = (c) => generateUniqueId(map(c, 'id'), 8)
+  const lastCandidateRef = useRef(null)
 
   useEffect(() => {
     if (candidates.length === 0) {
@@ -81,6 +87,12 @@ function Candidates({
     }
   }, [candidates, onChange])
 
+  useEffect(() => {
+    if (lastCandidateRef.current && focusOnLastCandidate) {
+      lastCandidateRef.current.focus()
+    }
+  }, [lastCandidateRef, focusOnLastCandidate, candidates.length])
+
   const handleChange = (id, value) => {
     const newCandidates = cloneDeep(candidates)
     newCandidates[findIndex(candidates, (c) => c.id === id)].name = value
@@ -93,15 +105,15 @@ function Candidates({
       name: '',
       id: generateCandidateId(candidates),
     })
-    onChange('candidates', newCandidates)
+    onChange('candidates', newCandidates, true)
   }
 
-  const handleDeleteCandidate = (id) => {
+  const handleDeleteCandidate = (id, focusOnLast = false) => {
     if (candidates.length < 3) return
 
     const newCandidates = cloneDeep(candidates)
     newCandidates.splice(findIndex(candidates, (c) => c.id === id))
-    onChange('candidates', newCandidates)
+    onChange('candidates', newCandidates, focusOnLast)
   }
 
   return (
@@ -116,6 +128,7 @@ function Candidates({
           onChange={handleChange}
           onAddCandidate={handleAddCandidate}
           onDeleteCandidate={handleDeleteCandidate}
+          inputRef={index === candidates.length - 1 ? lastCandidateRef : null}
         />
       ))}
       <Button
@@ -138,12 +151,18 @@ Candidate.propTypes = {
   onChange: PropTypes.func.isRequired,
   onAddCandidate: PropTypes.func.isRequired,
   onDeleteCandidate: PropTypes.func.isRequired,
+  inputRef: PropTypes.PropTypes.shape({}),
+}
+
+Candidate.defaultProps = {
+  inputRef: null,
 }
 
 Candidates.propTypes = {
   candidates: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   suggestionIndex: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  focusOnLastCandidate: PropTypes.bool.isRequired,
 }
 
 export default Candidates

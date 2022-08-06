@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   TextField as MUITextField,
@@ -15,9 +16,11 @@ function TextField({
   fullWidth,
   onEnter,
   onTab,
+  onShiftTab,
   onBackspace,
   value,
   autoFocus,
+  inputRef,
 }) {
   const theme = createTheme({
     components: {
@@ -39,13 +42,42 @@ function TextField({
     },
   })
 
-  const handleKeyDown = ({ keyCode }) => {
-    if (keyCode === 13) {
-      onEnter()
-    } else if (keyCode === 9) {
-      onTab()
-    } else if (keyCode === 8) {
-      onBackspace()
+  const [keysDown, setKeysDown] = useState({
+    16: false,
+  })
+  useEffect(() => {
+    setKeysDown({
+      16: false,
+    })
+  }, [])
+
+  const handleKeyDown = (e) => {
+    if (Object.keys(keysDown).includes(e.keyCode.toString())) {
+      setKeysDown({
+        ...keysDown,
+        [e.keyCode]: true,
+      })
+    }
+
+    if (e.keyCode === 13) {
+      onEnter(e)
+    } else if (e.keyCode === 8) {
+      onBackspace(e)
+    } else if (e.keyCode === 9) {
+      if (keysDown[16]) {
+        onShiftTab(e)
+      } else {
+        onTab(e)
+      }
+    }
+  }
+
+  const handleKeyUp = ({ keyCode }) => {
+    if (Object.keys(keysDown).includes(keyCode.toString())) {
+      setKeysDown({
+        ...keysDown,
+        [keyCode]: false,
+      })
     }
   }
 
@@ -60,8 +92,13 @@ function TextField({
         size={className === 'with-button' ? 'small' : size}
         fullWidth={fullWidth}
         onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
         value={value}
         autoFocus={autoFocus}
+        inputRef={inputRef}
+        onBlur={() => setKeysDown({
+          16: false,
+        })}
       />
     </ThemeProvider>
   )
@@ -86,12 +123,14 @@ TextField.propTypes = {
   fullWidth: PropTypes.bool,
   onEnter: PropTypes.func,
   onTab: PropTypes.func,
+  onShiftTab: PropTypes.func,
   onBackspace: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
   autoFocus: PropTypes.bool,
+  inputRef: PropTypes.shape({}),
 }
 
 TextField.defaultProps = {
@@ -104,8 +143,10 @@ TextField.defaultProps = {
   fullWidth: true,
   onEnter: () => { },
   onTab: () => { },
+  onShiftTab: () => { },
   onBackspace: () => { },
   autoFocus: false,
+  inputRef: null,
 }
 
 export default TextField

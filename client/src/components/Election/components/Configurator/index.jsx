@@ -20,6 +20,7 @@ function Configurator({ election }) {
   const { t } = useTranslation()
   const db = useContext(DbContext)
   const [suggestionIndex, setSuggestionIndex] = useState(0)
+  const [focusOnLastCandidate, setFocusOnLastCandidate] = useState(false)
   const [config, setConfig] = useState(election)
 
   useEffect(() => {
@@ -35,13 +36,14 @@ function Configurator({ election }) {
     }, 300),
   ).current
 
-  const handleChange = (key, value) => {
+  const handleChange = (key, value, focusOnLast = false) => {
     const newConfig = {
       ...config,
       [key]: value,
     }
 
     setConfig(newConfig)
+    setFocusOnLastCandidate(focusOnLast)
     uploadConfig(newConfig)
   }
 
@@ -61,6 +63,7 @@ function Configurator({ election }) {
         candidates={get(config, 'candidates', [])}
         suggestionIndex={suggestionIndex}
         onChange={handleChange}
+        focusOnLastCandidate={focusOnLastCandidate}
       />
     </Panel>
   )
