@@ -12,6 +12,7 @@ function Button({
   variant,
   isDisabled,
   onClick,
+  tabIndex,
 }) {
   const buttonStyle = {
     ...style,
@@ -45,6 +46,21 @@ function Button({
               height: '40px',
             },
           },
+          {
+            props: { variant: 'icon-text' },
+            style: {
+              backgroundColor: 'transparent',
+              borderRadius: '100px',
+              boxShadow: 'none',
+              '&:hover': {
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+              },
+              '&.Mui-disabled': {
+                backgroundColor: 'transparent',
+              },
+            },
+          },
         ],
       },
     },
@@ -57,6 +73,7 @@ function Button({
         variant={variant}
         disabled={isDisabled}
         onClick={onClick}
+        tabIndex={tabIndex}
       >
         {children}
       </MUIButton>
@@ -75,9 +92,11 @@ Button.propTypes = {
     'outlined',
     'text',
     'with-input',
+    'icon-text',
   ]),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
+  tabIndex: PropTypes.number,
 }
 
 Button.defaultProps = {
@@ -85,6 +104,7 @@ Button.defaultProps = {
   variant: 'contained',
   isDisabled: false,
   onClick: () => { },
+  tabIndex: null,
 }
 
 export default Button

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   TextField as MUITextField,
+  InputAdornment,
   createTheme,
   ThemeProvider,
 } from '@mui/material'
@@ -21,6 +22,7 @@ function TextField({
   value,
   autoFocus,
   inputRef,
+  endAdornment,
 }) {
   const theme = createTheme({
     components: {
@@ -81,6 +83,11 @@ function TextField({
     }
   }
 
+  const inputProps = {}
+  if (endAdornment) {
+    inputProps.endAdornment = <InputAdornment position="end">{endAdornment}</InputAdornment>
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <MUITextField
@@ -99,6 +106,7 @@ function TextField({
         onBlur={() => setKeysDown({
           16: false,
         })}
+        InputProps={inputProps}
       />
     </ThemeProvider>
   )
@@ -131,6 +139,7 @@ TextField.propTypes = {
   ]).isRequired,
   autoFocus: PropTypes.bool,
   inputRef: PropTypes.shape({}),
+  endAdornment: PropTypes.shape({}),
 }
 
 TextField.defaultProps = {
@@ -147,6 +156,7 @@ TextField.defaultProps = {
   onBackspace: () => { },
   autoFocus: false,
   inputRef: null,
+  endAdornment: null,
 }
 
 export default TextField

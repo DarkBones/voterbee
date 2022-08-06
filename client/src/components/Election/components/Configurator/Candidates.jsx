@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { map, findIndex, cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { GoDiffAdded } from 'react-icons/go'
+import { BiTrash } from 'react-icons/bi'
 import { Spacer, Button } from 'shared/components'
 import { TextField } from 'shared/components/forms'
 import { generateUniqueId } from 'shared/utils'
@@ -49,6 +50,17 @@ function Candidate({
     }
   }
 
+  const deleteButton = (
+    <Button
+      variant="icon-text"
+      onClick={() => onDeleteCandidate(candidate.id)}
+      isDisabled={candidateCount < 3}
+      tabIndex={-1}
+    >
+      <BiTrash size={20} />
+    </Button>
+  )
+
   return (
     <>
       <TextField
@@ -59,6 +71,7 @@ function Candidate({
         onTab={handleTab}
         onBackspace={handleBackspace}
         inputRef={inputRef}
+        endAdornment={deleteButton}
       />
       <Spacer />
     </>
@@ -112,7 +125,7 @@ function Candidates({
     if (candidates.length < 3) return
 
     const newCandidates = cloneDeep(candidates)
-    newCandidates.splice(findIndex(candidates, (c) => c.id === id))
+    newCandidates.splice(findIndex(candidates, (c) => c.id === id), 1)
     onChange('candidates', newCandidates, focusOnLast)
   }
 
