@@ -4,6 +4,7 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material'
+import { Tooltip } from 'shared/components'
 import styleVariables from './Button.module.scss'
 
 function Button({
@@ -13,6 +14,7 @@ function Button({
   isDisabled,
   onClick,
   tabIndex,
+  errors,
 }) {
   const buttonStyle = {
     ...style,
@@ -76,12 +78,12 @@ function Button({
     },
   })
 
-  return (
+  const button = (
     <ThemeProvider theme={theme}>
       <MUIButton
         style={buttonStyle}
         variant={variant}
-        disabled={isDisabled}
+        disabled={isDisabled || errors.length > 0}
         onClick={onClick}
         tabIndex={tabIndex}
       >
@@ -89,6 +91,18 @@ function Button({
       </MUIButton>
     </ThemeProvider>
   )
+
+  return errors.length === 0
+    ? button
+    : (
+      <Tooltip
+        title={errors.join(', ')}
+      >
+        <div>
+          {button}
+        </div>
+      </Tooltip>
+    )
 }
 
 Button.propTypes = {
@@ -108,6 +122,7 @@ Button.propTypes = {
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
   tabIndex: PropTypes.number,
+  errors: PropTypes.arrayOf(PropTypes.string),
 }
 
 Button.defaultProps = {
@@ -116,6 +131,7 @@ Button.defaultProps = {
   isDisabled: false,
   onClick: () => { },
   tabIndex: null,
+  errors: [],
 }
 
 export default Button

@@ -19,6 +19,11 @@ const translations = {
     elections: {
       configure: {
         title: 'Configure your election',
+        start: 'Start Election',
+        errors: {
+          no_name: 'One or more candidates don\'t have a value',
+          no_title: 'Election name is empty',
+        },
         name: {
           label: 'Name your election',
           placeholder_0: 'What should we do today?',
@@ -66,6 +71,11 @@ const translations = {
     elections: {
       configure: {
         title: 'Configurez votre élection',
+        start: 'Commencer l\'Élection',
+        errors: {
+          no_name: 'Un ou plusieurs candidats ne sont pas renseignés',
+          no_title: 'Le nom de l\'élection est vide',
+        },
         name: {
           label: 'Nommez votre élection',
           placeholder_0: 'Que devons-nous faire aujourd\'hui ?',
@@ -113,6 +123,11 @@ const translations = {
     elections: {
       configure: {
         title: 'Configureer uw verkiezing',
+        start: 'Start Verkiezing',
+        errors: {
+          no_name: 'Één of meerdere kandidated zijn niet ingevuld',
+          no_title: 'Verkiezing naam is niet ingevuld',
+        },
         name: {
           label: 'Geef uw verkiezing een naam',
           placeholder_0: 'Wat zullen we doen vandaag?',
