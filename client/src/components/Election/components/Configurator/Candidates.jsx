@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { map, findIndex, cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { GoDiffAdded } from 'react-icons/go'
 import { Spacer, Button } from 'shared/components'
 import { TextField } from 'shared/components/forms'
 import { generateUniqueId } from 'shared/utils'
@@ -120,7 +121,7 @@ function Candidates({
       <Button
         onClick={handleAddCandidate}
       >
-        ADD
+        <GoDiffAdded size={23} />
       </Button>
     </div>
   )
