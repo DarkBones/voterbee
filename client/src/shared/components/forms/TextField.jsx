@@ -14,6 +14,8 @@ function TextField({
   size,
   fullWidth,
   onEnter,
+  onTab,
+  onBackspace,
   value,
 }) {
   const theme = createTheme({
@@ -39,6 +41,10 @@ function TextField({
   const handleKeyDown = ({ keyCode }) => {
     if (keyCode === 13) {
       onEnter()
+    } else if (keyCode === 9) {
+      onTab()
+    } else if (keyCode === 8) {
+      onBackspace()
     }
   }
 
@@ -77,6 +83,8 @@ TextField.propTypes = {
   ]),
   fullWidth: PropTypes.bool,
   onEnter: PropTypes.func,
+  onTab: PropTypes.func,
+  onBackspace: PropTypes.func,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -92,6 +100,8 @@ TextField.defaultProps = {
   size: 'medium',
   fullWidth: true,
   onEnter: () => { },
+  onTab: () => { },
+  onBackspace: () => { },
 }
 
 export default TextField

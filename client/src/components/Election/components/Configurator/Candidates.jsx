@@ -8,9 +8,12 @@ import { generateUniqueId } from 'shared/utils'
 
 function Candidate({
   candidate,
+  candidateCount,
   suggestionIndex,
   index,
   onChange,
+  onAddCandidate,
+  onDeleteCandidate,
 }) {
   const { t, i18n } = useTranslation()
   const tPathBase = [
@@ -28,6 +31,20 @@ function Candidate({
   ].join('.')
   const label = `${t(tPathLabel)} ${index + 1}`
   const placeholder = i18n.exists(tPathSuggestion) ? t(tPathSuggestion) : label
+  const handleTab = () => {
+    if (index === candidateCount - 1) {
+      onAddCandidate()
+    }
+  }
+
+  const handleBackspace = () => {
+    if (index === candidateCount - 1) {
+      if (candidate.name === '') {
+        onDeleteCandidate(candidate.id)
+      }
+    }
+  }
+
   return (
     <>
       <TextField
@@ -35,6 +52,8 @@ function Candidate({
         label={label}
         placeholder={placeholder}
         onChange={({ target: { value } }) => onChange(candidate.id, value)}
+        onTab={handleTab}
+        onBackspace={handleBackspace}
       />
       <Spacer />
     </>
@@ -76,15 +95,26 @@ function Candidates({
     onChange('candidates', newCandidates)
   }
 
+  const handleDeleteCandidate = (id) => {
+    if (candidates.length < 3) return
+
+    const newCandidates = cloneDeep(candidates)
+    newCandidates.splice(findIndex(candidates, (c) => c.id === id))
+    onChange('candidates', newCandidates)
+  }
+
   return (
     <div>
       {candidates.map((candidate, index) => (
         <Candidate
           candidate={candidate}
+          candidateCount={candidates.length}
           key={candidate.id}
           suggestionIndex={suggestionIndex}
           index={index}
           onChange={handleChange}
+          onAddCandidate={handleAddCandidate}
+          onDeleteCandidate={handleDeleteCandidate}
         />
       ))}
       <Button
@@ -101,9 +131,12 @@ Candidate.propTypes = {
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
+  candidateCount: PropTypes.number.isRequired,
   suggestionIndex: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
+  onAddCandidate: PropTypes.func.isRequired,
+  onDeleteCandidate: PropTypes.func.isRequired,
 }
 
 Candidates.propTypes = {
