@@ -19,6 +19,7 @@ function JoinElection({ election }) {
       name,
       hasVoted: false,
       id: user,
+      isBanned: false,
     })
   }
 

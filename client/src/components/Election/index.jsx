@@ -12,11 +12,12 @@ import {
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
-import { get as _get, map } from 'lodash'
+import { get as _get, map, find } from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
 import JoinElection from './components/JoinElection'
 import VotingBooth from './components/VotingBooth'
+import Banned from './components/Banned'
 
 function Election() {
   const db = useContext(DbContext)
@@ -24,10 +25,14 @@ function Election() {
   const { electionId } = useParams()
   const navigate = useNavigate()
   const [election, setElection] = useState({})
+  const [fbUser, setFbUser] = useState(false)
   const userIsInElection = useCallback((el) => map(
     _get(el, 'users', []),
     'id',
   ).includes(user), [user])
+  useEffect(() => {
+    setFbUser(find(map(election.users), (u) => u.id === user))
+  }, [election, user])
 
   useEffect(() => {
     const notFoundState = { error: 'election_not_found', id: electionId }
@@ -45,7 +50,8 @@ function Election() {
           (snapshot) => {
             const el = snapshot.val()
             if (
-              (el.isConfigured && userIsInElection(el))
+              (el.isConfigured && !el.isFinished)
+              || (el.isConfigured && userIsInElection(el))
               || el.creator === user
             ) {
               setElection({
@@ -65,10 +71,12 @@ function Election() {
   let content = <ElectionLoading />
   if (election.status === 200) {
     if (election.isConfigured) {
-      if (userIsInElection(election)) {
-        content = <VotingBooth election={election} />
-      } else {
+      if (!fbUser) {
         content = <JoinElection election={election} />
+      } else if (fbUser.isBanned) {
+        content = <Banned />
+      } else {
+        content = <VotingBooth election={election} />
       }
     } else {
       content = <Configurator election={election} />

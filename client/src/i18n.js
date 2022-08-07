@@ -17,6 +17,9 @@ const translations = {
       election_not_found: 'Election {{id}} not found',
     },
     elections: {
+      banned: {
+        message: 'You were banned from this election',
+      },
       configure: {
         title: 'Configure your election',
         start: 'Start Election',
@@ -67,6 +70,8 @@ const translations = {
         },
         voters: {
           title: 'Voters',
+          kick: 'Kick {{name}} out',
+          unkick: 'Let {{name}} back in',
         },
       },
     },
@@ -89,6 +94,9 @@ const translations = {
       election_not_found: 'Élection {{id}} introuvable',
     },
     elections: {
+      banned: {
+        message: 'Vous avez été banni de cette élection',
+      },
       configure: {
         title: 'Configurez votre élection',
         start: 'Commencer l\'Élection',
@@ -139,6 +147,8 @@ const translations = {
         },
         voters: {
           title: 'Électeurs',
+          kick: 'Mettre {{name}} à la porte',
+          unkick: 'Laissez {{name}} revenir',
         },
       },
     },
@@ -161,6 +171,9 @@ const translations = {
       election_not_found: 'Verkiezing {{id}} niet gevonden',
     },
     elections: {
+      banned: {
+        message: 'Je bent verbannen van deze verkiezing',
+      },
       configure: {
         title: 'Configureer uw verkiezing',
         start: 'Start Verkiezing',
@@ -211,6 +224,8 @@ const translations = {
         },
         voters: {
           title: 'Kiezers',
+          kick: 'Verban {{name}}',
+          unkick: 'Laat {{name}} weer binnen',
         },
       },
     },
