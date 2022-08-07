@@ -1,4 +1,9 @@
-import { useEffect, useState, useContext } from 'react'
+import {
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
   ref,
@@ -7,9 +12,10 @@ import {
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
-import { get as _get } from 'lodash'
+import { get as _get, map } from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
+import JoinElection from './components/JoinElection'
 
 function Election() {
   const db = useContext(DbContext)
@@ -17,6 +23,11 @@ function Election() {
   const { electionId } = useParams()
   const navigate = useNavigate()
   const [election, setElection] = useState({})
+  const userIsInElection = useCallback((el) => map(
+    _get(el, 'users', []),
+    'id',
+  ).includes(user), [user])
+
   useEffect(() => {
     const notFoundState = { error: 'election_not_found', id: electionId }
     if (!user) return
@@ -33,7 +44,7 @@ function Election() {
           (snapshot) => {
             const el = snapshot.val()
             if (
-              (el.isConfigured && _get(el, 'users', []).includes(user))
+              (el.isConfigured && userIsInElection(el))
               || el.creator === user
             ) {
               setElection({
@@ -48,18 +59,22 @@ function Election() {
           },
         )
       })
-  }, [db, electionId, navigate, user])
+  }, [db, electionId, navigate, user, userIsInElection])
 
   let content = <ElectionLoading />
   if (election.status === 200) {
     if (election.isConfigured) {
-      content = (
-        <div>
-          ELECTION FOUND
-          {' '}
-          {election.fullId}
-        </div>
-      )
+      if (userIsInElection(election)) {
+        content = (
+          <div>
+            ELECTION FOUND
+            {' '}
+            {election.fullId}
+          </div>
+        )
+      } else {
+        content = <JoinElection election={election} />
+      }
     } else {
       content = <Configurator election={election} />
     }

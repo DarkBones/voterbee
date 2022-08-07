@@ -49,6 +49,17 @@ const translations = {
           placeholder_3_2: 'Emma',
         },
       },
+      join: {
+        name: {
+          label: 'Your (nick)name',
+          placeholder: 'Fill in your (nick)name',
+        },
+        join: 'Join Election',
+        joining: 'Joining Election...',
+        errors: {
+          no_name: 'Name is empty',
+        },
+      },
     },
   },
   fr: {
@@ -101,6 +112,17 @@ const translations = {
           placeholder_3_2: 'Raphaël',
         },
       },
+      join: {
+        name: {
+          label: 'Votre (sur)nom',
+          placeholder: 'Remplissez votre (sur)nom',
+        },
+        join: 'Joindre l\'Élection',
+        joining: 'Chargement...',
+        errors: {
+          no_name: 'Le nom est vide',
+        },
+      },
     },
   },
   nl: {
@@ -151,6 +173,17 @@ const translations = {
           placeholder_3_0: 'Liam',
           placeholder_3_1: 'Lucas',
           placeholder_3_2: 'Saar',
+        },
+      },
+      join: {
+        name: {
+          label: 'Jouw (bij)naam',
+          placeholder: '(bij)naam',
+        },
+        join: 'Doe mee',
+        joining: 'Laden...',
+        errors: {
+          no_name: 'Naam is niet ingevuld',
         },
       },
     },
