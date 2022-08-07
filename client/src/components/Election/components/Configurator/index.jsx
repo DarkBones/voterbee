@@ -73,6 +73,12 @@ function Configurator({ election }) {
     setErrors(newErrors)
   }, [config, t])
 
+  const handleStartElection = () => {
+    update(ref(db, `elections/${election.fullId}`), {
+      isConfigured: true,
+    })
+  }
+
   return (
     <>
       <Panel>
@@ -96,6 +102,7 @@ function Configurator({ election }) {
       <Panel>
         <Button
           errors={errors}
+          onClick={handleStartElection}
         >
           {t('elections.configure.start')}
         </Button>
