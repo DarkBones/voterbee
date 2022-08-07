@@ -39,7 +39,7 @@ function Voter({ user, creator, electionId }) {
     checkIcon = <RiForbid2Line size={20} />
     nameStyle = style.name_banned
     checkStyle = style.check_banned
-  } else if (!user.hasVoted) {
+  } else if (user.hasVoted) {
     checkStyle = style.check_full
   }
 
