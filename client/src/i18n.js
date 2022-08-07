@@ -65,6 +65,9 @@ const translations = {
           title: 'Share this link with your friends / colleages',
           copy_message: 'Link copied to clipboard',
         },
+        voters: {
+          title: 'Voters',
+        },
       },
     },
   },
@@ -134,6 +137,9 @@ const translations = {
           title: 'Partagez ce lien avec vos amis / collègues',
           copy_message: 'Lien copié dans le presse-papiers',
         },
+        voters: {
+          title: 'Électeurs',
+        },
       },
     },
   },
@@ -202,6 +208,9 @@ const translations = {
         share: {
           title: 'Deel deze link met vrienden / collega\'s',
           copy_message: 'Link gekopieerd',
+        },
+        voters: {
+          title: 'Kiezers',
         },
       },
     },

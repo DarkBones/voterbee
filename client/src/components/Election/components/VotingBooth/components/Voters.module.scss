@@ -1,0 +1,28 @@
+@use '../../../../../sass/colors.scss';
+
+.container {
+  padding: 0 10px;
+
+  &:hover {
+    background-color: cyan;
+  }
+
+  .crown {
+    color: colors.$primary;
+  }
+
+  // .name,
+  // .check {
+  //   padding-bottom: 10px;
+  // }
+
+  .name {
+    text-align: left;
+    word-wrap: break-word;
+    background-color: red;
+  }
+
+  .check {
+    color: green;
+  }
+}

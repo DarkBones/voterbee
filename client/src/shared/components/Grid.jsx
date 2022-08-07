@@ -5,6 +5,7 @@ import { Grid as MUIGrid } from '@mui/material'
 function Grid({
   alignItems,
   children,
+  className,
   container,
   spacing,
   style,
@@ -31,6 +32,7 @@ function Grid({
         spacing={spacing}
         style={gridStyle}
         alignItems={alignItems}
+        className={className}
       >
         {children}
       </MUIGrid>
@@ -38,6 +40,7 @@ function Grid({
     : (
       <MUIGrid
         item
+        className={className}
         style={gridStyle}
         xs={xs}
         sm={sm}
@@ -62,6 +65,7 @@ Grid.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+  className: PropTypes.string,
   container: PropTypes.bool,
   spacing: PropTypes.number,
   style: PropTypes.shape({}),
@@ -95,6 +99,7 @@ Grid.propTypes = {
 
 Grid.defaultProps = {
   alignItems: 'center',
+  className: null,
   container: false,
   spacing: 2,
   style: {},
