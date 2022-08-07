@@ -60,6 +60,12 @@ const translations = {
           no_name: 'Name is empty',
         },
       },
+      session: {
+        share: {
+          title: 'Share this link with your friends / colleages',
+          copy_message: 'Link copied to clipboard',
+        },
+      },
     },
   },
   fr: {
@@ -123,6 +129,12 @@ const translations = {
           no_name: 'Le nom est vide',
         },
       },
+      session: {
+        share: {
+          title: 'Partagez ce lien avec vos amis / collègues',
+          copy_message: 'Lien copié dans le presse-papiers',
+        },
+      },
     },
   },
   nl: {
@@ -184,6 +196,12 @@ const translations = {
         joining: 'Laden...',
         errors: {
           no_name: 'Naam is niet ingevuld',
+        },
+      },
+      session: {
+        share: {
+          title: 'Deel deze link met vrienden / collega\'s',
+          copy_message: 'Link gekopieerd',
         },
       },
     },

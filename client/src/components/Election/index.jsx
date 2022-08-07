@@ -16,6 +16,7 @@ import { get as _get, map } from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
 import JoinElection from './components/JoinElection'
+import VotingBooth from './components/VotingBooth'
 
 function Election() {
   const db = useContext(DbContext)
@@ -65,13 +66,7 @@ function Election() {
   if (election.status === 200) {
     if (election.isConfigured) {
       if (userIsInElection(election)) {
-        content = (
-          <div>
-            ELECTION FOUND
-            {' '}
-            {election.fullId}
-          </div>
-        )
+        content = <VotingBooth election={election} />
       } else {
         content = <JoinElection election={election} />
       }

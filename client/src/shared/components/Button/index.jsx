@@ -54,6 +54,7 @@ function Button({
               backgroundColor: 'transparent',
               borderRadius: '100px',
               boxShadow: 'none',
+              minWidth: '0',
               '&:hover': {
                 backgroundColor: 'transparent',
                 boxShadow: 'none',

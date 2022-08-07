@@ -23,6 +23,8 @@ function TextField({
   autoFocus,
   inputRef,
   endAdornment,
+  onClick,
+  isDisabled,
 }) {
   const theme = createTheme({
     components: {
@@ -35,6 +37,15 @@ function TextField({
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
                   borderRadius: '4px 0 0 4px',
+                },
+              },
+            },
+            '&.small-height': {
+              '& .MuiFilledInput-root': {
+                height: '35px',
+                borderRadius: '0',
+                '& .MuiFilledInput-input': {
+                  marginTop: '-15px',
                 },
               },
             },
@@ -107,6 +118,8 @@ function TextField({
           16: false,
         })}
         InputProps={inputProps}
+        onClick={onClick}
+        disabled={isDisabled}
       />
     </ThemeProvider>
   )
@@ -123,6 +136,7 @@ TextField.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.oneOf([
     'with-button',
+    'small-height',
   ]),
   size: PropTypes.oneOf([
     'small',
@@ -140,6 +154,8 @@ TextField.propTypes = {
   autoFocus: PropTypes.bool,
   inputRef: PropTypes.shape({}),
   endAdornment: PropTypes.shape({}),
+  onClick: PropTypes.func,
+  isDisabled: PropTypes.bool,
 }
 
 TextField.defaultProps = {
@@ -157,6 +173,8 @@ TextField.defaultProps = {
   autoFocus: false,
   inputRef: null,
   endAdornment: null,
+  onClick: () => { },
+  isDisabled: false,
 }
 
 export default TextField
