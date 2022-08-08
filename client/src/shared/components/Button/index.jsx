@@ -55,6 +55,7 @@ function Button({
               borderRadius: '100px',
               boxShadow: 'none',
               minWidth: '0',
+              color: styleVariables.icon_button,
               '&:hover': {
                 backgroundColor: 'transparent',
                 boxShadow: 'none',
