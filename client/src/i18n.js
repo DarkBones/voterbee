@@ -73,6 +73,9 @@ const translations = {
           kick: 'Kick {{name}} out',
           unkick: 'Let {{name}} back in',
         },
+        candidates: {
+          title: 'Candidates',
+        },
       },
     },
   },
@@ -150,6 +153,9 @@ const translations = {
           kick: 'Mettre {{name}} à la porte',
           unkick: 'Laissez {{name}} revenir',
         },
+        candidates: {
+          title: 'Candidats',
+        },
       },
     },
   },
@@ -226,6 +232,9 @@ const translations = {
           title: 'Kiezers',
           kick: 'Verban {{name}}',
           unkick: 'Laat {{name}} weer binnen',
+        },
+        candidates: {
+          title: 'Kandidaten',
         },
       },
     },

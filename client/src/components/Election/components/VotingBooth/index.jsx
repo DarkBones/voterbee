@@ -2,11 +2,11 @@
 import { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { map } from 'lodash'
 import { UserContext } from 'contexts'
 import { Panel, Grid } from 'shared/components'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
+import Candidates from './components/Candidates'
 
 function VotingBooth({ election }) {
   const { t } = useTranslation()
@@ -36,9 +36,9 @@ function VotingBooth({ election }) {
           />
         </Grid>
         <Grid xs={12} sm={7} md={8}>
-          <Panel>
-            CANDIDATES
-          </Panel>
+          <Candidates
+            candidates={election.candidates}
+          />
         </Grid>
       </Grid>
     </>
