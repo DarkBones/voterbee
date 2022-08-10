@@ -1,6 +1,12 @@
+/* eslint-disable */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import {
+  cloneDeep,
+  set,
+  findIndex,
+} from 'lodash'
 import {
   DragDropContext,
   Droppable,
@@ -30,40 +36,63 @@ function CandidatesList({
     onChangeVote(newVote)
   }
 
+  const handleDiscardCandidate = (candidateId, checked) => {
+    const newVote = cloneDeep(vote)
+    const candidateIndex = findIndex(candidates, (c) => c.id === candidateId)
+    const voteIndex = findIndex(vote, (v) => v.candidate === candidateIndex)
+
+    set(newVote, `[${voteIndex}].isDiscarded`, !checked)
+    setVote(newVote)
+    onChangeVote(newVote)
+  }
+
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="droppable">
-        {(provided) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {vote.filter((v) => !v.isDiscarded).map(({ candidate: candidateIndex }, index) => (
-              <Draggable
-                draggableId={candidates[candidateIndex].id}
-                index={index}
-                key={candidates[candidateIndex].id}
-              >
-                {(providedDrag) => (
-                  <div
-                    ref={providedDrag.innerRef}
-                    {...providedDrag.draggableProps}
-                    {...providedDrag.dragHandleProps}
-                  >
-                    <Candidate
-                      candidate={candidates[candidateIndex]}
-                      index={index}
-                      key={candidates[candidateIndex].id}
-                    />
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+    <>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {vote.filter((v) => !v.isDiscarded).map(({ candidate: candidateIndex }, index) => (
+                <Draggable
+                  draggableId={candidates[candidateIndex].id}
+                  index={index}
+                  key={candidates[candidateIndex].id}
+                >
+                  {(providedDrag) => (
+                    <div
+                      ref={providedDrag.innerRef}
+                      {...providedDrag.draggableProps}
+                      {...providedDrag.dragHandleProps}
+                    >
+                      <Candidate
+                        candidate={candidates[candidateIndex]}
+                        index={index}
+                        key={candidates[candidateIndex].id}
+                        onDiscardCandidate={handleDiscardCandidate}
+                        isDiscarded={false}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {vote.filter((v) => v.isDiscarded).map(({ candidate: candidateIndex }) => (
+        <Candidate
+          candidate={candidates[candidateIndex]}
+          index={0}
+          key={candidates[candidateIndex].id}
+          onDiscardCandidate={handleDiscardCandidate}
+          isDiscarded
+        />
+      ))}
+    </>
   )
 }
 
