@@ -1,4 +1,69 @@
-.candidate {
-  /* width: 100%; */
-  background-color: red;
+@use '../../../../../../../sass/colors.scss';
+
+.candidate_container,
+.candidate_container_discarded {
+  width: 100%;
+  height: 70px;
+  padding: 10px;
+  margin-left: -10px;
+  cursor: move;
+
+  .candidate {
+    height: 100%;
+    background-color: colors.$candidate_base;
+    border-radius: 8px;
+    -webkit-box-shadow: 5px 5px 16px 0px rgba(0, 0, 0, 0.38);
+    box-shadow: 5px 5px 16px 0px rgba(0, 0, 0, 0.38);
+
+    .grid_container {
+      position: relative;
+      top: 5px;
+      left: 20px;
+    }
+
+    .index_box {
+      background-color: colors.$paper;
+      border: 4px solid colors.$candidate_second;
+      margin: 5px;
+      height: 50px;
+      width: 50px;
+      padding: 0;
+      font-size: 2.7em;
+      font-weight: 500;
+      color: colors.$candidate_second;
+
+      .index_number {
+        line-height: 42px;
+        transform: rotate(-7.5deg);
+      }
+    }
+
+    .candidate_value {
+      padding: 0;
+      margin-right: 12px;
+      max-height: 50px;
+      overflow: hidden;
+      font-size: 1.3em;
+      font-weight: 500;
+    }
+
+    .switch {
+      width: 70px;
+    }
+  }
+}
+
+.candidate_container_discarded {
+  .candidate {
+    background-color: lightgray;
+
+    .index_box {
+      border: 4px solid colors.$disabled;
+      color: colors.$disabled;
+    }
+
+    .candidate_value {
+      color: colors.$disabled;
+    }
+  }
 }
