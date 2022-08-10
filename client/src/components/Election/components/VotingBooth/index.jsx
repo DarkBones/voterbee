@@ -7,17 +7,19 @@ import {
   onValue,
   set,
 } from 'firebase/database'
-import { UserContext, DbContext } from 'contexts'
+import { DbContext } from 'contexts'
 import { Panel, Grid } from 'shared/components'
 import { randomArray } from 'shared/utils'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
 import Candidates from './components/Candidates'
 
-function VotingBooth({ election }) {
+function VotingBooth({
+  election,
+  user,
+}) {
   // const { t } = useTranslation()
   const [vote, setVote] = useState([])
-  const user = useContext(UserContext)
   const db = useContext(DbContext)
   const users = []
   Object.keys(election.users).forEach((key) => {
@@ -30,7 +32,7 @@ function VotingBooth({ election }) {
 
   useEffect(() => {
     onValue(
-      query(ref(db, `votes/${election.fullId}/${user}`)),
+      query(ref(db, `votes/${election.fullId}/${user.fullId}`)),
       (snapshot) => {
         let newVote = snapshot.val()
         if (!newVote) {
@@ -43,13 +45,14 @@ function VotingBooth({ election }) {
           })
         }
         setVote(newVote)
+        set(ref(db, `votes/${election.fullId}/${user.fullId}`), newVote)
       },
     )
   }, [db, election, user])
 
   const handleChangeVote = (newVote) => {
     setVote(newVote)
-    set(ref(db, `votes/${election.fullId}/${user}`), newVote)
+    set(ref(db, `votes/${election.fullId}/${user.fullId}`), newVote)
   }
 
   return (
@@ -92,6 +95,9 @@ VotingBooth.propTypes = {
     ).isRequired,
     fullId: PropTypes.string.isRequired,
     users: PropTypes.shape({}).isRequired,
+  }).isRequired,
+  user: PropTypes.shape({
+    fullId: PropTypes.string.isRequired,
   }).isRequired,
 }
 

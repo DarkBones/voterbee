@@ -75,6 +75,7 @@ const translations = {
         },
         candidates: {
           title: 'Candidates',
+          cast_vote: 'Cast Vote',
         },
       },
     },
@@ -155,6 +156,7 @@ const translations = {
         },
         candidates: {
           title: 'Candidats',
+          cast_vote: 'Votez',
         },
       },
     },
@@ -235,6 +237,7 @@ const translations = {
         },
         candidates: {
           title: 'Kandidaten',
+          cast_vote: 'Stem',
         },
       },
     },

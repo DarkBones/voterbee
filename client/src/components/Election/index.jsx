@@ -12,7 +12,11 @@ import {
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
-import { get as _get, map, find } from 'lodash'
+import {
+  get as _get,
+  map,
+  findIndex,
+} from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
 import JoinElection from './components/JoinElection'
@@ -31,7 +35,15 @@ function Election() {
     'id',
   ).includes(user), [user])
   useEffect(() => {
-    setFbUser(find(map(election.users), (u) => u.id === user))
+    if (!election.users) return
+
+    const userId = Object.keys(election.users)[
+      findIndex(map(election.users), (u) => u.id === user)
+    ]
+    setFbUser({
+      ..._get(election.users, `${userId}`),
+      fullId: userId,
+    })
   }, [election, user])
 
   useEffect(() => {
@@ -76,7 +88,7 @@ function Election() {
       } else if (fbUser.isBanned) {
         content = <Banned />
       } else {
-        content = <VotingBooth election={election} />
+        content = <VotingBooth election={election} user={fbUser} />
       }
     } else {
       content = <Configurator election={election} />
