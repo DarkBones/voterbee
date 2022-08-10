@@ -1,4 +1,3 @@
-/* eslint-disabledd */
 import { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 // import { useTranslation } from 'react-i18next'
@@ -6,9 +5,11 @@ import {
   ref,
   query,
   onValue,
+  set,
 } from 'firebase/database'
 import { UserContext, DbContext } from 'contexts'
 import { Panel, Grid } from 'shared/components'
+import { randomArray } from 'shared/utils'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
 import Candidates from './components/Candidates'
@@ -31,10 +32,25 @@ function VotingBooth({ election }) {
     onValue(
       query(ref(db, `votes/${election.fullId}/${user}`)),
       (snapshot) => {
-        setVote(snapshot.val())
+        let newVote = snapshot.val()
+        if (!newVote) {
+          newVote = []
+          randomArray(election.candidates.length).forEach((c) => {
+            newVote.push({
+              candidate: c,
+              isDiscarded: false,
+            })
+          })
+        }
+        setVote(newVote)
       },
     )
   }, [db, election, user])
+
+  const handleChangeVote = (newVote) => {
+    setVote(newVote)
+    set(ref(db, `votes/${election.fullId}/${user}`), newVote)
+  }
 
   return (
     <>
@@ -55,6 +71,7 @@ function VotingBooth({ election }) {
         <Grid xs={12} sm={7} md={8}>
           <Candidates
             candidates={election.candidates}
+            onChangeVote={handleChangeVote}
             vote={vote}
           />
         </Grid>

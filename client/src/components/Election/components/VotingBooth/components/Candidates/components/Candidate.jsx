@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
+import style from './Candidate.module.scss'
 
 function Candidate({ candidate, index }) {
+  console.log(index)
   return (
-    <div>
+    <div className={style.candidate}>
       {candidate.name}
-      {index}
     </div>
   )
 }
