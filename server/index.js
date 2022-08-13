@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 const { get } = require('lodash')
 const { newElection, getElection } = require('./election')
-const { newUserId } = require('./user')
+const { newUserId, doesSecretMatch } = require('./user')
 const { resSuccess, resFail } = require('./utils')
 
 const PORT = process.env.PORT || 3001
@@ -18,7 +18,7 @@ app.get(baseUrl, (_req, res) => {
 
 app.get(`${baseUrl}/users/new_id`, (_req, res) => {
   newUserId()
-    .then((id) => res.json(resSuccess({ user_id: id })))
+    .then(({ id, secret }) => res.json(resSuccess({ user_id: id, secret: secret })))
     .catch(() => res.json(resFail({ message: 'Could not generate user id' })))
 })
 
@@ -37,6 +37,17 @@ app.post(`${baseUrl}/elections/create`, (req, res) => {
 
   newElection(user)
     .then((id) => res.json(resSuccess({ election_id: id })))
+})
+
+app.post(`${baseUrl}/users/secret_check`, (req, res) => {
+  const { body: { id, secret } } = req
+  doesSecretMatch(id, secret)
+    .then(() => {
+      res.json(resSuccess())
+    })
+    .catch(() => {
+      res.json(resFail({}, 404))
+    })
 })
 
 app.listen(PORT, () => {

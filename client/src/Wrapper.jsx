@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
-import { get } from 'shared/utils'
-import { UserContext, DbContext } from 'contexts'
+import { get, post } from 'shared/utils'
+import {
+  UserContext,
+  DbContext,
+  SecretContext,
+} from 'contexts'
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
@@ -30,27 +34,48 @@ i18n
 
 function Wrapper({ children }) {
   const [user, setUser] = useState()
+  const [secret, setSecret] = useState()
 
   useEffect(() => {
     if (!user) {
       const id = localStorage.getItem('user_id')
+      const userSecret = localStorage.getItem('secret')
+      const getNewId = !(id && userSecret)
 
-      if (id) {
-        setUser(id)
-      } else {
-        get('users/new_id')
-          .then(({ user_id: newId }) => {
-            localStorage.setItem('user_id', newId)
-            setUser(newId)
-          })
+      if (!getNewId) {
+        post(
+          'users/secret_check',
+          {
+            id,
+            secret: userSecret,
+          },
+        ).then(({ status }) => {
+          if (status === 200) {
+            setUser(id)
+            setSecret(userSecret)
+            return
+          }
+
+          get('users/new_id')
+            .then(({
+              user_id: newId,
+              secret: newSecret,
+            }) => {
+              localStorage.setItem('user_id', newId)
+              localStorage.setItem('secret', newSecret)
+              setUser(newId)
+            })
+        })
       }
     }
-  }, [user])
+  }, [user, secret])
 
   return (
     <DbContext.Provider value={db}>
       <UserContext.Provider value={user}>
-        {children}
+        <SecretContext.Provider value={secret}>
+          {children}
+        </SecretContext.Provider>
       </UserContext.Provider>
     </DbContext.Provider>
   )
