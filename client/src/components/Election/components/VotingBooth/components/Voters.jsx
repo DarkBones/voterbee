@@ -12,6 +12,7 @@ import {
   Grid,
   Button,
   Tooltip,
+  Spacer,
 } from 'shared/components'
 import style from './Voters.module.scss'
 
@@ -94,9 +95,12 @@ function Voters({
         />
       ))}
       {user.id === creator && (
-        <Button>
-          {t('elections.session.voters.count_votes')}
-        </Button>
+        <>
+          <Spacer />
+          <Button>
+            {t('elections.session.voters.count_votes')}
+          </Button>
+        </>
       )}
     </Panel>
   )
