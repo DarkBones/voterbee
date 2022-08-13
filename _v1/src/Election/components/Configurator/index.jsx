@@ -33,7 +33,11 @@ const Configurator = ({ election: initialElection }) => {
   }, [suggestion, initialElection])
 
   const uploadConfig = useRef(
-    debounce(({ fullId, name, candidates }) => {
+    debounce(({ fullId, name = '', candidates = [] }) => {
+      console.log('!!!', {
+        name,
+        candidates,
+      })
       update(ref(db, `elections/${fullId}`), {
         name,
         candidates,

@@ -69,7 +69,7 @@ function VotingBooth({
     <>
       <Panel>
         <h2>{election.name}</h2>
-        {user === election.creator && (
+        {user.id === election.creator && (
           <ShareLink />
         )}
       </Panel>
@@ -111,6 +111,7 @@ VotingBooth.propTypes = {
   user: PropTypes.shape({
     fullId: PropTypes.string.isRequired,
     hasVoted: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
 }
 

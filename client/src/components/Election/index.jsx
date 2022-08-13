@@ -40,10 +40,12 @@ function Election() {
     const userId = Object.keys(election.users)[
       findIndex(map(election.users), (u) => u.id === user)
     ]
-    setFbUser({
-      ..._get(election.users, `${userId}`),
-      fullId: userId,
-    })
+    if (userId) {
+      setFbUser({
+        ..._get(election.users, `${userId}`),
+        fullId: userId,
+      })
+    }
   }, [election, user])
 
   useEffect(() => {

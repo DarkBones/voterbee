@@ -34,7 +34,7 @@ function Configurator({ election }) {
   }, [])
 
   const uploadConfig = useRef(
-    debounce(({ name, candidates }) => {
+    debounce(({ name = '', candidates = [] }) => {
       update(ref(db, `elections/${election.fullId}`), {
         name,
         candidates,
