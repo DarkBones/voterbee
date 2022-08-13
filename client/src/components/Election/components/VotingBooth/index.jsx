@@ -10,7 +10,7 @@ import {
 } from 'firebase/database'
 import { DbContext } from 'contexts'
 import { Panel, Grid } from 'shared/components'
-import { randomArray } from 'shared/utils'
+import { randomArray, post } from 'shared/utils'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
 import Candidates from './components/Candidates'
@@ -66,7 +66,10 @@ function VotingBooth({
   }
 
   const handleCountVotes = () => {
-    console.log('!!!COUNT')
+    post('elections/count_votes', {
+      election,
+      users: users.filter((v) => !v.isBanned),
+    })
   }
 
   return (

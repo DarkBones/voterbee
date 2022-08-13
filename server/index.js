@@ -39,6 +39,10 @@ app.post(`${baseUrl}/elections/create`, (req, res) => {
     .then((id) => res.json(resSuccess({ election_id: id })))
 })
 
+app.post(`${baseUrl}/elections/count_votes`, (req, res) => {
+  console.log('!!!REQ', req.body)
+})
+
 app.post(`${baseUrl}/users/secret_check`, (req, res) => {
   const { body: { id, secret } } = req
   doesSecretMatch(id, secret)

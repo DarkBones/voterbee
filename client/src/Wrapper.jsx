@@ -37,12 +37,22 @@ function Wrapper({ children }) {
   const [secret, setSecret] = useState()
 
   useEffect(() => {
+    const getNewId = () => get('users/new_id')
+      .then(({
+        user_id: newId,
+        secret: newSecret,
+      }) => {
+        localStorage.setItem('user_id', newId)
+        localStorage.setItem('secret', newSecret)
+        setUser(newId)
+        setSecret(newSecret)
+      })
+
     if (!user) {
       const id = localStorage.getItem('user_id')
       const userSecret = localStorage.getItem('secret')
-      const getNewId = !(id && userSecret)
 
-      if (!getNewId) {
+      if (id && userSecret) {
         post(
           'users/secret_check',
           {
@@ -56,16 +66,10 @@ function Wrapper({ children }) {
             return
           }
 
-          get('users/new_id')
-            .then(({
-              user_id: newId,
-              secret: newSecret,
-            }) => {
-              localStorage.setItem('user_id', newId)
-              localStorage.setItem('secret', newSecret)
-              setUser(newId)
-            })
+          getNewId()
         })
+      } else {
+        getNewId()
       }
     }
   }, [user, secret])
