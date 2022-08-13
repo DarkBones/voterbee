@@ -70,9 +70,13 @@ const translations = {
         },
         voters: {
           title: 'Voters',
+          votes: 'Votes:',
           kick: 'Kick {{name}} out',
           unkick: 'Let {{name}} back in',
           count_votes: 'Count Votes',
+          errors: {
+            not_enough_votes: 'At least 2 users must cast their vote',
+          },
         },
         candidates: {
           title: 'Candidates',
@@ -153,9 +157,13 @@ const translations = {
         },
         voters: {
           title: 'Électeurs',
+          votes: 'Votes :',
           kick: 'Mettre {{name}} à la porte',
           unkick: 'Laissez {{name}} revenir',
           count_votes: 'Compter les votes',
+          errors: {
+            not_enough_votes: 'Au moins 2 personnes doivent voter',
+          },
         },
         candidates: {
           title: 'Candidats',
@@ -236,9 +244,13 @@ const translations = {
         },
         voters: {
           title: 'Kiezers',
+          votes: 'Stemmen:',
           kick: 'Verban {{name}}',
           unkick: 'Laat {{name}} weer binnen',
           count_votes: 'Tel Stemmen',
+          errors: {
+            not_enough_votes: 'Minstens 2 stemmen nodig',
+          },
         },
         candidates: {
           title: 'Kandidaten',

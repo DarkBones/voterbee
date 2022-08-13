@@ -65,6 +65,10 @@ function VotingBooth({
     })
   }
 
+  const handleCountVotes = () => {
+    console.log('!!!COUNT')
+  }
+
   return (
     <>
       <Panel>
@@ -80,6 +84,7 @@ function VotingBooth({
             creator={election.creator}
             electionId={election.fullId}
             user={user}
+            onCountVotes={handleCountVotes}
           />
         </Grid>
         <Grid xs={12} sm={7} md={8}>

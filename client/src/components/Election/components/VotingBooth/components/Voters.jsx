@@ -81,8 +81,14 @@ function Voters({
   creator,
   electionId,
   user,
+  onCountVotes,
 }) {
   const { t } = useTranslation()
+  const activeUsers = users.filter((u) => !u.isBanned)
+  const votedCount = activeUsers.filter((u) => u.hasVoted).length
+  const countErrors = votedCount >= 2
+    ? []
+    : [t('elections.session.voters.errors.not_enough_votes')]
   return (
     <Panel>
       <h3>{t('elections.session.voters.title')}</h3>
@@ -94,10 +100,23 @@ function Voters({
           electionId={electionId}
         />
       ))}
+      <Spacer />
+      <div>
+        {t('elections.session.voters.votes')}
+        {' '}
+        {votedCount}
+        {' '}
+        /
+        {' '}
+        {activeUsers.length}
+      </div>
       {user.id === creator && (
         <>
           <Spacer />
-          <Button>
+          <Button
+            errors={countErrors}
+            onClick={onCountVotes}
+          >
             {t('elections.session.voters.count_votes')}
           </Button>
         </>
@@ -135,6 +154,7 @@ Voters.propTypes = {
     hasVoted: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
+  onCountVotes: PropTypes.func.isRequired,
 }
 
 export default Voters
