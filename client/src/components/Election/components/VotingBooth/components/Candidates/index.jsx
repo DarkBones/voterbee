@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { Panel, Button } from 'shared/components'
+import { Panel, Button, Spacer } from 'shared/components'
 import CandidatesList from './components/CandidatesList'
 
 function Candidates({
   candidates,
   onChangeVote,
   vote,
+  onCastVote,
+  hasVoted,
 }) {
   const { t } = useTranslation()
 
@@ -20,7 +22,11 @@ function Candidates({
         vote={vote}
         onChangeVote={onChangeVote}
       />
-      <Button>
+      <Spacer />
+      <Button
+        onClick={onCastVote}
+        errors={hasVoted ? [t('elections.session.candidates.already_voted')] : []}
+      >
         {t('elections.session.candidates.cast_vote')}
       </Button>
     </Panel>
@@ -41,6 +47,8 @@ Candidates.propTypes = {
       candidate: PropTypes.number.isRequired,
     }).isRequired,
   ),
+  onCastVote: PropTypes.func.isRequired,
+  hasVoted: PropTypes.bool.isRequired,
 }
 
 Candidates.defaultProps = {

@@ -19,7 +19,7 @@ function Candidate({
         <Grid container className={style.grid_container}>
           <Grid className={style.index_box} alignItems="center">
             <div className={style.index_number}>
-              {index + 1}
+              {index < 0 ? '-' : index + 1}
             </div>
           </Grid>
           <Grid xs className={style.candidate_value}>

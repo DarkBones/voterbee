@@ -76,6 +76,7 @@ const translations = {
         candidates: {
           title: 'Candidates',
           cast_vote: 'Cast Vote',
+          already_voted: 'Already voted. Reorder your preferences to ammend your vote',
         },
       },
     },
@@ -157,6 +158,7 @@ const translations = {
         candidates: {
           title: 'Candidats',
           cast_vote: 'Votez',
+          already_voted: 'Déjà voté. Réorganisez vos préférences pour modifier votre vote',
         },
       },
     },
@@ -238,6 +240,7 @@ const translations = {
         candidates: {
           title: 'Kandidaten',
           cast_vote: 'Stem',
+          already_voted: 'U heeft al gestemt. Verander de volgorde van de kandidaten om uw stem aan te passen.',
         },
       },
     },

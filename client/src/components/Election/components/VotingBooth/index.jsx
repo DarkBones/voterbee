@@ -6,6 +6,7 @@ import {
   query,
   onValue,
   set,
+  update,
 } from 'firebase/database'
 import { DbContext } from 'contexts'
 import { Panel, Grid } from 'shared/components'
@@ -53,6 +54,15 @@ function VotingBooth({
   const handleChangeVote = (newVote) => {
     setVote(newVote)
     set(ref(db, `votes/${election.fullId}/${user.fullId}`), newVote)
+    update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
+      hasVoted: !user.hasVoted,
+    })
+  }
+
+  const handleCastVote = () => {
+    update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
+      hasVoted: !user.hasVoted,
+    })
   }
 
   return (
@@ -76,6 +86,8 @@ function VotingBooth({
             candidates={election.candidates}
             onChangeVote={handleChangeVote}
             vote={vote}
+            onCastVote={handleCastVote}
+            hasVoted={user.hasVoted}
           />
         </Grid>
       </Grid>
@@ -98,6 +110,7 @@ VotingBooth.propTypes = {
   }).isRequired,
   user: PropTypes.shape({
     fullId: PropTypes.string.isRequired,
+    hasVoted: PropTypes.bool.isRequired,
   }).isRequired,
 }
 

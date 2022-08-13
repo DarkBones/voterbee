@@ -86,7 +86,7 @@ function CandidatesList({
       {vote.filter((v) => v.isDiscarded).map(({ candidate: candidateIndex }) => (
         <Candidate
           candidate={candidates[candidateIndex]}
-          index={0}
+          index={-1}
           key={candidates[candidateIndex].id}
           onDiscardCandidate={handleDiscardCandidate}
           isDiscarded
