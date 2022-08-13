@@ -13,8 +13,12 @@ function Candidate({
     onDiscardCandidate(candidate.id, checked)
   }
 
+  const candidateContainerClass = isDiscarded
+    ? style.candidate_container_discarded
+    : style.candidate_container
+
   return (
-    <div className={style.candidate_container}>
+    <div className={candidateContainerClass}>
       <div className={style.candidate}>
         <Grid container className={style.grid_container}>
           <Grid className={style.index_box} alignItems="center">

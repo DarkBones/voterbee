@@ -27,6 +27,7 @@ function Button({
           root: {
             '&.Mui-disabled': {
               backgroundColor: styleVariables.disabled,
+              color: styleVariables.disabled_text,
             },
             backgroundColor: styleVariables.primary,
             borderRadius: '4px',
