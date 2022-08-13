@@ -9,8 +9,7 @@ import translations from 'i18n'
 import db from './firebase'
 
 const detectionOptions = {
-  order: ['path', 'cookie', 'navigator', 'localStorage', 'subdomain', 'queryString', 'htmlTag'],
-  lookupFromPathIndex: 0,
+  order: ['cookie', 'navigator', 'localStorage', 'subdomain', 'queryString', 'htmlTag'],
 }
 
 i18n

@@ -75,19 +75,29 @@ function Voter({ user, creator, electionId }) {
   )
 }
 
-function Voters({ users, creator, electionId }) {
+function Voters({
+  users,
+  creator,
+  electionId,
+  user,
+}) {
   const { t } = useTranslation()
   return (
     <Panel>
       <h3>{t('elections.session.voters.title')}</h3>
-      {users.map((user) => (
+      {users.map((u) => (
         <Voter
-          key={user.id}
-          user={user}
+          key={u.id}
+          user={u}
           creator={creator}
           electionId={electionId}
         />
       ))}
+      {user.id === creator && (
+        <Button>
+          {t('elections.session.voters.count_votes')}
+        </Button>
+      )}
     </Panel>
   )
 }
@@ -116,6 +126,11 @@ Voters.propTypes = {
   ).isRequired,
   creator: PropTypes.string.isRequired,
   electionId: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    fullId: PropTypes.string.isRequired,
+    hasVoted: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 export default Voters

@@ -79,6 +79,7 @@ function VotingBooth({
             users={users}
             creator={election.creator}
             electionId={election.fullId}
+            user={user}
           />
         </Grid>
         <Grid xs={12} sm={7} md={8}>

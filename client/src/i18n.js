@@ -72,6 +72,7 @@ const translations = {
           title: 'Voters',
           kick: 'Kick {{name}} out',
           unkick: 'Let {{name}} back in',
+          count_votes: 'Count Votes',
         },
         candidates: {
           title: 'Candidates',
@@ -154,6 +155,7 @@ const translations = {
           title: 'Électeurs',
           kick: 'Mettre {{name}} à la porte',
           unkick: 'Laissez {{name}} revenir',
+          count_votes: 'Compter les votes',
         },
         candidates: {
           title: 'Candidats',
@@ -236,6 +238,7 @@ const translations = {
           title: 'Kiezers',
           kick: 'Verban {{name}}',
           unkick: 'Laat {{name}} weer binnen',
+          count_votes: 'Tel Stemmen',
         },
         candidates: {
           title: 'Kandidaten',
