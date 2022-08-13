@@ -67,8 +67,7 @@ function VotingBooth({
 
   const handleCountVotes = () => {
     post('elections/count_votes', {
-      election,
-      users: users.filter((v) => !v.isBanned),
+      electionId: election.fullId,
     })
   }
 
