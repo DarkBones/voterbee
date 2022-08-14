@@ -8,7 +8,7 @@ import {
   set,
   update,
 } from 'firebase/database'
-import { DbContext } from 'contexts'
+import { DbContext, SecretContext } from 'contexts'
 import { Panel, Grid } from 'shared/components'
 import { randomArray, post } from 'shared/utils'
 import ShareLink from './components/ShareLink'
@@ -22,6 +22,7 @@ function VotingBooth({
   // const { t } = useTranslation()
   const [vote, setVote] = useState([])
   const db = useContext(DbContext)
+  const secret = useContext(SecretContext)
   const users = []
   Object.keys(election.users).forEach((key) => {
     const u = election.users[key]
@@ -68,6 +69,10 @@ function VotingBooth({
   const handleCountVotes = () => {
     post('elections/count_votes', {
       electionId: election.fullId,
+      user: {
+        id: user.id,
+        secret,
+      },
     })
   }
 
