@@ -1,0 +1,19 @@
+@use '../../../sass/colors.scss';
+@use '../../../sass/effects.scss';
+
+.winnersContainer {
+  margin-left: -10px;
+
+  .winner {
+    background-color: colors.$candidate_base;
+    padding: 1em;
+    border-radius: effects.$border-radius;
+    box-shadow: effects.$box-shadow;
+    font-size: 1.5em;
+    font-weight: 600;
+
+    div {
+      overflow: hidden;
+    }
+  }
+}

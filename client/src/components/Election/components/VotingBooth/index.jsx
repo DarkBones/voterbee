@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -81,25 +80,25 @@ function VotingBooth({
       isFinished: true,
       outcome: null,
     })
-    // .then(() => {
-    //   post('elections/count_votes', {
-    //     electionId: election.fullId,
-    //     user: {
-    //       id: user.id,
-    //       secret,
-    //     },
-    //   })
-    //     .then(({ status }) => {
-    //       if (status !== 200) {
-    //         setClickedCountVotes(false)
-    //         setCountErrorMessageOpen(true)
-    //         update(ref(db, `elections/${election.fullId}`), {
-    //           isFinished: false,
-    //           outcome: null,
-    //         })
-    //       }
-    //     })
-    // })
+      .then(() => {
+        post('elections/count_votes', {
+          electionId: election.fullId,
+          user: {
+            id: user.id,
+            secret,
+          },
+        })
+          .then(({ status }) => {
+            if (status !== 200) {
+              setClickedCountVotes(false)
+              setCountErrorMessageOpen(true)
+              update(ref(db, `elections/${election.fullId}`), {
+                isFinished: false,
+                outcome: null,
+              })
+            }
+          })
+      })
   }
 
   const candidatesContent = clickedCountVotes
@@ -166,6 +165,7 @@ VotingBooth.propTypes = {
     ).isRequired,
     fullId: PropTypes.string.isRequired,
     users: PropTypes.shape({}).isRequired,
+    isFinished: PropTypes.bool.isRequired,
   }).isRequired,
   user: PropTypes.shape({
     fullId: PropTypes.string.isRequired,

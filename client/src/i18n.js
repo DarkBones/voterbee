@@ -89,6 +89,11 @@ const translations = {
         },
         counting: 'Counting the votes...',
       },
+      results: {
+        winner: 'We have a winner!',
+        tie: 'It\'s a tie!',
+        reopen: 'Reopen election',
+      },
     },
   },
   fr: {
@@ -181,6 +186,11 @@ const translations = {
         },
         counting: 'Comptage des votes en cours....',
       },
+      results: {
+        winner: 'Nous avons un gagnant!',
+        tie: 'C\'est une égalité !',
+        reopen: 'Rouvrir l\'élection',
+      },
     },
   },
   nl: {
@@ -272,6 +282,11 @@ const translations = {
           generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
         },
         counting: 'Stemmen aan het tellen...',
+      },
+      results: {
+        winner: 'We hebben een winner!',
+        tie: 'Het is gelijkspel!',
+        reopen: 'Heropen verkiezing',
       },
     },
   },

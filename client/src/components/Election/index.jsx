@@ -21,6 +21,7 @@ import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
 import JoinElection from './components/JoinElection'
 import VotingBooth from './components/VotingBooth'
+import Results from './components/Results'
 import Banned from './components/Banned'
 
 function Election() {
@@ -90,7 +91,13 @@ function Election() {
       } else if (fbUser.isBanned) {
         content = <Banned />
       } else if (election.isFinished && election.outcome) {
-        content = <div>DONE</div>
+        content = (
+          <Results
+            outcome={election.outcome}
+            isCreator={election.creator === fbUser.id}
+            electionId={election.fullId}
+          />
+        )
       } else {
         content = <VotingBooth election={election} user={fbUser} />
       }
