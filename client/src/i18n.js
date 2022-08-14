@@ -74,6 +74,7 @@ const translations = {
           kick: 'Kick {{name}} out',
           unkick: 'Let {{name}} back in',
           count_votes: 'Count Votes',
+          counting_votes: 'Counting Votes...',
           errors: {
             not_enough_votes: 'At least 2 users must cast their vote',
           },
@@ -83,6 +84,10 @@ const translations = {
           cast_vote: 'Cast Vote',
           already_voted: 'Already voted. Reorder your preferences to ammend your vote',
         },
+        errors: {
+          generic: 'Something went wrong. Please try again later.',
+        },
+        counting: 'Counting the votes...',
       },
     },
   },
@@ -161,6 +166,7 @@ const translations = {
           kick: 'Mettre {{name}} à la porte',
           unkick: 'Laissez {{name}} revenir',
           count_votes: 'Compter les votes',
+          counting_votes: 'Chargement...',
           errors: {
             not_enough_votes: 'Au moins 2 personnes doivent voter',
           },
@@ -170,6 +176,10 @@ const translations = {
           cast_vote: 'Votez',
           already_voted: 'Déjà voté. Réorganisez vos préférences pour modifier votre vote',
         },
+        errors: {
+          generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
+        },
+        counting: 'Comptage des votes en cours....',
       },
     },
   },
@@ -248,6 +258,7 @@ const translations = {
           kick: 'Verban {{name}}',
           unkick: 'Laat {{name}} weer binnen',
           count_votes: 'Tel Stemmen',
+          counting_votes: 'Laden...',
           errors: {
             not_enough_votes: 'Minstens 2 stemmen nodig',
           },
@@ -257,6 +268,10 @@ const translations = {
           cast_vote: 'Stem',
           already_voted: 'U heeft al gestemt. Verander de volgorde van de kandidaten om uw stem aan te passen.',
         },
+        errors: {
+          generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
+        },
+        counting: 'Stemmen aan het tellen...',
       },
     },
   },

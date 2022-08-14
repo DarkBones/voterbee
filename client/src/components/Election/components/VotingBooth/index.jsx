@@ -1,6 +1,7 @@
+/* eslint-disable */
 import { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-// import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import {
   ref,
   query,
@@ -9,7 +10,13 @@ import {
   update,
 } from 'firebase/database'
 import { DbContext, SecretContext } from 'contexts'
-import { Panel, Grid } from 'shared/components'
+import {
+  Panel,
+  Grid,
+  Snackbar,
+  Spinner,
+  Spacer,
+} from 'shared/components'
 import { randomArray, post } from 'shared/utils'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
@@ -19,8 +26,10 @@ function VotingBooth({
   election,
   user,
 }) {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const [vote, setVote] = useState([])
+  const [clickedCountVotes, setClickedCountVotes] = useState(election.isFinished)
+  const [countErrorMessageOpen, setCountErrorMessageOpen] = useState(false)
   const db = useContext(DbContext)
   const secret = useContext(SecretContext)
   const users = []
@@ -67,17 +76,59 @@ function VotingBooth({
   }
 
   const handleCountVotes = () => {
-    post('elections/count_votes', {
-      electionId: election.fullId,
-      user: {
-        id: user.id,
-        secret,
-      },
+    setClickedCountVotes(true)
+    update(ref(db, `elections/${election.fullId}`), {
+      isFinished: true,
+      outcome: null,
     })
+    // .then(() => {
+    //   post('elections/count_votes', {
+    //     electionId: election.fullId,
+    //     user: {
+    //       id: user.id,
+    //       secret,
+    //     },
+    //   })
+    //     .then(({ status }) => {
+    //       if (status !== 200) {
+    //         setClickedCountVotes(false)
+    //         setCountErrorMessageOpen(true)
+    //         update(ref(db, `elections/${election.fullId}`), {
+    //           isFinished: false,
+    //           outcome: null,
+    //         })
+    //       }
+    //     })
+    // })
   }
+
+  const candidatesContent = clickedCountVotes
+    ? (
+      <Panel>
+        <Spinner />
+        <Spacer />
+        {t('elections.session.counting')}
+      </Panel>
+    )
+    : (
+      <Candidates
+        candidates={election.candidates}
+        onChangeVote={handleChangeVote}
+        vote={vote}
+        onCastVote={handleCastVote}
+        hasVoted={user.hasVoted}
+      />
+    )
 
   return (
     <>
+      <Snackbar
+        severity="error"
+        isOpen={countErrorMessageOpen}
+        onClose={() => setCountErrorMessageOpen(false)}
+      >
+        {t('elections.session.errors.generic')}
+      </Snackbar>
       <Panel>
         <h2>{election.name}</h2>
         {user.id === election.creator && (
@@ -92,16 +143,11 @@ function VotingBooth({
             electionId={election.fullId}
             user={user}
             onCountVotes={handleCountVotes}
+            hasClickedCountVotes={clickedCountVotes}
           />
         </Grid>
         <Grid xs={12} sm={7} md={8}>
-          <Candidates
-            candidates={election.candidates}
-            onChangeVote={handleChangeVote}
-            vote={vote}
-            onCastVote={handleCastVote}
-            hasVoted={user.hasVoted}
-          />
+          {candidatesContent}
         </Grid>
       </Grid>
     </>

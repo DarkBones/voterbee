@@ -89,6 +89,8 @@ function Election() {
         content = <JoinElection election={election} />
       } else if (fbUser.isBanned) {
         content = <Banned />
+      } else if (election.isFinished && election.outcome) {
+        content = <div>DONE</div>
       } else {
         content = <VotingBooth election={election} user={fbUser} />
       }

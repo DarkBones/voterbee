@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser');
 
 const { get } = require('lodash')
+const { processVotes } = require('./count_votes')
 const { newElection, getElection } = require('./election')
 const { newUserId, doesSecretMatch } = require('./user')
 const { resSuccess, resFail } = require('./utils')
@@ -40,7 +41,18 @@ app.post(`${baseUrl}/elections/create`, (req, res) => {
 })
 
 app.post(`${baseUrl}/elections/count_votes`, (req, res) => {
-  console.log('!!!REQ', req.body)
+  const { body: { electionId, user: { id: userId, secret: userSecret } } } = req
+  doesSecretMatch(userId, userSecret)
+    .then(() => {
+      processVotes(electionId, userId)
+        .then(() => res.json(resSuccess()))
+        .catch(({ message, status }) => {
+          res.json(resFail({ message }, status))
+        })
+    })
+    .catch(() => {
+      res.json(resFail({ message: 'Unauthorized' }, 401))
+    })
 })
 
 app.post(`${baseUrl}/users/secret_check`, (req, res) => {

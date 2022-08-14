@@ -16,11 +16,18 @@ import {
 } from 'shared/components'
 import style from './Voters.module.scss'
 
-function Voter({ user, creator, electionId }) {
+function Voter({
+  user,
+  creator,
+  electionId,
+  hasClickedCountVotes,
+}) {
   const { t } = useTranslation()
   const u = useContext(UserContext)
   const db = useContext(DbContext)
   const handleKickUser = () => {
+    if (hasClickedCountVotes) return
+
     update(
       ref(db, `elections/${electionId}/users/${user.fullId}`),
       {
@@ -62,6 +69,7 @@ function Voter({ user, creator, electionId }) {
               <Button
                 variant="icon-text"
                 onClick={handleKickUser}
+                isDisabled={hasClickedCountVotes}
               >
                 {kickIcon}
               </Button>
@@ -82,6 +90,7 @@ function Voters({
   electionId,
   user,
   onCountVotes,
+  hasClickedCountVotes,
 }) {
   const { t } = useTranslation()
   const activeUsers = users.filter((u) => !u.isBanned)
@@ -89,6 +98,9 @@ function Voters({
   const countErrors = votedCount >= 2
     ? []
     : [t('elections.session.voters.errors.not_enough_votes')]
+  const buttonText = hasClickedCountVotes
+    ? t('elections.session.voters.counting_votes')
+    : t('elections.session.voters.count_votes')
   return (
     <Panel>
       <h3>{t('elections.session.voters.title')}</h3>
@@ -98,6 +110,7 @@ function Voters({
           user={u}
           creator={creator}
           electionId={electionId}
+          hasClickedCountVotes={hasClickedCountVotes}
         />
       ))}
       <Spacer />
@@ -116,8 +129,9 @@ function Voters({
           <Button
             errors={countErrors}
             onClick={onCountVotes}
+            isDisabled={hasClickedCountVotes}
           >
-            {t('elections.session.voters.count_votes')}
+            {buttonText}
           </Button>
         </>
       )}
@@ -135,6 +149,7 @@ Voter.propTypes = {
   }).isRequired,
   creator: PropTypes.string.isRequired,
   electionId: PropTypes.string.isRequired,
+  hasClickedCountVotes: PropTypes.bool.isRequired,
 }
 
 Voters.propTypes = {
@@ -155,6 +170,7 @@ Voters.propTypes = {
     id: PropTypes.string.isRequired,
   }).isRequired,
   onCountVotes: PropTypes.func.isRequired,
+  hasClickedCountVotes: PropTypes.bool.isRequired,
 }
 
 export default Voters
