@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm i --prefix client && npm run build --prefix client"
+    "build": "npm i && npm i --prefix client && npm run build --prefix client && cp .env.production.local client/build/.env",
+    "build:staging": "npm i && npm i --prefix client && npm run build --prefix client && cp .env.staging.local client/build/.env"
   },
   "repository": {
     "type": "git",
