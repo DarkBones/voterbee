@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build --prefix client"
+    "build": "npm i --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,9 @@
     "url": "https://github.com/DarkBones/electify/issues"
   },
   "homepage": "https://github.com/DarkBones/electify#readme",
+  "engines": {
+    "node": "14.20.0"
+  },
   "dependencies": {
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
