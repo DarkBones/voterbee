@@ -28,6 +28,7 @@ function Button({
             '&.Mui-disabled': {
               backgroundColor: styleVariables.disabled,
               color: styleVariables.disabled_text,
+              boxShadow: styleVariables.box_shadow_disabled,
             },
             backgroundColor: styleVariables.primary,
             borderRadius: '4px',
@@ -37,6 +38,9 @@ function Button({
             '&:hover': {
               backgroundColor: styleVariables.primary_hover,
               boxShadow: styleVariables.box_shadow_hover,
+            },
+            '&:focus': {
+              boxShadow: styleVariables.box_shadow,
             },
           },
         },
@@ -61,8 +65,13 @@ function Button({
                 backgroundColor: 'transparent',
                 boxShadow: 'none',
               },
+              '&:focus': {
+                backgroundColor: 'transparent',
+                boxShadow: 'none',
+              },
               '&.Mui-disabled': {
                 backgroundColor: 'transparent',
+                boxShadow: 'none',
               },
             },
           },
