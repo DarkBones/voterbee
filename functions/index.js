@@ -9,7 +9,7 @@ const { newElection, getElection } = require('./election')
 const { newUserId, doesSecretMatch } = require('./user')
 const { resSuccess, resFail } = require('./utils')
 
-const PORT = process.env.PORT || 3001
+const PORT = 3001
 const app = express()
 app.use(bodyParser.json())
 app.use(express.static(path.resolve(__dirname, '../client/build')))
@@ -72,7 +72,6 @@ app.get('*', (_req, res) => {
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log('Server listening on PORT', PORT)
-  console.log('!!!APP =', typeof app)
 })
 
-exports.app = functions.https.onRequest()
+exports.app = functions.https.onRequest(app)
