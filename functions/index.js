@@ -65,6 +65,10 @@ app.post(`${baseUrl}/users/secret_check`, (req, res) => {
     })
 })
 
+app.get('/api', (_req, res) => {
+  res.json({ message: 'YAY!!!!' })
+})
+
 app.get('*', (_req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
 })

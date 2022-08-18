@@ -7,12 +7,16 @@
       "firebase-debug.*.log"
     ],
     "predeploy": [
+      "mv functions/.env functions/.env.dev.local && mv functions/.env.staging.local functions/.env",
       "npm --prefix \"$RESOURCE_DIR\" run lint"
     ],
-    "source": "functions"
+    "source": "functions",
+    "postdeploy": [
+      "mv functions/.env functions/.env.staging.local && mv functions/.env.dev.local functions/.env"
+    ]
   },
   "hosting": {
-    "public": "public",
+    "public": "client/build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -20,7 +24,11 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "/api/**",
+        "function": "app"
+      },
+      {
+        "source": "!/@(api)**",
         "destination": "/index.html"
       }
     ]

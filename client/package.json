@@ -52,7 +52,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001",
   "devDependencies": {
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -62,5 +61,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "lint": "^0.7.0",
     "lodash": "^4.17.21"
-  }
+  },
+  "proxy": "https://us-central1-voterbee-staging.cloudfunctions.net/app"
 }
