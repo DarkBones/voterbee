@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "voterbee-staging"
-  }
+    "staging": "voterbee-staging",
+    "prod": "voterbee-prod"
+  },
+  "targets": {},
+  "etags": {}
 }
