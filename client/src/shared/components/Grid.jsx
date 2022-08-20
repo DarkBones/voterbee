@@ -64,7 +64,7 @@ Grid.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
-  ]).isRequired,
+  ]),
   className: PropTypes.string,
   container: PropTypes.bool,
   spacing: PropTypes.number,
@@ -99,6 +99,7 @@ Grid.propTypes = {
 
 Grid.defaultProps = {
   alignItems: 'center',
+  children: null,
   className: null,
   container: false,
   spacing: 2,

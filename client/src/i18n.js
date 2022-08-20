@@ -24,7 +24,7 @@ const translations = {
         title: 'Configure your election',
         start: 'Start Election',
         errors: {
-          no_name: 'One or more candidates don\'t have a value',
+          not_enough_candidates: 'At least 2 candidates are required',
           no_title: 'Election name is empty',
         },
         name: {
@@ -50,6 +50,11 @@ const translations = {
           placeholder_3_0: 'Bryan',
           placeholder_3_1: 'Dave',
           placeholder_3_2: 'Emma',
+        },
+        advanced: {
+          title: 'Advanced Options',
+          allow_users_to_add_candidates: 'Allow users to add candidates',
+          users_can_add: 'Amount of candidates:',
         },
       },
       join: {
@@ -123,7 +128,7 @@ const translations = {
         title: 'Configurez votre élection',
         start: 'Commencer l\'Élection',
         errors: {
-          no_name: 'Un ou plusieurs candidats ne sont pas renseignés',
+          not_enough_candidates: 'Au moins 2 candidats sont requis',
           no_title: 'Le nom de l\'élection est vide',
         },
         name: {
@@ -149,6 +154,11 @@ const translations = {
           placeholder_3_0: 'Emma',
           placeholder_3_1: 'Léo',
           placeholder_3_2: 'Raphaël',
+        },
+        advanced: {
+          title: 'Options Avancées',
+          allow_users_to_add_candidates: 'Autoriser les électeurs à ajouter des candidats',
+          users_can_add: 'Nombre de candidats :',
         },
       },
       join: {
@@ -222,7 +232,7 @@ const translations = {
         title: 'Configureer uw verkiezing',
         start: 'Start Verkiezing',
         errors: {
-          no_name: 'Één of meerdere kandidated zijn niet ingevuld',
+          not_enough_candidates: 'Minstens 2 kandidaten nodig',
           no_title: 'Verkiezing naam is niet ingevuld',
         },
         name: {
@@ -248,6 +258,11 @@ const translations = {
           placeholder_3_0: 'Liam',
           placeholder_3_1: 'Lucas',
           placeholder_3_2: 'Saar',
+        },
+        advanced: {
+          title: 'Geavanceerde Opties',
+          allow_users_to_add_candidates: 'Kiezers toestaan ​​kandidaten toe te voegen',
+          users_can_add: 'Aantal kandidatenn:',
         },
       },
       join: {

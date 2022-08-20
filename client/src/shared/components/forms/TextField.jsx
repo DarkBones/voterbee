@@ -25,6 +25,7 @@ function TextField({
   endAdornment,
   onClick,
   isDisabled,
+  type,
 }) {
   const theme = createTheme({
     components: {
@@ -120,6 +121,7 @@ function TextField({
         InputProps={inputProps}
         onClick={onClick}
         disabled={isDisabled}
+        type={type}
       />
     </ThemeProvider>
   )
@@ -156,6 +158,7 @@ TextField.propTypes = {
   endAdornment: PropTypes.shape({}),
   onClick: PropTypes.func,
   isDisabled: PropTypes.bool,
+  type: PropTypes.string,
 }
 
 TextField.defaultProps = {
@@ -175,6 +178,7 @@ TextField.defaultProps = {
   endAdornment: null,
   onClick: () => { },
   isDisabled: false,
+  type: 'text',
 }
 
 export default TextField

@@ -89,9 +89,9 @@ function Candidates({
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (candidates.length === 0) {
-      const initialCandidates = []
-      for (let i = 0; i < 3; i += 1) {
+    if (candidates.length <= 2) {
+      const initialCandidates = candidates
+      for (let i = candidates.length; i < 3; i += 1) {
         initialCandidates.push({
           name: '',
           id: generateCandidateId(initialCandidates),

@@ -13,13 +13,12 @@ import { DbContext } from 'contexts'
 import {
   debounce,
   get,
-  map,
-  findIndex,
 } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Panel, Spacer, Button } from 'shared/components'
 import { TextField } from 'shared/components/forms'
 import Candidates from './Candidates'
+import AdvancedOptions from './AdvancedOptions'
 
 function Configurator({ election }) {
   const { t } = useTranslation()
@@ -34,10 +33,15 @@ function Configurator({ election }) {
   }, [])
 
   const uploadConfig = useRef(
-    debounce(({ name = '', candidates = [] }) => {
+    debounce(({
+      name = '',
+      candidates = [],
+      userCandidateAllowance = 550,
+    }) => {
       update(ref(db, `elections/${election.fullId}`), {
         name,
-        candidates,
+        candidates: candidates.filter((c) => get(c, 'name', '').length > 0),
+        userCandidateAllowance,
       })
     }, 300),
   ).current
@@ -59,17 +63,12 @@ function Configurator({ election }) {
       newErrors.push(t('elections.configure.errors.no_title'))
     }
 
-    if (
-      findIndex(
-        map(
-          get(config, 'candidates', []),
-          'name',
-        ),
-        (n) => n.length === 0,
-      ) >= 0
-    ) {
-      newErrors.push(t('elections.configure.errors.no_name'))
+    if (get(config, 'userCandidateAllowance', 0) === 0) {
+      if (get(config, 'candidates', [{ name: '' }]).filter((c) => c.name.length > 0).length < 2) {
+        newErrors.push(t('elections.configure.errors.not_enough_candidates'))
+      }
     }
+
     setErrors(newErrors)
   }, [config, t])
 
@@ -98,6 +97,11 @@ function Configurator({ election }) {
           onChange={handleChange}
           focusOnLastCandidate={focusOnLastCandidate}
         />
+        <Spacer />
+        <AdvancedOptions
+          userCandidateAllowance={election.userCandidateAllowance}
+          onChange={handleChange}
+        />
       </Panel>
       <Panel>
         <Button
@@ -114,6 +118,7 @@ function Configurator({ election }) {
 Configurator.propTypes = {
   election: PropTypes.shape({
     fullId: PropTypes.string.isRequired,
+    userCandidateAllowance: PropTypes.number.isRequired,
   }).isRequired,
 }
 
