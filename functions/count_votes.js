@@ -1,4 +1,9 @@
-const { pick, map, cloneDeep, findIndex } = require('lodash')
+const {
+  pick,
+  map,
+  cloneDeep,
+  findIndex,
+} = require('lodash')
 const { db } = require('./firebase')
 
 const countVotes = (candidates, votesInitial, resultsInitial = null, round = 0) => {
@@ -21,7 +26,7 @@ const countVotes = (candidates, votesInitial, resultsInitial = null, round = 0) 
     results[round] = candidates.map((c, index) => ({
       id: c.id,
       index,
-      name: c,
+      name: c.name,
       votes: 0,
     }))
   } else {

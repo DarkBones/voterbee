@@ -9,13 +9,16 @@ import {
   ref,
   query,
   onValue,
+  update,
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
 import {
   get as _get,
+  set as _set,
   map,
   findIndex,
+  cloneDeep,
 } from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
@@ -83,6 +86,21 @@ function Election() {
       })
   }, [db, electionId, navigate, user, userIsInElection])
 
+  const handleTieBreakerVote = (candidateId) => {
+    if (election.creator !== fbUser.id || !election.outcome) return
+
+    const newOutcomeRound = cloneDeep(election.outcome[election.outcome.length - 1])
+    const candidatePath = `[${findIndex(newOutcomeRound, (no) => no.id === candidateId)}].votes`
+    _set(newOutcomeRound, candidatePath, _get(newOutcomeRound, candidatePath) + 1)
+
+    const newOutcome = cloneDeep(election.outcome)
+    newOutcome.push(newOutcomeRound)
+
+    update(ref(db, `elections/${election.fullId}`), {
+      outcome: newOutcome,
+    })
+  }
+
   let content = <ElectionLoading />
   if (election.status === 200) {
     if (election.isConfigured) {
@@ -96,6 +114,7 @@ function Election() {
             outcome={election.outcome}
             isCreator={election.creator === fbUser.id}
             electionId={election.fullId}
+            onTieBreakerVote={handleTieBreakerVote}
           />
         )
       } else {
