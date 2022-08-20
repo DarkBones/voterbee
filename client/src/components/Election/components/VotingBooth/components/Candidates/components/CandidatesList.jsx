@@ -39,7 +39,6 @@ function CandidatesList({
   const handleDiscardCandidate = (candidateId, checked) => {
     const newVote = cloneDeep(vote)
     const voteIndex = findIndex(vote, (v) => v.candidate === candidateId)
-    console.log(voteIndex)
     set(newVote, `[${voteIndex}].isDiscarded`, !checked)
     setVote(newVote)
     onChangeVote(newVote)
