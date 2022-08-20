@@ -115,7 +115,7 @@ CandidatesList.propTypes = {
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
-  ).isRequired,
+  ),
   onChangeVote: PropTypes.func.isRequired,
   vote: PropTypes.arrayOf(
     PropTypes.shape({
@@ -125,6 +125,10 @@ CandidatesList.propTypes = {
   ).isRequired,
   isCreator: PropTypes.bool.isRequired,
   onDeleteCandidate: PropTypes.func.isRequired,
+}
+
+CandidatesList.defaultProps = {
+  candidates: [],
 }
 
 export default CandidatesList

@@ -59,7 +59,7 @@ function VotingBooth({
         let newVote = snapshot.val()
         if (!newVote) {
           newVote = []
-          randomArray(election.candidates.length).forEach((c) => {
+          randomArray(get(election, 'candidates.length', 0)).forEach((c) => {
             newVote.push({
               candidate: election.candidates[c].id,
               isDiscarded: false,
@@ -249,7 +249,7 @@ VotingBooth.propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
       }),
-    ).isRequired,
+    ),
     fullId: PropTypes.string.isRequired,
     users: PropTypes.shape({}).isRequired,
     isFinished: PropTypes.bool.isRequired,

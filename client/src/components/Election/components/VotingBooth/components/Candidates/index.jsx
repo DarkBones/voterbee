@@ -45,7 +45,7 @@ Candidates.propTypes = {
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
-  ).isRequired,
+  ),
   isCreator: PropTypes.bool.isRequired,
   onChangeVote: PropTypes.func.isRequired,
   vote: PropTypes.arrayOf(
@@ -61,6 +61,7 @@ Candidates.propTypes = {
 
 Candidates.defaultProps = {
   vote: null,
+  candidates: [],
 }
 
 export default Candidates
