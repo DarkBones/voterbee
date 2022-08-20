@@ -17,6 +17,7 @@ function Candidate({
   onAddCandidate,
   onDeleteCandidate,
   inputRef,
+  userCandidateAllowance,
 }) {
   const { t, i18n } = useTranslation()
   const tPathBase = [
@@ -54,7 +55,7 @@ function Candidate({
     <Button
       variant="icon-text"
       onClick={() => onDeleteCandidate(candidate.id)}
-      isDisabled={candidateCount < 3}
+      isDisabled={candidateCount < 3 && userCandidateAllowance === 0}
       tabIndex={-1}
     >
       <BiTrash size={20} />
@@ -83,13 +84,14 @@ function Candidates({
   suggestionIndex,
   onChange,
   focusOnLastCandidate,
+  userCandidateAllowance,
 }) {
   const generateCandidateId = (cs) => generateUniqueId(map(cs, 'id'), 8)
   const lastCandidateRef = useRef(null)
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (candidates.length <= 2) {
+    if (candidates.length < 2 && userCandidateAllowance === 0) {
       const initialCandidates = candidates
       for (let i = candidates.length; i < 3; i += 1) {
         initialCandidates.push({
@@ -99,7 +101,7 @@ function Candidates({
       }
       onChange('candidates', initialCandidates)
     }
-  }, [candidates, onChange])
+  }, [candidates, onChange, userCandidateAllowance])
 
   useEffect(() => {
     if (lastCandidateRef.current && focusOnLastCandidate) {
@@ -123,8 +125,6 @@ function Candidates({
   }
 
   const handleDeleteCandidate = (id, focusOnLast = false) => {
-    if (candidates.length < 3) return
-
     const newCandidates = cloneDeep(candidates)
     newCandidates.splice(findIndex(candidates, (c) => c.id === id), 1)
     onChange('candidates', newCandidates, focusOnLast)
@@ -143,6 +143,7 @@ function Candidates({
           onAddCandidate={handleAddCandidate}
           onDeleteCandidate={handleDeleteCandidate}
           inputRef={index === candidates.length - 1 ? lastCandidateRef : null}
+          userCandidateAllowance={userCandidateAllowance}
         />
       ))}
       <Button
@@ -169,6 +170,7 @@ Candidate.propTypes = {
   onAddCandidate: PropTypes.func.isRequired,
   onDeleteCandidate: PropTypes.func.isRequired,
   inputRef: PropTypes.PropTypes.shape({}),
+  userCandidateAllowance: PropTypes.number.isRequired,
 }
 
 Candidate.defaultProps = {
@@ -180,6 +182,7 @@ Candidates.propTypes = {
   suggestionIndex: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   focusOnLastCandidate: PropTypes.bool.isRequired,
+  userCandidateAllowance: PropTypes.number.isRequired,
 }
 
 export default Candidates

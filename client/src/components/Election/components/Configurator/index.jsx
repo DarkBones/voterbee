@@ -96,6 +96,7 @@ function Configurator({ election }) {
           suggestionIndex={suggestionIndex}
           onChange={handleChange}
           focusOnLastCandidate={focusOnLastCandidate}
+          userCandidateAllowance={election.userCandidateAllowance}
         />
         <Spacer />
         <AdvancedOptions
