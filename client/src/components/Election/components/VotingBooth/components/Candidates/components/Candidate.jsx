@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
-import { Grid } from 'shared/components'
+import { BiTrash } from 'react-icons/bi'
+import { Grid, Button } from 'shared/components'
 import { Switch } from 'shared/components/forms'
 import style from './Candidate.module.scss'
 
@@ -8,10 +9,14 @@ function Candidate({
   index,
   onDiscardCandidate,
   isDiscarded,
+  isCreator,
+  onDeleteCandidate,
 }) {
   const handleDiscardCandidate = ({ target: { checked } }) => {
     onDiscardCandidate(candidate.id, checked)
   }
+
+  const userCanDeleteCandidate = isCreator
 
   const candidateContainerClass = isDiscarded
     ? style.candidate_container_discarded
@@ -19,6 +24,19 @@ function Candidate({
 
   return (
     <div className={candidateContainerClass}>
+      {userCanDeleteCandidate && (
+        <div className={style.delete_candidate_button_container}>
+          <div className={style.delete_candidate_button}>
+            <Button
+              variant="icon-text"
+              tabIndex={-1}
+              onClick={() => onDeleteCandidate(candidate.id)}
+            >
+              <BiTrash size={20} />
+            </Button>
+          </div>
+        </div>
+      )}
       <div className={style.candidate}>
         <Grid container className={style.grid_container}>
           <Grid className={style.index_box} alignItems="center">
@@ -49,6 +67,8 @@ Candidate.propTypes = {
   index: PropTypes.number.isRequired,
   onDiscardCandidate: PropTypes.func.isRequired,
   isDiscarded: PropTypes.bool.isRequired,
+  isCreator: PropTypes.bool.isRequired,
+  onDeleteCandidate: PropTypes.func.isRequired,
 }
 
 export default Candidate

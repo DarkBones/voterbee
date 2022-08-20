@@ -6,6 +6,7 @@ import {
   set,
   findIndex,
   find,
+  map,
 } from 'lodash'
 import {
   DragDropContext,
@@ -18,6 +19,8 @@ function CandidatesList({
   candidates,
   onChangeVote,
   vote: voteProps,
+  isCreator,
+  onDeleteCandidate,
 }) {
   const [vote, setVote] = useState([])
 
@@ -53,7 +56,7 @@ function CandidatesList({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {vote.filter((v) => !v.isDiscarded).map(({ candidate: candidateId }, index) => (
+              {vote.filter((v) => !v.isDiscarded && map(candidates, 'id').includes(v.candidate)).map(({ candidate: candidateId }, index) => (
                 <Draggable
                   draggableId={candidateId}
                   index={index}
@@ -71,6 +74,8 @@ function CandidatesList({
                         key={candidateId}
                         onDiscardCandidate={handleDiscardCandidate}
                         isDiscarded={false}
+                        isCreator={isCreator}
+                        onDeleteCandidate={onDeleteCandidate}
                       />
                     </div>
                   )}
@@ -81,13 +86,15 @@ function CandidatesList({
           )}
         </Droppable>
       </DragDropContext>
-      {vote.filter((v) => v.isDiscarded).map(({ candidate: candidateId }) => (
+      {vote.filter((v) => v.isDiscarded && map(candidates, 'id').includes(v.candidate)).map(({ candidate: candidateId }) => (
         <Candidate
           candidate={find(candidates, (c) => c.id === candidateId)}
           index={-1}
           key={candidateId}
           onDiscardCandidate={handleDiscardCandidate}
           isDiscarded
+          isCreator={isCreator}
+          onDeleteCandidate={onDeleteCandidate}
         />
       ))}
     </>
@@ -108,6 +115,8 @@ CandidatesList.propTypes = {
       candidate: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  isCreator: PropTypes.bool.isRequired,
+  onDeleteCandidate: PropTypes.func.isRequired,
 }
 
 export default CandidatesList

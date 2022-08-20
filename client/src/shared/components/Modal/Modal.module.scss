@@ -1,0 +1,21 @@
+@use '../../../sass/colors.scss';
+@use '../../../sass/effects.scss';
+
+.modal_container {
+  background-color: colors.$paper;
+  border-radius: effects.$border-radius;
+  outline: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 20px;
+}
+
+.modal_footer {
+  position: absolute;
+  width: calc(100% - 40px);
+  bottom: 20px;
+}

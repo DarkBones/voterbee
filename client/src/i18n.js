@@ -93,6 +93,13 @@ const translations = {
           generic: 'Something went wrong. Please try again later.',
         },
         counting: 'Counting the votes...',
+        deletemodal: {
+          title: 'Are you sure?',
+          warning: 'Deleting candidate \'{{ candidate }}\' will make it unavaiable for everyone.',
+          cancel: 'Cancel',
+          confirm: 'Delete Candidate',
+          dont_ask_again: 'Don\'t ask me again',
+        },
       },
       results: {
         winner: 'We have a winner!',
@@ -197,6 +204,13 @@ const translations = {
           generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
         },
         counting: 'Comptage des votes en cours....',
+        deletemodal: {
+          title: 'Êtes-vous sûr?',
+          warning: 'La suppression du candidat \'{{ candidate }}\' le rendra indisponible pour tout le monde.',
+          cancel: 'Annuler',
+          confirm: 'Supprimer le candidat',
+          dont_ask_again: 'Ne me demande plus',
+        },
       },
       results: {
         winner: 'Nous avons un gagnant!',
@@ -301,6 +315,13 @@ const translations = {
           generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
         },
         counting: 'Stemmen aan het tellen...',
+        deletemodal: {
+          title: 'Weet u het zeker?',
+          warning: 'Door kandidaat \'{{ candidate }}\' te verwijderen, is deze voor iedereen niet meer beschikbaar.',
+          cancel: 'Annuleren',
+          confirm: 'Verwijder Kandidaat',
+          dont_ask_again: 'Vraag het me niet meer',
+        },
       },
       results: {
         winner: 'We hebben een winner!',

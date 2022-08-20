@@ -15,8 +15,17 @@ import {
   Snackbar,
   Spinner,
   Spacer,
+  Modal,
+  Button,
 } from 'shared/components'
+import { Switch } from 'shared/components/forms'
 import { randomArray, post } from 'shared/utils'
+import {
+  find,
+  get,
+  cloneDeep,
+  findIndex,
+} from 'lodash'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
 import Candidates from './components/Candidates'
@@ -29,6 +38,9 @@ function VotingBooth({
   const [vote, setVote] = useState([])
   const [clickedCountVotes, setClickedCountVotes] = useState(election.isFinished)
   const [countErrorMessageOpen, setCountErrorMessageOpen] = useState(false)
+  const [candidateToBeDeleted, setCandidateToBeDeleted] = useState(null)
+  const [candidateDeleteWarningModalOpen, setCandidateDeleteWarningModalOpen] = useState(false)
+  const [dontAskDeletionConfirmation, setDontAskDeletionConfirmation] = useState(false)
   const db = useContext(DbContext)
   const secret = useContext(SecretContext)
   const users = []
@@ -101,6 +113,39 @@ function VotingBooth({
       })
   }
 
+  const deleteCandidate = (candidateId) => {
+    localStorage.setItem('dont_ask_deletion_confirmation', dontAskDeletionConfirmation)
+
+    const deleteId = candidateId || candidateToBeDeleted
+
+    const idx = findIndex(
+      get(election, 'candidates', []),
+      (c) => c.id === deleteId,
+    )
+    if (idx < 0) return
+
+    const newCandidates = cloneDeep(election.candidates)
+    newCandidates.splice(idx, 1)
+    update(ref(db, `elections/${election.fullId}`), {
+      candidates: newCandidates,
+    })
+    setCandidateDeleteWarningModalOpen(false)
+    setCandidateToBeDeleted(null)
+  }
+
+  const handleDeleteCandidate = (candidateId) => {
+    if (localStorage.getItem('dont_ask_deletion_confirmation') === 'true') {
+      deleteCandidate(candidateId)
+      return
+    }
+    setCandidateToBeDeleted(candidateId)
+    setCandidateDeleteWarningModalOpen(true)
+  }
+
+  const handleSetDontAskDeletionConfirmation = ({ target: { checked } }) => {
+    setDontAskDeletionConfirmation(checked)
+  }
+
   const candidatesContent = election.isFinished
     ? (
       <Panel>
@@ -112,15 +157,57 @@ function VotingBooth({
     : (
       <Candidates
         candidates={election.candidates}
+        isCreator={election.creator === user.id}
         onChangeVote={handleChangeVote}
         vote={vote}
         onCastVote={handleCastVote}
         hasVoted={user.hasVoted}
+        onDeleteCandidate={handleDeleteCandidate}
       />
     )
 
   return (
     <>
+      <Modal
+        isOpen={candidateDeleteWarningModalOpen}
+        title={t('elections.session.deletemodal.title')}
+        onClose={() => setCandidateDeleteWarningModalOpen(false)}
+        footer={(
+          <Grid container>
+            <Grid xs="auto">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setCandidateDeleteWarningModalOpen(false)
+                  setCandidateToBeDeleted(null)
+                }}
+              >
+                {t('elections.session.deletemodal.cancel')}
+              </Button>
+            </Grid>
+            <Grid xs />
+            <Grid xs="auto">
+              <Button
+                onClick={() => deleteCandidate()}
+              >
+                {t('elections.session.deletemodal.confirm')}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+      >
+        {t('elections.session.deletemodal.warning', {
+          candidate: get(find(election.candidates, (c) => c.id === candidateToBeDeleted), 'name'),
+        })}
+        <Spacer />
+        <div>
+          <Switch
+            checked={dontAskDeletionConfirmation}
+            onChange={handleSetDontAskDeletionConfirmation}
+            label={t('elections.session.deletemodal.dont_ask_again')}
+          />
+        </div>
+      </Modal>
       <Snackbar
         severity="error"
         isOpen={countErrorMessageOpen}
