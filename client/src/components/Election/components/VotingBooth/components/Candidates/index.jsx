@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import { get } from 'lodash'
 import { Panel, Button, Spacer } from 'shared/components'
 import CandidatesList from './components/CandidatesList'
 
@@ -30,6 +31,7 @@ function Candidates({
       <Button
         onClick={onCastVote}
         errors={hasVoted ? [t('elections.session.candidates.already_voted')] : []}
+        isDisabled={get(candidates, 'length', 0) === 0}
       >
         {t('elections.session.candidates.cast_vote')}
       </Button>

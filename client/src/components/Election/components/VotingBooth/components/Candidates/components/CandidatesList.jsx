@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {
   cloneDeep,
   set,
+  get,
   findIndex,
   find,
   map,
@@ -27,6 +28,13 @@ function CandidatesList({
   useEffect(() => {
     setVote(voteProps)
   }, [voteProps])
+
+  useEffect(() => {
+    if (vote.length > 0 && vote.length !== get(candidates, 'length', 0)) {
+      const newVote = vote.filter((v) => map(candidates, 'id').includes(v.candidate))
+      onChangeVote(newVote)
+    }
+  }, [candidates, onChangeVote, vote])
 
   const handleDragEnd = (result) => {
     if (!result.destination) return
