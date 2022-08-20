@@ -19,6 +19,7 @@ const newElection = async (user) => {
             created_date: Date.now(),
             isConfigured: false,
             isFinished: false,
+            userCandidateAllowance: 0,
           })
           return await Promise.resolve(id)
         } catch (err) {
