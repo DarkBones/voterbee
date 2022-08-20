@@ -50,8 +50,7 @@ function Results({
           >
             {winners.map((winner) => (
               <Grid
-                xs={12}
-                sm={6}
+                xs={12 / winners.length}
                 key={winner.name.id}
               >
                 <div className={style.winner}>
@@ -66,7 +65,7 @@ function Results({
       )}
       {isCreator && (
         <>
-          <Spacer />
+          <Spacer size={4} />
           <Button
             onClick={handleReopenElection}
           >
