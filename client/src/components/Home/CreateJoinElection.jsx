@@ -26,7 +26,14 @@ function CreateElection() {
     setIsCreating(true)
 
     post('elections/create', { user })
-      .then(({ election_id: id }) => navigate(`/${id}`))
+      .then(({ election_id: id, status }) => {
+        if (status === 200) {
+          navigate(`/${id}`)
+        } else {
+          setIsErrorOpen(true)
+          setIsCreating(false)
+        }
+      })
       .catch(() => {
         setIsErrorOpen(true)
         setIsCreating(false)

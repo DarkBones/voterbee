@@ -16,6 +16,8 @@ app.use(express.static(path.resolve(__dirname, '../client/build')))
 
 const baseUrl = '/api/v1'
 
+require('dotenv').config({ path: './.env.dev.local' })
+
 app.get(`${baseUrl}/users/new_id`, (_req, res) => {
   newUserId()
     .then(({ id, secret }) => res.json(resSuccess({ user_id: id, secret })))
@@ -66,7 +68,7 @@ app.post(`${baseUrl}/users/secret_check`, (req, res) => {
 })
 
 app.get('/api', (_req, res) => {
-  res.json({ message: 'YAY!!!!' })
+  res.json(resSuccess({ message: 'API running', env: process.env.NODE_ENV }))
 })
 
 app.get('*', (_req, res) => {
@@ -75,7 +77,7 @@ app.get('*', (_req, res) => {
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log('Server listening on PORT', PORT)
+  console.log(`Server running on PORT ${PORT}, env: ${process.env.NODE_ENV}`)
 })
 
 exports.app = functions.https.onRequest(app)

@@ -62,5 +62,5 @@
     "lint": "^0.7.0",
     "lodash": "^4.17.21"
   },
-  "proxy": "https://us-central1-voterbee-staging.cloudfunctions.net/app"
+  "proxy": "http://localhost:3001"
 }
