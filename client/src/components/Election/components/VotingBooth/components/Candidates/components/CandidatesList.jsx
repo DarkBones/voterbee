@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
