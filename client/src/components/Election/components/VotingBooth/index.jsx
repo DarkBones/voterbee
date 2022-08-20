@@ -101,7 +101,7 @@ function VotingBooth({
       })
   }
 
-  const candidatesContent = clickedCountVotes
+  const candidatesContent = election.isFinished
     ? (
       <Panel>
         <Spinner />
