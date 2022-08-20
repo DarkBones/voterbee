@@ -44,7 +44,7 @@ Candidates.propTypes = {
   vote: PropTypes.arrayOf(
     PropTypes.shape({
       isDiscarded: PropTypes.bool.isRequired,
-      candidate: PropTypes.number.isRequired,
+      candidate: PropTypes.string.isRequired,
     }).isRequired,
   ),
   onCastVote: PropTypes.func.isRequired,

@@ -1,4 +1,4 @@
-const { pick, map, cloneDeep } = require('lodash')
+const { pick, map, cloneDeep, findIndex } = require('lodash')
 const { db } = require('./firebase')
 
 const countVotes = (candidates, votesInitial, resultsInitial = null, round = 0) => {
@@ -19,6 +19,7 @@ const countVotes = (candidates, votesInitial, resultsInitial = null, round = 0) 
 
     results = {}
     results[round] = candidates.map((c, index) => ({
+      id: c.id,
       index,
       name: c,
       votes: 0,
@@ -33,7 +34,7 @@ const countVotes = (candidates, votesInitial, resultsInitial = null, round = 0) 
   // get all first choices
   votes.forEach((vote, index) => {
     if (vote.length > 0) {
-      results[round][vote[0]].votes += 1
+      results[round][findIndex(candidates, (c) => c.id === vote[0])].votes += 1
     } else {
       // if voter is out of votes, remove them
       votes.splice(index, 1)

@@ -49,7 +49,7 @@ function VotingBooth({
           newVote = []
           randomArray(election.candidates.length).forEach((c) => {
             newVote.push({
-              candidate: c,
+              candidate: election.candidates[c].id,
               isDiscarded: false,
             })
           })
@@ -64,13 +64,13 @@ function VotingBooth({
     setVote(newVote)
     set(ref(db, `votes/${election.fullId}/${user.fullId}`), newVote)
     update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
-      hasVoted: !user.hasVoted,
+      hasVoted: false,
     })
   }
 
   const handleCastVote = () => {
     update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
-      hasVoted: !user.hasVoted,
+      hasVoted: true,
     })
   }
 

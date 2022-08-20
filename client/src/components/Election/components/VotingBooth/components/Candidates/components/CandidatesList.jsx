@@ -6,6 +6,7 @@ import {
   cloneDeep,
   set,
   findIndex,
+  find,
 } from 'lodash'
 import {
   DragDropContext,
@@ -38,9 +39,8 @@ function CandidatesList({
 
   const handleDiscardCandidate = (candidateId, checked) => {
     const newVote = cloneDeep(vote)
-    const candidateIndex = findIndex(candidates, (c) => c.id === candidateId)
-    const voteIndex = findIndex(vote, (v) => v.candidate === candidateIndex)
-
+    const voteIndex = findIndex(vote, (v) => v.candidate === candidateId)
+    console.log(voteIndex)
     set(newVote, `[${voteIndex}].isDiscarded`, !checked)
     setVote(newVote)
     onChangeVote(newVote)
@@ -55,11 +55,11 @@ function CandidatesList({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {vote.filter((v) => !v.isDiscarded).map(({ candidate: candidateIndex }, index) => (
+              {vote.filter((v) => !v.isDiscarded).map(({ candidate: candidateId }, index) => (
                 <Draggable
-                  draggableId={candidates[candidateIndex].id}
+                  draggableId={candidateId}
                   index={index}
-                  key={candidates[candidateIndex].id}
+                  key={candidateId}
                 >
                   {(providedDrag) => (
                     <div
@@ -68,9 +68,9 @@ function CandidatesList({
                       {...providedDrag.dragHandleProps}
                     >
                       <Candidate
-                        candidate={candidates[candidateIndex]}
+                        candidate={find(candidates, (c) => c.id === candidateId)}
                         index={index}
-                        key={candidates[candidateIndex].id}
+                        key={candidateId}
                         onDiscardCandidate={handleDiscardCandidate}
                         isDiscarded={false}
                       />
@@ -83,11 +83,11 @@ function CandidatesList({
           )}
         </Droppable>
       </DragDropContext>
-      {vote.filter((v) => v.isDiscarded).map(({ candidate: candidateIndex }) => (
+      {vote.filter((v) => v.isDiscarded).map(({ candidate: candidateId }) => (
         <Candidate
-          candidate={candidates[candidateIndex]}
+          candidate={find(candidates, (c) => c.id === candidateId)}
           index={-1}
-          key={candidates[candidateIndex].id}
+          key={candidateId}
           onDiscardCandidate={handleDiscardCandidate}
           isDiscarded
         />
@@ -107,7 +107,7 @@ CandidatesList.propTypes = {
   vote: PropTypes.arrayOf(
     PropTypes.shape({
       isDiscarded: PropTypes.bool.isRequired,
-      candidate: PropTypes.number.isRequired,
+      candidate: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
 }
