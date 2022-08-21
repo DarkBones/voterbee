@@ -87,13 +87,6 @@ function Election() {
   const handleTieBreakerVote = (candidateId, isRandom) => {
     if (election.creator !== fbUser.id || !election.outcome) return
 
-    // const newOutcomeRound = cloneDeep(election.outcome[election.outcome.length - 1])
-    // const candidatePath = `[${findIndex(newOutcomeRound, (no) => no.id === candidateId)}].votes`
-    // _set(newOutcomeRound, candidatePath, _get(newOutcomeRound, candidatePath) + 1)
-
-    // const newOutcome = cloneDeep(election.outcome)
-    // newOutcome.push(newOutcomeRound)
-
     update(ref(db, `elections/${election.fullId}`), {
       tiebreaker: {
         random: isRandom,
