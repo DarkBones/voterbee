@@ -45,7 +45,6 @@ function Results({
     if (!tieBreaker) {
       setFinalWinners(ws)
     } else {
-      console.log(find(outcome[outcome.length - 1], (o) => o.id === tieBreaker.picked))
       setFinalWinners([find(outcome[outcome.length - 1], (o) => o.id === tieBreaker.picked)])
     }
   }, [outcome, tieBreaker])
