@@ -128,9 +128,11 @@ function VotingBooth({
   }
 
   const userCanDeleteCandidate = (candidateId) => {
+    if (get(election, 'candidates.length', 0) <= 1) return false
+
     if (
       user.id === election.creator
-      || user.id === get(find(
+      || addCandidateId === get(find(
         get(election, 'candidates', []),
         (c) => c.id === candidateId,
       ), 'addedBy')
@@ -146,7 +148,8 @@ function VotingBooth({
 
     const deleteId = candidateId || candidateToBeDeleted
 
-    if (!userCanDeleteCandidate()) {
+    if (!userCanDeleteCandidate(deleteId)) {
+      window.alert('NO')
       return
     }
 

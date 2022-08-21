@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import {
   cloneDeep,
@@ -14,6 +14,7 @@ import {
   Droppable,
   Draggable,
 } from 'react-beautiful-dnd'
+import { UserAddCandidateContext } from 'contexts'
 import Candidate from './Candidate'
 
 function CandidatesList({
@@ -24,17 +25,31 @@ function CandidatesList({
   userCanDeleteCandidate,
 }) {
   const [vote, setVote] = useState([])
+  const addCandidateId = useContext(UserAddCandidateContext)
 
   useEffect(() => {
     setVote(voteProps)
   }, [voteProps])
 
   useEffect(() => {
-    if (vote.length > 0 && vote.length !== get(candidates, 'length', 0)) {
-      const newVote = vote.filter((v) => map(candidates, 'id').includes(v.candidate))
+    if (vote.length !== get(candidates, 'length', 0)) {
+      let newVote = vote.filter((v) => map(candidates, 'id').includes(v.candidate))
+
+      if (newVote.length < get(candidates, 'length', 0)) {
+        const missingCandidates = candidates.filter((c) => !map(newVote, 'candidate').includes(c.id))
+        missingCandidates.forEach((mc) => {
+          const newCandidate = { candidate: mc.id, isDiscarded: false }
+          if (mc.addedBy === addCandidateId) {
+            newVote = [newCandidate, ...newVote]
+          } else {
+            newVote.push(newCandidate)
+          }
+        })
+      }
+
       onChangeVote(newVote)
     }
-  }, [candidates, onChangeVote, vote])
+  }, [addCandidateId, candidates, onChangeVote, vote])
 
   const handleDragEnd = (result) => {
     if (!result.destination) return

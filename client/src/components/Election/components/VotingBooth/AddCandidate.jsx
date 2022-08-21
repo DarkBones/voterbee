@@ -6,7 +6,7 @@ import {
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { FiSend } from 'react-icons/fi'
-import { find, get } from 'lodash'
+import { get } from 'lodash'
 import {
   UserContext,
   UserAddCandidateContext,
@@ -35,7 +35,8 @@ function AddCandidate({
       setUserCandidateAllowance(-1)
     } else {
       const createdByUser = get(
-        find(candidates, (c) => c.added_by === userAddCandidateId),
+        // find(candidates, (c) => c.added_by === userAddCandidateId),
+        candidates.filter((c) => c.addedBy === userAddCandidateId),
         'length',
         0,
       )
@@ -95,8 +96,12 @@ AddCandidate.propTypes = {
       name: PropTypes.string.isRequired,
       addedBy: PropTypes.string.isRequired,
     }),
-  ).isRequired,
+  ),
   onAddCandidate: PropTypes.func.isRequired,
+}
+
+AddCandidate.defaultProps = {
+  candidates: [],
 }
 
 export default AddCandidate

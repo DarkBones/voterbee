@@ -22,7 +22,7 @@ function Candidate({
 
   return (
     <div className={candidateContainerClass}>
-      {userCanDeleteCandidate() && (
+      {userCanDeleteCandidate(candidate.id) && (
         <div className={style.delete_candidate_button_container}>
           <div className={style.delete_candidate_button}>
             <Button
