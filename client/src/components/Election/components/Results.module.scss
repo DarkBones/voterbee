@@ -17,3 +17,21 @@
     }
   }
 }
+
+.list {
+  list-style-type: none;
+  padding: 0;
+
+  li {
+    padding: 0.5em 0;
+  }
+}
+
+.title,
+.list {
+  text-align: left;
+}
+
+.crown {
+  color: colors.$primary;
+}

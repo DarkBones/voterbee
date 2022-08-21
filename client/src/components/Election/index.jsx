@@ -17,6 +17,7 @@ import {
   get as _get,
   map,
   findIndex,
+  filter,
 } from 'lodash'
 import ElectionLoading from './components/ElectionLoading'
 import Configurator from './components/Configurator'
@@ -106,10 +107,13 @@ function Election() {
         content = (
           <Results
             outcome={election.outcome}
-            isCreator={election.creator === fbUser.id}
+            creator={election.creator}
+            user={fbUser}
             electionId={election.fullId}
             onTieBreakerVote={handleTieBreakerVote}
             tieBreaker={election.tiebreaker}
+            voters={filter(map(election.users), (u) => u.hasVoted)}
+            candidates={election.candidates}
           />
         )
       } else {
