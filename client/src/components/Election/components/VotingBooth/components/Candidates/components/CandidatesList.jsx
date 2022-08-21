@@ -15,6 +15,7 @@ import {
   Draggable,
 } from 'react-beautiful-dnd'
 import { UserAddCandidateContext } from 'contexts'
+import { Spacer } from 'shared/components'
 import Candidate from './Candidate'
 
 function CandidatesList({
@@ -74,6 +75,7 @@ function CandidatesList({
 
   return (
     <>
+      <Spacer />
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
