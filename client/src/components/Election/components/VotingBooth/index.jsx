@@ -149,7 +149,6 @@ function VotingBooth({
     const deleteId = candidateId || candidateToBeDeleted
 
     if (!userCanDeleteCandidate(deleteId)) {
-      window.alert('NO')
       return
     }
 
