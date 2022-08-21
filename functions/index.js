@@ -90,6 +90,7 @@ app.get('*', (_req, res) => {
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Server running on PORT ${PORT}, env: ${process.env.NODE_ENV}`)
+  console.log('REACT_APP_FIREBASE_PRODUCT_ID', process.env.REACT_APP_FIREBASE_PRODUCT_ID)
 })
 
 exports.app = functions.https.onRequest(app)
