@@ -53,7 +53,7 @@ function VotingBooth({
   const [duplicateCandidateMessage, setDuplicateCandidateMessage] = useState('')
   const [candidateToBeDeleted, setCandidateToBeDeleted] = useState(null)
   const [candidateDeleteWarningModalOpen, setCandidateDeleteWarningModalOpen] = useState(false)
-  const [dontAskDeletionConfirmation, setDontAskDeletionConfirmation] = useState(false)
+  const [dontAskDeletionConfirmation, setDontAskDeletionConfirmation] = useState(localStorage.getItem('dont_ask_deletion_confirmation') === 'true')
   const db = useContext(DbContext)
   const secret = useContext(SecretContext)
   const addCandidateId = useContext(UserAddCandidateContext)
@@ -86,12 +86,14 @@ function VotingBooth({
     )
   }, [db, election, user])
 
-  const handleChangeVote = (newVote) => {
+  const handleChangeVote = (newVote, updateHasVoted = true) => {
     setVote(newVote)
     set(ref(db, `votes/${election.fullId}/${user.fullId}`), newVote)
-    update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
-      hasVoted: false,
-    })
+    if (updateHasVoted) {
+      update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
+        hasVoted: false,
+      })
+    }
   }
 
   const handleCastVote = () => {

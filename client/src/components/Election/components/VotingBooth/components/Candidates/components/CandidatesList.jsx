@@ -34,6 +34,7 @@ function CandidatesList({
   useEffect(() => {
     if (vote.length !== get(candidates, 'length', 0)) {
       let newVote = vote.filter((v) => map(candidates, 'id').includes(v.candidate))
+      let updateHasVoted = false
 
       if (newVote.length < get(candidates, 'length', 0)) {
         const missingCandidates = candidates.filter((c) => !map(newVote, 'candidate').includes(c.id))
@@ -41,13 +42,14 @@ function CandidatesList({
           const newCandidate = { candidate: mc.id, isDiscarded: false }
           if (mc.addedBy === addCandidateId) {
             newVote = [newCandidate, ...newVote]
+            updateHasVoted = true
           } else {
-            newVote.push(newCandidate)
+            newVote.push({ ...newCandidate, isDiscarded: true })
           }
         })
       }
 
-      onChangeVote(newVote)
+      onChangeVote(newVote, updateHasVoted)
     }
   }, [addCandidateId, candidates, onChangeVote, vote])
 
@@ -117,6 +119,7 @@ function CandidatesList({
           onDiscardCandidate={handleDiscardCandidate}
           isDiscarded
           onDeleteCandidate={onDeleteCandidate}
+          userCanDeleteCandidate={userCanDeleteCandidate}
         />
       ))}
     </>
