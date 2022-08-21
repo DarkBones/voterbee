@@ -9,14 +9,12 @@ function Candidate({
   index,
   onDiscardCandidate,
   isDiscarded,
-  isCreator,
   onDeleteCandidate,
+  userCanDeleteCandidate,
 }) {
   const handleDiscardCandidate = ({ target: { checked } }) => {
     onDiscardCandidate(candidate.id, checked)
   }
-
-  const userCanDeleteCandidate = isCreator
 
   const candidateContainerClass = isDiscarded
     ? style.candidate_container_discarded
@@ -24,7 +22,7 @@ function Candidate({
 
   return (
     <div className={candidateContainerClass}>
-      {userCanDeleteCandidate && (
+      {userCanDeleteCandidate() && (
         <div className={style.delete_candidate_button_container}>
           <div className={style.delete_candidate_button}>
             <Button
@@ -67,8 +65,8 @@ Candidate.propTypes = {
   index: PropTypes.number.isRequired,
   onDiscardCandidate: PropTypes.func.isRequired,
   isDiscarded: PropTypes.bool.isRequired,
-  isCreator: PropTypes.bool.isRequired,
   onDeleteCandidate: PropTypes.func.isRequired,
+  userCanDeleteCandidate: PropTypes.func.isRequired,
 }
 
 export default Candidate

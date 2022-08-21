@@ -5,6 +5,7 @@ import {
   UserContext,
   DbContext,
   SecretContext,
+  UserAddCandidateContext,
 } from 'contexts'
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
@@ -69,6 +70,7 @@ function Wrapper({ children }) {
           if (status === 200) {
             setUser(id)
             setSecret(userSecret)
+            setAddCandidateId(userAddCandidateId)
             return
           }
 
@@ -84,7 +86,9 @@ function Wrapper({ children }) {
     <DbContext.Provider value={db}>
       <UserContext.Provider value={user}>
         <SecretContext.Provider value={secret}>
-          {children}
+          <UserAddCandidateContext.Provider value={addCandidateId}>
+            {children}
+          </UserAddCandidateContext.Provider>
         </SecretContext.Provider>
       </UserContext.Provider>
     </DbContext.Provider>

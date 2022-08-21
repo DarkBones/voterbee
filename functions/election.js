@@ -20,6 +20,7 @@ const newElection = async (user) => {
             isConfigured: false,
             isFinished: false,
             userCandidateAllowance: 0,
+            candidateNameSimilarityAllowed: 0,
           })
           return await Promise.resolve(id)
         } catch (err) {

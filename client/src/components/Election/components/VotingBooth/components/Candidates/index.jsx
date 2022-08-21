@@ -6,12 +6,12 @@ import CandidatesList from './components/CandidatesList'
 
 function Candidates({
   candidates,
-  isCreator,
   onChangeVote,
   vote,
   onCastVote,
   hasVoted,
   onDeleteCandidate,
+  userCanDeleteCandidate,
 }) {
   const { t } = useTranslation()
 
@@ -24,8 +24,8 @@ function Candidates({
         candidates={candidates}
         vote={vote}
         onChangeVote={onChangeVote}
-        isCreator={isCreator}
         onDeleteCandidate={onDeleteCandidate}
+        userCanDeleteCandidate={userCanDeleteCandidate}
       />
       <Spacer />
       <Button
@@ -46,7 +46,6 @@ Candidates.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   ),
-  isCreator: PropTypes.bool.isRequired,
   onChangeVote: PropTypes.func.isRequired,
   vote: PropTypes.arrayOf(
     PropTypes.shape({
@@ -57,6 +56,7 @@ Candidates.propTypes = {
   onCastVote: PropTypes.func.isRequired,
   hasVoted: PropTypes.bool.isRequired,
   onDeleteCandidate: PropTypes.func.isRequired,
+  userCanDeleteCandidate: PropTypes.func.isRequired,
 }
 
 Candidates.defaultProps = {

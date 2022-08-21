@@ -1,12 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { map, findIndex, cloneDeep } from 'lodash'
+import { findIndex, cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { GoDiffAdded } from 'react-icons/go'
 import { BiTrash } from 'react-icons/bi'
+import { UserAddCandidateContext } from 'contexts'
 import { Spacer, Button } from 'shared/components'
 import { TextField } from 'shared/components/forms'
-import { generateUniqueId } from 'shared/utils'
+import { generateCandidateId } from 'shared/utils'
 
 function Candidate({
   candidate,
@@ -86,8 +87,8 @@ function Candidates({
   focusOnLastCandidate,
   userCandidateAllowance,
 }) {
-  const generateCandidateId = (cs) => generateUniqueId(map(cs, 'id'), 8)
   const lastCandidateRef = useRef(null)
+  const userAddCandidateId = useContext(UserAddCandidateContext)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -97,11 +98,12 @@ function Candidates({
         initialCandidates.push({
           name: '',
           id: generateCandidateId(initialCandidates),
+          addedBy: userAddCandidateId,
         })
       }
       onChange('candidates', initialCandidates)
     }
-  }, [candidates, onChange, userCandidateAllowance])
+  }, [candidates, onChange, userCandidateAllowance, userAddCandidateId])
 
   useEffect(() => {
     if (lastCandidateRef.current && focusOnLastCandidate) {
@@ -120,6 +122,7 @@ function Candidates({
     newCandidates.push({
       name: '',
       id: generateCandidateId(candidates),
+      addedBy: userAddCandidateId,
     })
     onChange('candidates', newCandidates, true)
   }

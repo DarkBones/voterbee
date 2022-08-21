@@ -8,7 +8,11 @@ import {
   set,
   update,
 } from 'firebase/database'
-import { DbContext, SecretContext } from 'contexts'
+import {
+  DbContext,
+  SecretContext,
+  UserAddCandidateContext,
+} from 'contexts'
 import {
   Panel,
   Grid,
@@ -19,12 +23,18 @@ import {
   Button,
 } from 'shared/components'
 import { Switch } from 'shared/components/forms'
-import { randomArray, post } from 'shared/utils'
+import {
+  randomArray,
+  post,
+  levenshteinDistance,
+  generateCandidateId,
+} from 'shared/utils'
 import {
   find,
   get,
   cloneDeep,
   findIndex,
+  map,
 } from 'lodash'
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
@@ -39,11 +49,14 @@ function VotingBooth({
   const [vote, setVote] = useState([])
   const [clickedCountVotes, setClickedCountVotes] = useState(election.isFinished)
   const [countErrorMessageOpen, setCountErrorMessageOpen] = useState(false)
+  const [duplicateCandidateMessageOpen, setDuplicateCandidateMessageOpen] = useState(false)
+  const [duplicateCandidateMessage, setDuplicateCandidateMessage] = useState('')
   const [candidateToBeDeleted, setCandidateToBeDeleted] = useState(null)
   const [candidateDeleteWarningModalOpen, setCandidateDeleteWarningModalOpen] = useState(false)
   const [dontAskDeletionConfirmation, setDontAskDeletionConfirmation] = useState(false)
   const db = useContext(DbContext)
   const secret = useContext(SecretContext)
+  const addCandidateId = useContext(UserAddCandidateContext)
   const users = []
   Object.keys(election.users).forEach((key) => {
     const u = election.users[key]
@@ -114,10 +127,28 @@ function VotingBooth({
       })
   }
 
+  const userCanDeleteCandidate = (candidateId) => {
+    if (
+      user.id === election.creator
+      || user.id === get(find(
+        get(election, 'candidates', []),
+        (c) => c.id === candidateId,
+      ), 'addedBy')
+    ) {
+      return true
+    }
+
+    return false
+  }
+
   const deleteCandidate = (candidateId) => {
     localStorage.setItem('dont_ask_deletion_confirmation', dontAskDeletionConfirmation)
 
     const deleteId = candidateId || candidateToBeDeleted
+
+    if (!userCanDeleteCandidate()) {
+      return
+    }
 
     const idx = findIndex(
       get(election, 'candidates', []),
@@ -147,6 +178,49 @@ function VotingBooth({
     setDontAskDeletionConfirmation(checked)
   }
 
+  const handleAddCandidate = (candidateName) => {
+    const similarityAllowed = get(election, 'candidateNameSimilarityAllowed', 0)
+    const candidateNames = map(
+      get(election, 'candidates', []),
+      'name',
+    )
+
+    for (let i = 0; i < candidateNames.length; i += 1) {
+      const distance = levenshteinDistance(
+        candidateNames[i].toLowerCase(),
+        candidateName.toLowerCase(),
+      )
+
+      if (distance <= similarityAllowed) {
+        let message = t(
+          'elections.session.errors.duplicate_candidate',
+          { name: candidateNames[i] },
+        )
+        if (distance > 0) {
+          message = t(
+            'elections.session.errors.similar_candidate',
+            {
+              newName: candidateName,
+              name: candidateNames[i],
+            },
+          )
+        }
+        setDuplicateCandidateMessage(message)
+        setDuplicateCandidateMessageOpen(true)
+        return
+      }
+    }
+
+    const newCandidates = cloneDeep(get(election, 'candidates', []))
+    newCandidates.push({
+      addedBy: addCandidateId,
+      name: candidateName,
+      id: generateCandidateId(election.candidates),
+    })
+
+    set(ref(db, `elections/${election.fullId}/candidates`), newCandidates)
+  }
+
   const candidatesContent = election.isFinished
     ? (
       <Panel>
@@ -158,12 +232,12 @@ function VotingBooth({
     : (
       <Candidates
         candidates={election.candidates}
-        isCreator={election.creator === user.id}
         onChangeVote={handleChangeVote}
         vote={vote}
         onCastVote={handleCastVote}
         hasVoted={user.hasVoted}
         onDeleteCandidate={handleDeleteCandidate}
+        userCanDeleteCandidate={userCanDeleteCandidate}
       />
     )
 
@@ -211,6 +285,16 @@ function VotingBooth({
       </Modal>
       <Snackbar
         severity="error"
+        isOpen={duplicateCandidateMessageOpen}
+        onClose={() => {
+          setDuplicateCandidateMessageOpen(false)
+          setDuplicateCandidateMessage('')
+        }}
+      >
+        {duplicateCandidateMessage}
+      </Snackbar>
+      <Snackbar
+        severity="error"
         isOpen={countErrorMessageOpen}
         onClose={() => setCountErrorMessageOpen(false)}
       >
@@ -235,7 +319,12 @@ function VotingBooth({
         </Grid>
         <Grid xs={12} sm={7} md={8}>
           {candidatesContent}
-          <AddCandidate />
+          <AddCandidate
+            creator={election.creator}
+            electionCandidateAllowance={election.userCandidateAllowance}
+            candidates={election.candidates}
+            onAddCandidate={handleAddCandidate}
+          />
         </Grid>
       </Grid>
     </>
@@ -255,6 +344,7 @@ VotingBooth.propTypes = {
     fullId: PropTypes.string.isRequired,
     users: PropTypes.shape({}).isRequired,
     isFinished: PropTypes.bool.isRequired,
+    userCandidateAllowance: PropTypes.number.isRequired,
   }).isRequired,
   user: PropTypes.shape({
     fullId: PropTypes.string.isRequired,

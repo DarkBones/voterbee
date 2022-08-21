@@ -20,8 +20,8 @@ function CandidatesList({
   candidates,
   onChangeVote,
   vote: voteProps,
-  isCreator,
   onDeleteCandidate,
+  userCanDeleteCandidate,
 }) {
   const [vote, setVote] = useState([])
 
@@ -82,8 +82,8 @@ function CandidatesList({
                         key={candidateId}
                         onDiscardCandidate={handleDiscardCandidate}
                         isDiscarded={false}
-                        isCreator={isCreator}
                         onDeleteCandidate={onDeleteCandidate}
+                        userCanDeleteCandidate={userCanDeleteCandidate}
                       />
                     </div>
                   )}
@@ -101,7 +101,6 @@ function CandidatesList({
           key={candidateId}
           onDiscardCandidate={handleDiscardCandidate}
           isDiscarded
-          isCreator={isCreator}
           onDeleteCandidate={onDeleteCandidate}
         />
       ))}
@@ -123,8 +122,8 @@ CandidatesList.propTypes = {
       candidate: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  isCreator: PropTypes.bool.isRequired,
   onDeleteCandidate: PropTypes.func.isRequired,
+  userCanDeleteCandidate: PropTypes.func.isRequired,
 }
 
 CandidatesList.defaultProps = {

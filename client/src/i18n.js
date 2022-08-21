@@ -91,6 +91,8 @@ const translations = {
         },
         errors: {
           generic: 'Something went wrong. Please try again later.',
+          duplicate_candidate: 'Candidate \'{{ name }}\' already exists',
+          similar_candidate: '\'{{ newName }}\' is too similar to \'{{ name }}\'',
         },
         counting: 'Counting the votes...',
         deletemodal: {
@@ -99,6 +101,13 @@ const translations = {
           cancel: 'Cancel',
           confirm: 'Delete Candidate',
           dont_ask_again: 'Don\'t ask me again',
+        },
+        add_candidate: {
+          message_creator: 'Add candidates',
+          message_one: 'You can add {{ count }} more candidate',
+          message_other: 'You can add {{ count }} more candidates',
+          placeholder: 'Add your own candidate',
+          success: 'Candidate \'{{ name }}\' added',
         },
       },
       results: {
@@ -202,6 +211,8 @@ const translations = {
         },
         errors: {
           generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
+          duplicate_candidate: 'Le candidat \'{{ name }}\' existe déjà',
+          similar_candidate: '\'{{ newName }}\' ressemble trop à \'{{ name }}\'',
         },
         counting: 'Comptage des votes en cours....',
         deletemodal: {
@@ -210,6 +221,13 @@ const translations = {
           cancel: 'Annuler',
           confirm: 'Supprimer le candidat',
           dont_ask_again: 'Ne me demande plus',
+        },
+        add_candidate: {
+          message_creator: 'Ajouter des candidats',
+          message_one: 'Vous pouvez ajouter {{ count }} candidat supplémentaire',
+          message_other: 'Vous pouvez ajouter {{ count }} autres candidats',
+          placeholder: 'Ajoutez votre propre candidat',
+          success: 'Candidat \'{{ name }}\' ajouté',
         },
       },
       results: {
@@ -313,6 +331,8 @@ const translations = {
         },
         errors: {
           generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
+          duplicate_candidate: 'Kandidaat \'{{ name }}\' bestaat al',
+          similar_candidate: '\'{{ newName }}\' lijkt teveel op \'{{ name }}\'',
         },
         counting: 'Stemmen aan het tellen...',
         deletemodal: {
@@ -322,9 +342,16 @@ const translations = {
           confirm: 'Verwijder Kandidaat',
           dont_ask_again: 'Vraag het me niet meer',
         },
+        add_candidate: {
+          message_creator: 'Voeg kandidaten toe',
+          message_one: 'U kunt {{ count }} kandidaat toevoegen',
+          message_other: 'U kunt {{ count }} kandidaten toevoegen',
+          placeholder: 'Voeg een kandidaat toe',
+          success: 'Kandidaat \'{{ name }}\' toegevoegd',
+        },
       },
       results: {
-        winner: 'We hebben een winner!',
+        winner: 'We hebben een winnaar!',
         tie: 'Het is gelijkspel!',
         reopen: 'Heropen verkiezing',
         pick: 'Kies {{name}}',

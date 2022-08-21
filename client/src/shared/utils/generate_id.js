@@ -1,4 +1,4 @@
-const { times, random } = require('lodash')
+const { times, random, map } = require('lodash')
 
 const generateUniqueId = (existingIds, length = 5, upperCase = true) => {
   const newId = () => {
@@ -13,4 +13,8 @@ const generateUniqueId = (existingIds, length = 5, upperCase = true) => {
   return id
 }
 
+const generateCandidateId = (cs) => generateUniqueId(map(cs, 'id'), 16)
+
 export default generateUniqueId
+
+export { generateCandidateId }
