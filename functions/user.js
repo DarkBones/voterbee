@@ -9,9 +9,14 @@ const newUserId = async () => {
   const snapshot = await userRef.get()
   const newId = generateUniqueId(map(snapshot.val(), 'id'), 32, false)
   const newSecret = times(64, () => random(35).toString(36)).join('')
+  const newAddCandidateId = generateUniqueId(map(snapshot.val(), 'add_client_id'), 32, false)
   try {
     await userRef.push({ id: newId, secret: newSecret })
-    return await Promise.resolve({ id: newId, secret: newSecret })
+    return await Promise.resolve({
+      id: newId,
+      secret: newSecret,
+      add_candidate_id: newAddCandidateId,
+    })
   } catch (err) {
     return Promise.reject(err)
   }

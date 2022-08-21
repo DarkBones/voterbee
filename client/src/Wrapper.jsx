@@ -35,22 +35,27 @@ i18n
 function Wrapper({ children }) {
   const [user, setUser] = useState()
   const [secret, setSecret] = useState()
+  const [addCandidateId, setAddCandidateId] = useState()
 
   useEffect(() => {
     const getNewId = () => get('users/new_id')
       .then(({
         user_id: newId,
         secret: newSecret,
+        add_candidate_id: newAddCandidateId,
       }) => {
         localStorage.setItem('user_id', newId)
         localStorage.setItem('secret', newSecret)
+        localStorage.setItem('add_candidate_id', newAddCandidateId)
         setUser(newId)
         setSecret(newSecret)
+        setAddCandidateId(newAddCandidateId)
       })
 
     if (!user) {
       const id = localStorage.getItem('user_id')
       const userSecret = localStorage.getItem('secret')
+      const userAddCandidateId = localStorage.getItem('add_candidate_id')
 
       if (id && userSecret) {
         post(
@@ -58,6 +63,7 @@ function Wrapper({ children }) {
           {
             id,
             secret: userSecret,
+            add_candidate_id: userAddCandidateId,
           },
         ).then(({ status }) => {
           if (status === 200) {
@@ -72,7 +78,7 @@ function Wrapper({ children }) {
         getNewId()
       }
     }
-  }, [user, secret])
+  }, [user, secret, addCandidateId])
 
   return (
     <DbContext.Provider value={db}>

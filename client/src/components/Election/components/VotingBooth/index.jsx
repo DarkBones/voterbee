@@ -29,6 +29,7 @@ import {
 import ShareLink from './components/ShareLink'
 import Voters from './components/Voters'
 import Candidates from './components/Candidates'
+import AddCandidate from './AddCandidate'
 
 function VotingBooth({
   election,
@@ -234,6 +235,7 @@ function VotingBooth({
         </Grid>
         <Grid xs={12} sm={7} md={8}>
           {candidatesContent}
+          <AddCandidate />
         </Grid>
       </Grid>
     </>

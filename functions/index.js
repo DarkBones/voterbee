@@ -20,8 +20,31 @@ require('dotenv').config({ path: './.env.dev.local' })
 
 app.get(`${baseUrl}/users/new_id`, (_req, res) => {
   newUserId()
-    .then(({ id, secret }) => res.json(resSuccess({ user_id: id, secret })))
+    .then(({
+      id,
+      secret,
+      add_candidate_id: addCandidateId,
+    }) => res.json(resSuccess({
+      user_id: id,
+      secret,
+      add_candidate_id: addCandidateId,
+    })))
     .catch(() => res.json(resFail({ message: 'Could not generate user id' })))
+})
+
+app.post(`${baseUrl}/users/secret_check`, (req, res) => {
+  const { body: { id, secret, add_candidate_id: addCandidateId } } = req
+  doesSecretMatch(id, secret)
+    .then(() => {
+      if (get(addCandidateId, 'length', 0) === 32) {
+        res.json(resSuccess())
+      } else {
+        res.json(resFail({}, 400))
+      }
+    })
+    .catch(() => {
+      res.json(resFail({}, 404))
+    })
 })
 
 app.get(`${baseUrl}/elections/:electionId`, (req, res) => {
@@ -53,17 +76,6 @@ app.post(`${baseUrl}/elections/count_votes`, (req, res) => {
     })
     .catch(() => {
       res.json(resFail({ message: 'Unauthorized' }, 401))
-    })
-})
-
-app.post(`${baseUrl}/users/secret_check`, (req, res) => {
-  const { body: { id, secret } } = req
-  doesSecretMatch(id, secret)
-    .then(() => {
-      res.json(resSuccess())
-    })
-    .catch(() => {
-      res.json(resFail({}, 404))
     })
 })
 
