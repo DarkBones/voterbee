@@ -13,11 +13,12 @@ import {
   Spacer,
   Button,
 } from 'shared/components'
-import { map, sample } from 'lodash'
+import { map, sample, find } from 'lodash'
 import style from './Results.module.scss'
 
 function Results({
   outcome,
+  tieBreaker,
   isCreator,
   electionId,
   onTieBreakerVote,
@@ -25,47 +26,54 @@ function Results({
   const { t } = useTranslation()
   const db = useContext(DbContext)
   const [winners, setWinners] = useState([])
-  const [hasPicked, setHasPicked] = useState(false)
+  const [finalWinners, setFinalWinners] = useState([])
 
   const handleReopenElection = () => {
     update(ref(db, `elections/${electionId}`), {
       isFinished: false,
       outcome: null,
+      tiebreaker: null,
     })
   }
 
   useEffect(() => {
-    setWinners(outcome[outcome.length - 1].filter((o) => o.votes === Math.max(
+    const ws = outcome[outcome.length - 1].filter((o) => o.votes === Math.max(
       ...map(outcome[outcome.length - 1], 'votes'),
-    )))
-  }, [outcome])
-  const winnerText = winners.length === 1
+    ))
+    setWinners(ws)
+
+    if (!tieBreaker) {
+      setFinalWinners(ws)
+    } else {
+      console.log(find(outcome[outcome.length - 1], (o) => o.id === tieBreaker.picked))
+      setFinalWinners([find(outcome[outcome.length - 1], (o) => o.id === tieBreaker.picked)])
+    }
+  }, [outcome, tieBreaker])
+  const winnerText = finalWinners.length === 1
     ? t('elections.results.winner')
     : t('elections.results.tie')
 
   const handlePickCandidate = (candidateId) => {
-    setHasPicked(false)
-    onTieBreakerVote(candidateId)
+    onTieBreakerVote(candidateId, false)
   }
 
   const handlePickRandom = () => {
-    setHasPicked(false)
-    onTieBreakerVote(sample(winners).id)
+    onTieBreakerVote(sample(winners).id, true)
   }
 
   return (
     <>
       <Panel>
-        {winners.length > 0 && (
+        {finalWinners.length > 0 && (
           <>
             <h2>{winnerText}</h2>
             <Grid
               container
               className={style.winnersContainer}
             >
-              {winners.map((winner) => (
+              {finalWinners.map((winner) => (
                 <Grid
-                  xs={12 / winners.length}
+                  xs={12 / finalWinners.length}
                   key={winner.id}
                 >
                   <div className={style.winner}>
@@ -73,12 +81,11 @@ function Results({
                       {winner.name}
                     </div>
                   </div>
-                  {isCreator && winners.length > 1 && (
+                  {isCreator && finalWinners.length > 1 && (
                     <>
                       <Spacer />
                       <Button
                         onClick={() => handlePickCandidate(winner.id)}
-                        isDisabled={hasPicked}
                       >
                         {t('elections.results.pick', { name: winner.name })}
                       </Button>
@@ -87,12 +94,11 @@ function Results({
                 </Grid>
               ))}
             </Grid>
-            {isCreator && winners.length > 1 && (
+            {isCreator && finalWinners.length > 1 && (
               <>
                 <Spacer />
                 <Button
                   onClick={handlePickRandom}
-                  isDisabled={hasPicked}
                 >
                   <FaRandom />
                   &nbsp;
@@ -125,6 +131,14 @@ Results.propTypes = {
   isCreator: PropTypes.bool.isRequired,
   electionId: PropTypes.string.isRequired,
   onTieBreakerVote: PropTypes.func.isRequired,
+  tieBreaker: PropTypes.shape({
+    random: PropTypes.bool.isRequired,
+    picked: PropTypes.string.isRequired,
+  }),
+}
+
+Results.defaultProps = {
+  tieBreaker: null,
 }
 
 export default Results

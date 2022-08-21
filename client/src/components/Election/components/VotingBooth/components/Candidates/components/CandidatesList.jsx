@@ -33,7 +33,7 @@ function CandidatesList({
   }, [voteProps])
 
   useEffect(() => {
-    if (vote.length !== get(candidates, 'length', 0)) {
+    if (vote.length > 0 && vote.length !== get(candidates, 'length', 0)) {
       let newVote = vote.filter((v) => map(candidates, 'id').includes(v.candidate))
       let updateHasVoted = false
 
