@@ -12,7 +12,7 @@
     "start:ui:staging": "env-cmd -f .env.staging.local npm start --prefix client",
     "start:ui:production": "env-cmd -f .env.production.local npm start --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cp .env.production.local functions/.env.functions.local && env-cmd -f .env.production.local npm run build --prefix client",
+    "build": "cp .env.production.local functions/.env.production.local && env-cmd -f .env.production.local npm run build --prefix client",
     "build:staging": "cp .env.staging.local functions/.env.functions.local && env-cmd -f .env.staging.local npm run build --prefix client"
   },
   "repository": {
