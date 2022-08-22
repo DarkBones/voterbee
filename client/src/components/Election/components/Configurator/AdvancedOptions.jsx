@@ -49,19 +49,20 @@ function AdvancedOptions({
           <Spacer size={1} />
           <div>
             <Grid container>
-              <Grid xs />
+              <Grid xs={12} sm />
               <Grid>
                 {t('elections.configure.advanced.users_can_add')}
               </Grid>
-              <Grid>
+              <Grid xs>
                 <TextField
+                  fullWidth={false}
                   size="small"
                   type="number"
                   value={candidateAmount}
                   onChange={handleChangeCandidateCount}
                 />
               </Grid>
-              <Grid xs />
+              <Grid xs={12} sm />
             </Grid>
           </div>
         </>

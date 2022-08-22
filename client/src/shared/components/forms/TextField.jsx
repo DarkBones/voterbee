@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   TextField as MUITextField,
@@ -27,6 +27,7 @@ function TextField({
   isDisabled,
   type,
 }) {
+  const textRef = useRef(null)
   const theme = createTheme({
     components: {
       MuiTextField: {
@@ -63,6 +64,14 @@ function TextField({
     setKeysDown({
       16: false,
     })
+
+    const ref = textRef.current
+
+    const handleWheel = (e) => e.preventDefault()
+    ref.addEventListener('wheel', handleWheel)
+    return () => {
+      ref.removeEventListener('wheel', handleWheel)
+    }
   }, [])
 
   const handleKeyDown = (e) => {
@@ -122,6 +131,7 @@ function TextField({
         onClick={onClick}
         disabled={isDisabled}
         type={type}
+        ref={textRef}
       />
     </ThemeProvider>
   )
