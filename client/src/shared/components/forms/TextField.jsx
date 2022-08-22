@@ -33,6 +33,7 @@ function TextField({
       MuiTextField: {
         styleOverrides: {
           root: {
+            minWidth: '50px',
             '&.with-button': {
               marginTop: '4px',
               width: 'calc(100% + 5px)',
