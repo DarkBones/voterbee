@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { MdContentCopy } from 'react-icons/md'
 import { Button, Snackbar } from 'shared/components'
 import { TextField } from 'shared/components/forms'
+import style from './ShareLink.module.scss'
 
 function ShareLink() {
   const { t } = useTranslation()
@@ -31,16 +32,17 @@ function ShareLink() {
       <h3>
         {t('elections.session.share.title')}
       </h3>
-      <TextField
-        variant="filled"
-        size="small"
-        fullWidth={false}
-        value={window.location.href}
-        endAdornment={copyButton}
-        onClick={handleCopy}
-        isDisabled
-        className="small-height"
-      />
+      <div className={style.link_container}>
+        <TextField
+          variant="filled"
+          size="small"
+          value={window.location.href}
+          endAdornment={copyButton}
+          onClick={handleCopy}
+          isDisabled
+          className="small-height"
+        />
+      </div>
     </>
   )
 }
