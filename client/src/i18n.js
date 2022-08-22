@@ -2,6 +2,9 @@ const translations = {
   en: {
     navbar: {
       tagline: 'Preferential voting made easy and anonymous',
+      donate: {
+        button: 'Donate',
+      },
     },
     create_election: {
       creating: 'Creating Election...',
@@ -127,6 +130,9 @@ const translations = {
   fr: {
     navbar: {
       tagline: 'Le vote préférentiel simplifié et anonyme',
+      donate: {
+        button: 'Faire un don',
+      },
     },
     create_election: {
       creating: 'Chargement...',
@@ -252,6 +258,9 @@ const translations = {
   nl: {
     navbar: {
       tagline: 'Voorkeurstemmen, gemakkelijk en anoniem',
+      donate: {
+        button: 'Doneer',
+      },
     },
     create_election: {
       creating: 'Laden...',
