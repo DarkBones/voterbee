@@ -81,7 +81,7 @@ function Donate() {
               onChange={handleChange}
               value={amount}
               onBlur={handleBlur}
-            // onEnter={handleJoinElection}
+              onEnter={handleClickDonate}
             />
           </Grid>
           <Grid width={buttonWidth}>
