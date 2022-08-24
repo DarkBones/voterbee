@@ -8,6 +8,7 @@ const { processVotes } = require('./count_votes')
 const { newElection, getElection } = require('./election')
 const { newUserId, doesSecretMatch } = require('./user')
 const { resSuccess, resFail } = require('./utils')
+const { createPaymentIntent } = require('./stripe')
 
 const PORT = 3001
 const app = express()
@@ -77,6 +78,16 @@ app.post(`${baseUrl}/elections/count_votes`, (req, res) => {
     .catch(() => {
       res.json(resFail({ message: 'Unauthorized' }, 401))
     })
+})
+
+app.post(`${baseUrl}/payment_intents/create`, (req, res) => {
+  createPaymentIntent(req.body)
+    .then(({ amount, currency, client_secret: clientSecret }) => res.json(resSuccess({
+      amount,
+      currency: currency.toUpperCase(),
+      client_secret: clientSecret,
+    })))
+    .catch((err) => res.json(resFail(err)))
 })
 
 app.get('/api', (_req, res) => {

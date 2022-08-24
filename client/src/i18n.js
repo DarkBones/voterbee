@@ -4,6 +4,13 @@ const translations = {
       tagline: 'Preferential voting made easy and anonymous',
       donate: {
         button: 'Donate',
+        modal: {
+          title: 'Donate',
+          submit_button: 'Pay {{ symbol }}{{ amount }}',
+          submit_button_sending: 'Sending...',
+          thank_you: 'Thank you for donating!',
+          error: 'Something went wrong. Please try again later.',
+        },
       },
     },
     create_election: {
@@ -132,6 +139,13 @@ const translations = {
       tagline: 'Le vote préférentiel simplifié et anonyme',
       donate: {
         button: 'Faire un don',
+        modal: {
+          title: 'Faire un don',
+          submit_button: 'Payez {{ amount }} {{ symbol }}',
+          submit_button_sending: 'Envoi en cours...',
+          thank_you: 'Merci de faire un don !',
+          error: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
+        },
       },
     },
     create_election: {
@@ -260,6 +274,13 @@ const translations = {
       tagline: 'Voorkeurstemmen, gemakkelijk en anoniem',
       donate: {
         button: 'Doneer',
+        modal: {
+          title: 'Doneer',
+          submit_button: 'Betaal {{ symbol }}{{ amount }}',
+          submit_button_sending: 'Verzenden...',
+          thank_you: 'Bedankt voor het doneren!',
+          error: 'Er is iets fout gegaan. Probeer het later opnieuw.',
+        },
       },
     },
     create_election: {

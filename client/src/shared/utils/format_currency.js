@@ -1,3 +1,5 @@
+import { get } from 'lodash'
+
 const currencies = {
   CAD: {
     symbol: '$',
@@ -17,15 +19,17 @@ const currencies = {
   },
 }
 
-const formatCurrency = (strAmount, currencyCode) => {
+const formatCurrency = (strAmount, currencyCode, reverse = false) => {
   const currency = currencies[currencyCode]
-  const decimals = Math.log(currency.subunits) / Math.log(10)
+  const subunits = get(currency, 'subunits', 100)
+  const decimals = Math.log(subunits) / Math.log(10)
   let amount = parseFloat(strAmount).toFixed(decimals)
-  amount *= currency.subunits
+
+  if (!reverse) amount *= subunits
 
   return {
     cents: parseInt(amount, 10),
-    humanReadable: (amount / currency.subunits).toFixed(decimals),
+    humanReadable: (amount / subunits).toFixed(decimals),
   }
 }
 
