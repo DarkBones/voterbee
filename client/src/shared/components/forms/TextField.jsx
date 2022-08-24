@@ -6,6 +6,7 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material'
+import { currencies } from 'shared/utils'
 
 function TextField({
   label,
@@ -26,6 +27,8 @@ function TextField({
   onClick,
   isDisabled,
   type,
+  currency,
+  onBlur,
 }) {
   const textRef = useRef(null)
   const theme = createTheme({
@@ -110,6 +113,16 @@ function TextField({
     inputProps.endAdornment = <InputAdornment position="end">{endAdornment}</InputAdornment>
   }
 
+  const handleBlur = () => {
+    setKeysDown({
+      16: false,
+    })
+
+    if (onBlur) {
+      onBlur()
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <MUITextField
@@ -125,13 +138,11 @@ function TextField({
         value={value}
         autoFocus={autoFocus}
         inputRef={inputRef}
-        onBlur={() => setKeysDown({
-          16: false,
-        })}
+        onBlur={handleBlur}
         InputProps={inputProps}
         onClick={onClick}
         disabled={isDisabled}
-        type={type}
+        type={currency ? 'number' : type}
         ref={textRef}
       />
     </ThemeProvider>
@@ -170,6 +181,8 @@ TextField.propTypes = {
   onClick: PropTypes.func,
   isDisabled: PropTypes.bool,
   type: PropTypes.string,
+  currency: PropTypes.oneOf(Object.keys(currencies)),
+  onBlur: PropTypes.func,
 }
 
 TextField.defaultProps = {
@@ -190,6 +203,8 @@ TextField.defaultProps = {
   onClick: () => { },
   isDisabled: false,
   type: 'text',
+  currency: null,
+  onBlur: () => { },
 }
 
 export default TextField
