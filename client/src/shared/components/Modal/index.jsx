@@ -17,8 +17,8 @@ function Modal({
   onClose,
 }) {
   const sx = {
-    width: `${width}px`,
-    height: `${height}px`,
+    maxWidth: `${width}px`,
+    minHeight: `${height}px`,
   }
   return (
     <MUIModal
