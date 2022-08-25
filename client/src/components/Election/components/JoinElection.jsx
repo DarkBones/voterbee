@@ -18,7 +18,7 @@ function JoinElection({ election }) {
     push(ref(db, `elections/${election.fullId}/users`), {
       name,
       hasVoted: false,
-      id: user,
+      id: user.id,
       isBanned: false,
     })
   }

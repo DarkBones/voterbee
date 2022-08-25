@@ -10,8 +10,7 @@ import {
 } from 'firebase/database'
 import {
   DbContext,
-  SecretContext,
-  UserAddCandidateContext,
+  UserContext,
 } from 'contexts'
 import {
   Panel,
@@ -55,8 +54,7 @@ function VotingBooth({
   const [candidateDeleteWarningModalOpen, setCandidateDeleteWarningModalOpen] = useState(false)
   const [dontAskDeletionConfirmation, setDontAskDeletionConfirmation] = useState(localStorage.getItem('dont_ask_deletion_confirmation') === 'true')
   const db = useContext(DbContext)
-  const secret = useContext(SecretContext)
-  const addCandidateId = useContext(UserAddCandidateContext)
+  const userContext = useContext(UserContext)
   const users = []
   Object.keys(election.users).forEach((key) => {
     const u = election.users[key]
@@ -113,7 +111,7 @@ function VotingBooth({
           electionId: election.fullId,
           user: {
             id: user.id,
-            secret,
+            secret: userContext.secret,
           },
         })
           .then(({ status }) => {
@@ -134,7 +132,7 @@ function VotingBooth({
 
     if (
       user.id === election.creator
-      || addCandidateId === get(find(
+      || userContext.addCandidateId === get(find(
         get(election, 'candidates', []),
         (c) => c.id === candidateId,
       ), 'addedBy')
@@ -217,7 +215,7 @@ function VotingBooth({
 
     const newCandidates = cloneDeep(get(election, 'candidates', []))
     newCandidates.push({
-      addedBy: addCandidateId,
+      addedBy: userContext.addCandidateId,
       name: candidateName,
       id: generateCandidateId(election.candidates),
     })

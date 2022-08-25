@@ -36,12 +36,12 @@ function Election() {
   const userIsInElection = useCallback((el) => map(
     _get(el, 'users', []),
     'id',
-  ).includes(user), [user])
+  ).includes(user.id), [user])
   useEffect(() => {
     if (!election.users) return
 
     const userId = Object.keys(election.users)[
-      findIndex(map(election.users), (u) => u.id === user)
+      findIndex(map(election.users), (u) => u.id === user.id)
     ]
     if (userId) {
       setFbUser({
@@ -53,7 +53,7 @@ function Election() {
 
   useEffect(() => {
     const notFoundState = { error: 'election_not_found', id: electionId }
-    if (!user) return
+    if (!user.id) return
 
     get(`elections/${electionId}`)
       .then(({ status, fbId }) => {
@@ -69,7 +69,7 @@ function Election() {
             if (
               (el.isConfigured && !el.isFinished)
               || (el.isConfigured && userIsInElection(el))
-              || el.creator === user
+              || el.creator === user.id
             ) {
               setElection({
                 ...el,

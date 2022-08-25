@@ -14,7 +14,7 @@ import {
   Droppable,
   Draggable,
 } from 'react-beautiful-dnd'
-import { UserAddCandidateContext } from 'contexts'
+import { UserContext } from 'contexts'
 import { Spacer } from 'shared/components'
 import Candidate from './Candidate'
 
@@ -26,7 +26,7 @@ function CandidatesList({
   userCanDeleteCandidate,
 }) {
   const [vote, setVote] = useState([])
-  const addCandidateId = useContext(UserAddCandidateContext)
+  const user = useContext(UserContext)
 
   useEffect(() => {
     setVote(voteProps)
@@ -41,7 +41,7 @@ function CandidatesList({
         const missingCandidates = candidates.filter((c) => !map(newVote, 'candidate').includes(c.id))
         missingCandidates.forEach((mc) => {
           const newCandidate = { candidate: mc.id, isDiscarded: false }
-          if (mc.addedBy === addCandidateId) {
+          if (mc.addedBy === user.addCandidateId) {
             newVote = [newCandidate, ...newVote]
             updateHasVoted = true
           } else {
@@ -52,7 +52,7 @@ function CandidatesList({
 
       onChangeVote(newVote, updateHasVoted)
     }
-  }, [addCandidateId, candidates, onChangeVote, vote])
+  }, [user, candidates, onChangeVote, vote])
 
   const handleDragEnd = (result) => {
     if (!result.destination) return

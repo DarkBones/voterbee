@@ -25,7 +25,7 @@ function CreateElection() {
   const handleCreateElection = () => {
     setIsCreating(true)
 
-    post('elections/create', { user })
+    post('elections/create', { user: user.id })
       .then(({ election_id: id, status }) => {
         if (status === 200) {
           navigate(`/${id}`)

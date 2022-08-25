@@ -4,8 +4,6 @@ import { get, post } from 'shared/utils'
 import {
   UserContext,
   DbContext,
-  SecretContext,
-  UserAddCandidateContext,
 } from 'contexts'
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
@@ -34,9 +32,7 @@ i18n
   })
 
 function Wrapper({ children }) {
-  const [user, setUser] = useState()
-  const [secret, setSecret] = useState()
-  const [addCandidateId, setAddCandidateId] = useState()
+  const [user, setUser] = useState({})
 
   useEffect(() => {
     const getNewId = () => get('users/new_id')
@@ -48,17 +44,19 @@ function Wrapper({ children }) {
         localStorage.setItem('user_id', newId)
         localStorage.setItem('secret', newSecret)
         localStorage.setItem('add_candidate_id', newAddCandidateId)
-        setUser(newId)
-        setSecret(newSecret)
-        setAddCandidateId(newAddCandidateId)
+        setUser({
+          id: newId,
+          secret: newSecret,
+          addCandidateId: newAddCandidateId,
+        })
       })
 
-    if (!user) {
+    if (!user.id) {
       const id = localStorage.getItem('user_id')
       const userSecret = localStorage.getItem('secret')
       const userAddCandidateId = localStorage.getItem('add_candidate_id')
 
-      if (id && userSecret) {
+      if (id && userSecret && userAddCandidateId) {
         post(
           'users/secret_check',
           {
@@ -68,9 +66,11 @@ function Wrapper({ children }) {
           },
         ).then(({ status }) => {
           if (status === 200) {
-            setUser(id)
-            setSecret(userSecret)
-            setAddCandidateId(userAddCandidateId)
+            setUser({
+              id,
+              secret: userSecret,
+              addCandidateId: userAddCandidateId,
+            })
             return
           }
 
@@ -80,16 +80,12 @@ function Wrapper({ children }) {
         getNewId()
       }
     }
-  }, [user, secret, addCandidateId])
+  }, [user])
 
   return (
     <DbContext.Provider value={db}>
       <UserContext.Provider value={user}>
-        <SecretContext.Provider value={secret}>
-          <UserAddCandidateContext.Provider value={addCandidateId}>
-            {children}
-          </UserAddCandidateContext.Provider>
-        </SecretContext.Provider>
+        {children}
       </UserContext.Provider>
     </DbContext.Provider>
   )

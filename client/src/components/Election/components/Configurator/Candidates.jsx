@@ -4,7 +4,7 @@ import { findIndex, cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { GoDiffAdded } from 'react-icons/go'
 import { BiTrash } from 'react-icons/bi'
-import { UserAddCandidateContext } from 'contexts'
+import { UserContext } from 'contexts'
 import { Spacer, Button } from 'shared/components'
 import { TextField } from 'shared/components/forms'
 import { generateCandidateId } from 'shared/utils'
@@ -88,7 +88,7 @@ function Candidates({
   userCandidateAllowance,
 }) {
   const lastCandidateRef = useRef(null)
-  const userAddCandidateId = useContext(UserAddCandidateContext)
+  const user = useContext(UserContext)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -98,12 +98,12 @@ function Candidates({
         initialCandidates.push({
           name: '',
           id: generateCandidateId(initialCandidates),
-          addedBy: userAddCandidateId,
+          addedBy: user.addCandidateId,
         })
       }
       onChange('candidates', initialCandidates)
     }
-  }, [candidates, onChange, userCandidateAllowance, userAddCandidateId])
+  }, [candidates, onChange, userCandidateAllowance, user])
 
   useEffect(() => {
     if (lastCandidateRef.current && focusOnLastCandidate) {
@@ -122,7 +122,7 @@ function Candidates({
     newCandidates.push({
       name: '',
       id: generateCandidateId(candidates),
-      addedBy: userAddCandidateId,
+      addedBy: user.addCandidateId,
     })
     onChange('candidates', newCandidates, true)
   }
