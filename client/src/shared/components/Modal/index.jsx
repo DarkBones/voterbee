@@ -18,7 +18,7 @@ function Modal({
 }) {
   const sx = {
     maxWidth: `${width}px`,
-    height: `${height}px`,
+    minHeight: `${height}px`,
   }
   return (
     <MUIModal
