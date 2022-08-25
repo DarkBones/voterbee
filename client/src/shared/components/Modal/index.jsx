@@ -17,7 +17,7 @@ function Modal({
   onClose,
 }) {
   const sx = {
-    width: `${width}px`,
+    maxWidth: `${width}px`,
     height: `${height}px`,
   }
   return (
