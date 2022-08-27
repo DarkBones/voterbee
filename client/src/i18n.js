@@ -26,6 +26,18 @@ const translations = {
       generic: 'Something went wrong. Please try again later.',
       election_not_found: 'Election {{id}} not found',
     },
+    election_list: {
+      your_elections: 'Your Elections',
+      none_found: 'You haven\'t created or joined any elections yet.',
+      created: 'Created By You',
+      joined: 'Joined',
+      other: 'Other',
+      status: {
+        not_configured: 'Not Configured',
+        in_progress: 'In Progress',
+        completed: 'Completed',
+      },
+    },
     elections: {
       banned: {
         message: 'You were banned from this election',
@@ -161,6 +173,19 @@ const translations = {
       generic: 'Quelque chose s\'est mal passé. Veuillez réessayer plus tard.',
       election_not_found: 'Élection {{id}} introuvable',
     },
+    election_list: {
+      your_elections: 'Vos Élections',
+      none_found: 'Vous n\'avez pas encore créé ou rejoint d\'élections.',
+      created: 'Créé Par Vous',
+      joined: 'Rejoint',
+      other: 'Autres',
+      status: {
+        // not_configured: 'Pas Configuré',
+        not_configured: 'Not Configured',
+        in_progress: 'En Cours',
+        completed: 'Complété',
+      },
+    },
     elections: {
       banned: {
         message: 'Vous avez été banni de cette élection',
@@ -295,6 +320,18 @@ const translations = {
     errors: {
       generic: 'Er is iets fout gegaan. Probeer het later opnieuw.',
       election_not_found: 'Verkiezing {{id}} niet gevonden',
+    },
+    election_list: {
+      your_elections: 'Uw Verkiezingen',
+      none_found: 'U heeft nog geen verkiezingen.',
+      created: 'Gemaakt',
+      joined: 'Lid',
+      other: 'Anders',
+      status: {
+        not_configured: 'Niet Ingesteld',
+        in_progress: 'Bezig',
+        completed: 'Voltooid',
+      },
     },
     elections: {
       banned: {

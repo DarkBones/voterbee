@@ -36,12 +36,12 @@ function Election() {
   const userIsInElection = useCallback((el) => map(
     _get(el, 'users', []),
     'id',
-  ).includes(user), [user])
+  ).includes(user.id), [user])
   useEffect(() => {
     if (!election.users) return
 
     const userId = Object.keys(election.users)[
-      findIndex(map(election.users), (u) => u.id === user)
+      findIndex(map(election.users), (u) => u.id === user.id)
     ]
     if (userId) {
       setFbUser({
@@ -53,7 +53,7 @@ function Election() {
 
   useEffect(() => {
     const notFoundState = { error: 'election_not_found', id: electionId }
-    if (!user) return
+    if (!user.id) return
 
     get(`elections/${electionId}`)
       .then(({ status, fbId }) => {
@@ -69,7 +69,8 @@ function Election() {
             if (
               (el.isConfigured && !el.isFinished)
               || (el.isConfigured && userIsInElection(el))
-              || el.creator === user
+              || el.creator === user.id
+              || user.id === process.env.REACT_APP_SUPER_USER_ID
             ) {
               setElection({
                 ...el,
@@ -100,7 +101,16 @@ function Election() {
   if (election.status === 200) {
     if (election.isConfigured) {
       if (!fbUser) {
-        content = <JoinElection election={election} />
+        if (user.id === process.env.REACT_APP_SUPER_USER_ID) {
+          content = (
+            <>
+              <JoinElection election={election} />
+              <VotingBooth election={election} user={fbUser} />
+            </>
+          )
+        } else {
+          content = <JoinElection election={election} />
+        }
       } else if (fbUser.isBanned) {
         content = <Banned />
       } else if (election.isFinished && election.outcome) {

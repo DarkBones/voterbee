@@ -9,7 +9,6 @@ import { FiSend } from 'react-icons/fi'
 import { get } from 'lodash'
 import {
   UserContext,
-  UserAddCandidateContext,
 } from 'contexts'
 import {
   Panel,
@@ -26,24 +25,22 @@ function AddCandidate({
 }) {
   const { t } = useTranslation()
   const user = useContext(UserContext)
-  const userAddCandidateId = useContext(UserAddCandidateContext)
   const [userCandidateAllowance, setUserCandidateAllowance] = useState(0)
   const [candidateName, setCandidateName] = useState('')
 
   useEffect(() => {
-    if (user === creator) {
+    if (user.id === creator) {
       setUserCandidateAllowance(-1)
     } else {
       const createdByUser = get(
-        // find(candidates, (c) => c.added_by === userAddCandidateId),
-        candidates.filter((c) => c.addedBy === userAddCandidateId),
+        candidates.filter((c) => c.addedBy === user.addCandidateId),
         'length',
         0,
       )
       const leftAllowed = Math.max(electionCandidateAllowance - createdByUser, 0)
       setUserCandidateAllowance(leftAllowed)
     }
-  }, [user, creator, candidates, electionCandidateAllowance, userAddCandidateId])
+  }, [user, creator, candidates, electionCandidateAllowance])
 
   const handleCreateCandidate = () => {
     if (candidateName.length === 0) return

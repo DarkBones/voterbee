@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { get } from 'lodash'
-import { Panel, Snackbar } from 'shared/components'
+import { Panel, Snackbar, Spacer } from 'shared/components'
 import CreateJoinElection from './CreateJoinElection'
+import ElectionList from './ElectionList'
 
 function Home() {
   const { state } = useLocation()
@@ -27,6 +28,10 @@ function Home() {
       </Snackbar>
       <Panel>
         <CreateJoinElection />
+      </Panel>
+      <Spacer size={4} />
+      <Panel>
+        <ElectionList />
       </Panel>
     </>
   )

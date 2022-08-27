@@ -4,12 +4,13 @@ import {
   useRef,
   useContext,
 } from 'react'
+import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   ref,
   update,
 } from 'firebase/database'
-import { DbContext } from 'contexts'
+import { DbContext, UserContext } from 'contexts'
 import {
   debounce,
   get,
@@ -22,7 +23,9 @@ import AdvancedOptions from './AdvancedOptions'
 
 function Configurator({ election }) {
   const { t } = useTranslation()
+  const { state } = useLocation()
   const db = useContext(DbContext)
+  const user = useContext(UserContext)
   const [suggestionIndex, setSuggestionIndex] = useState(0)
   const [focusOnLastCandidate, setFocusOnLastCandidate] = useState(false)
   const [config, setConfig] = useState(election)
@@ -58,6 +61,18 @@ function Configurator({ election }) {
   }
 
   useEffect(() => {
+    const newConfig = {}
+    newConfig.name = get(state, 'name', '')
+    newConfig.candidates = get(state, 'candidates')
+
+    if (state && Object.keys(state).length > 0) {
+      setConfig(newConfig)
+      uploadConfig(newConfig)
+      window.history.replaceState({}, document.title)
+    }
+  }, [state, uploadConfig])
+
+  useEffect(() => {
     const newErrors = []
     if (get(config, 'name', '').length === 0) {
       newErrors.push(t('elections.configure.errors.no_title'))
@@ -88,6 +103,7 @@ function Configurator({ election }) {
           value={get(config, 'name', '')}
           onChange={({ target: { value } }) => handleChange('name', value)}
           autoFocus
+          isDisabled={election.creator !== user.id}
         />
         <Spacer />
         <h4>{t('elections.configure.candidate.name')}</h4>
@@ -97,17 +113,20 @@ function Configurator({ election }) {
           onChange={handleChange}
           focusOnLastCandidate={focusOnLastCandidate}
           userCandidateAllowance={election.userCandidateAllowance}
+          isDisabled={election.creator !== user.id}
         />
         <Spacer />
         <AdvancedOptions
           userCandidateAllowance={election.userCandidateAllowance}
           onChange={handleChange}
+          isDisabled={election.creator !== user.id}
         />
       </Panel>
       <Panel>
         <Button
           errors={errors}
           onClick={handleStartElection}
+          isDisabled={election.creator !== user.id}
         >
           {t('elections.configure.start')}
         </Button>
@@ -120,6 +139,7 @@ Configurator.propTypes = {
   election: PropTypes.shape({
     fullId: PropTypes.string.isRequired,
     userCandidateAllowance: PropTypes.number.isRequired,
+    creator: PropTypes.string.isRequired,
   }).isRequired,
 }
 

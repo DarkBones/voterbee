@@ -62,7 +62,7 @@ function Voter({
           </span>
         )}
       </Grid>
-      {u === creator && u !== user.id && (
+      {u.id === creator && u.id !== user.id && (
         <Grid xs={2} className={checkStyle}>
           <Tooltip title={kickText}>
             <div>

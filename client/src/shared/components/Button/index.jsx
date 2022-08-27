@@ -15,6 +15,7 @@ function Button({
   onClick,
   tabIndex,
   errors,
+  cursor,
 }) {
   const buttonStyle = {
     ...style,
@@ -25,6 +26,7 @@ function Button({
       MuiButton: {
         styleOverrides: {
           root: {
+            cursor,
             '&.Mui-disabled': {
               backgroundColor: styleVariables.disabled,
               color: styleVariables.disabled_text,
@@ -135,6 +137,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   tabIndex: PropTypes.number,
   errors: PropTypes.arrayOf(PropTypes.string),
+  cursor: PropTypes.string,
 }
 
 Button.defaultProps = {
@@ -144,6 +147,7 @@ Button.defaultProps = {
   onClick: () => { },
   tabIndex: null,
   errors: [],
+  cursor: 'pointer',
 }
 
 export default Button

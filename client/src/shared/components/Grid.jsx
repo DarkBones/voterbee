@@ -69,7 +69,10 @@ Grid.propTypes = {
   container: PropTypes.bool,
   spacing: PropTypes.number,
   style: PropTypes.shape({}),
-  width: PropTypes.number,
+  width: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(['auto']),
+  ]),
   xs: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.bool,

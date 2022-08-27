@@ -1,0 +1,53 @@
+@use '../../sass/colors.scss';
+
+.election_link {
+  text-decoration: none;
+  color: colors.$text;
+}
+
+.election_container {
+  padding: 0.8em;
+
+  &:hover {
+    background-color: colors.$hover;
+  }
+
+  .election_id {
+    text-align: left;
+  }
+
+  .users {
+    text-align: left;
+    margin-top: -0.9em;
+    color: colors.$disabled_text;
+
+    .users_icon {
+      // display: inline-block;
+      margin-top: 0;
+    }
+
+    .users_list {
+      // display: inline-block;
+      // position: absolute;
+      position: relative;
+      top: -0.2em;
+      font-size: 0.8em;
+      margin-top: 10px;
+    }
+  }
+
+  .election_name {
+    text-align: left;
+  }
+
+  .election_name,
+  .users {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .election_status {
+    text-align: right;
+  }
+}
