@@ -38,6 +38,8 @@ function Election() {
     'id',
   ).includes(user.id), [user])
   useEffect(() => {
+    document.title = [_get(election, 'name'), 'voterbee.io'].filter((n) => n).join(' | ')
+
     if (!election.users) return
 
     const userId = Object.keys(election.users)[
