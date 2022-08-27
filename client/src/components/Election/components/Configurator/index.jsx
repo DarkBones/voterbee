@@ -40,11 +40,13 @@ function Configurator({ election }) {
       name = '',
       candidates = [],
       userCandidateAllowance = 0,
+      usersMustProvideName = true,
     }) => {
       update(ref(db, `elections/${election.fullId}`), {
         name,
         candidates: candidates.filter((c) => get(c, 'name', '').length > 0),
         userCandidateAllowance,
+        usersMustProvideName,
       })
     }, 300),
   ).current
@@ -64,6 +66,7 @@ function Configurator({ election }) {
     const newConfig = {}
     newConfig.name = get(state, 'name', '')
     newConfig.candidates = get(state, 'candidates')
+    newConfig.usersMustProvideName = get(state, 'usersMustProvideName', true)
 
     if (state && Object.keys(state).length > 0) {
       setConfig(newConfig)
@@ -120,6 +123,7 @@ function Configurator({ election }) {
           userCandidateAllowance={election.userCandidateAllowance}
           onChange={handleChange}
           isDisabled={election.creator !== user.id}
+          mustProvideName={get(election, 'usersMustProvideName', true)}
         />
       </Panel>
       <Panel>

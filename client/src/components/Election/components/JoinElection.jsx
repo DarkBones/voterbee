@@ -1,25 +1,21 @@
 import { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { ref, push } from 'firebase/database'
-import { DbContext, UserContext } from 'contexts'
+import { UserContext } from 'contexts'
 import { Panel, Button, Spacer } from 'shared/components'
 import { TextField } from 'shared/components/forms'
 
-function JoinElection({ election }) {
+function JoinElection({ election, onJoinElection }) {
   const { t } = useTranslation()
   const [name, setName] = useState('')
   const [isJoining, setIsJoining] = useState(false)
   const [errors, setErrors] = useState([])
   const user = useContext(UserContext)
-  const db = useContext(DbContext)
   const handleJoinElection = () => {
     setIsJoining(true)
-    push(ref(db, `elections/${election.fullId}/users`), {
+    onJoinElection({
       name,
-      hasVoted: false,
       id: user.id,
-      isBanned: false,
     })
   }
 
@@ -64,6 +60,7 @@ JoinElection.propTypes = {
     name: PropTypes.string.isRequired,
     fullId: PropTypes.string.isRequired,
   }).isRequired,
+  onJoinElection: PropTypes.func.isRequired,
 }
 
 export default JoinElection

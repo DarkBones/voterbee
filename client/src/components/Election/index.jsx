@@ -10,6 +10,7 @@ import {
   query,
   onValue,
   update,
+  push,
 } from 'firebase/database'
 import { DbContext, UserContext } from 'contexts'
 import { get } from 'shared/utils'
@@ -37,10 +38,24 @@ function Election() {
     _get(el, 'users', []),
     'id',
   ).includes(user.id), [user])
-  useEffect(() => {
-    if (!election.users) return
+  const handleJoinElection = useCallback(({ name, id }) => {
+    push(ref(db, `elections/${election.fullId}/users`), {
+      name,
+      id,
+      hasVoted: false,
+      isBanned: false,
+    })
+  }, [db, election.fullId])
 
-    const userId = Object.keys(election.users)[
+  useEffect(() => {
+    document.title = [_get(election, 'name'), 'voterbee.io'].filter((n) => n).join(' | ')
+
+    if (
+      (!election.users && _get(election, 'usersMustProvideName', true))
+      || !user
+    ) return
+
+    const userId = Object.keys(_get(election, 'users', {}))[
       findIndex(map(election.users), (u) => u.id === user.id)
     ]
     if (userId) {
@@ -48,8 +63,10 @@ function Election() {
         ..._get(election.users, `${userId}`),
         fullId: userId,
       })
+    } else if (!_get(election, 'usersMustProvideName', true)) {
+      handleJoinElection({ name: '', id: user.id })
     }
-  }, [election, user])
+  }, [election, handleJoinElection, user])
 
   useEffect(() => {
     const notFoundState = { error: 'election_not_found', id: electionId }
@@ -100,11 +117,11 @@ function Election() {
   let content = <ElectionLoading />
   if (election.status === 200) {
     if (election.isConfigured) {
-      if (!fbUser) {
+      if (!fbUser && election.usersMustProvideName) {
         if (user.id === process.env.REACT_APP_SUPER_USER_ID) {
           content = (
             <>
-              <JoinElection election={election} />
+              <JoinElection election={election} onJoinElection={handleJoinElection} />
               <VotingBooth election={election} user={fbUser} />
             </>
           )
@@ -124,6 +141,7 @@ function Election() {
             tieBreaker={election.tiebreaker}
             voters={filter(map(election.users), (u) => u.hasVoted)}
             candidates={election.candidates}
+            usersMustProvideName={_get(election, 'usersMustProvideName', true)}
           />
         )
       } else {

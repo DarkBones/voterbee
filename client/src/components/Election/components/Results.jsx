@@ -14,7 +14,12 @@ import {
   Spacer,
   Button,
 } from 'shared/components'
-import { map, sample, find } from 'lodash'
+import {
+  map,
+  sample,
+  find,
+  get,
+} from 'lodash'
 import style from './Results.module.scss'
 
 function Results({
@@ -26,6 +31,7 @@ function Results({
   user,
   voters,
   candidates,
+  usersMustProvideName,
 }) {
   const { t } = useTranslation()
   const db = useContext(DbContext)
@@ -65,7 +71,10 @@ function Results({
       setFinalWinners(ws)
     } else {
       setFinalWinners([find(outcome[outcome.length - 1], (o) => o.id === tieBreaker.picked)])
-      const creatorName = find(voters, (v) => v.id === creator).name
+      let creatorName = find(voters, (v) => v.id === creator).name
+      if (get(creatorName, 'length') === 0) {
+        creatorName = t('elections.results.creator_name')
+      }
       const pickedName = find(candidates, (c) => c.id === tieBreaker.picked).name
       const resultMessage = tieBreaker.random
         ? t('elections.results.tiebreaker_result_random', { creatorName })
@@ -157,25 +166,27 @@ function Results({
           </p>
         )}
         <Grid container alignItems="flex-start">
-          <Grid xs={12} sm={5} md={4}>
-            <h3 className={style.title}>
-              {t('elections.session.voters.title')}
-            </h3>
-            <ul className={style.list}>
-              {voters.map((v) => (
-                <li key={v.id}>
-                  {v.name}
-                  {v.id === creator && (
-                    <span className={style.crown}>
-                      &nbsp;
-                      <AiFillCrown size={15} />
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Grid>
-          <Grid xs={12} sm={7} md={8}>
+          {usersMustProvideName && (
+            <Grid xs={12} sm={5} md={4}>
+              <h3 className={style.title}>
+                {t('elections.session.voters.title')}
+              </h3>
+              <ul className={style.list}>
+                {voters.map((v) => (
+                  <li key={v.id}>
+                    {v.name}
+                    {v.id === creator && (
+                      <span className={style.crown}>
+                        &nbsp;
+                        <AiFillCrown size={15} />
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </Grid>
+          )}
+          <Grid xs={12} sm={usersMustProvideName ? 7 : 12} md={usersMustProvideName ? 8 : 12}>
             <h3 className={style.title}>
               {t('elections.session.candidates.title')}
             </h3>
@@ -221,6 +232,7 @@ Results.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  usersMustProvideName: PropTypes.bool.isRequired,
 }
 
 Results.defaultProps = {
