@@ -10,7 +10,7 @@ import {
   ref,
   update,
 } from 'firebase/database'
-import { DbContext } from 'contexts'
+import { DbContext, UserContext } from 'contexts'
 import {
   debounce,
   get,
@@ -25,6 +25,7 @@ function Configurator({ election }) {
   const { t } = useTranslation()
   const { state } = useLocation()
   const db = useContext(DbContext)
+  const user = useContext(UserContext)
   const [suggestionIndex, setSuggestionIndex] = useState(0)
   const [focusOnLastCandidate, setFocusOnLastCandidate] = useState(false)
   const [config, setConfig] = useState(election)
@@ -102,6 +103,7 @@ function Configurator({ election }) {
           value={get(config, 'name', '')}
           onChange={({ target: { value } }) => handleChange('name', value)}
           autoFocus
+          isDisabled={election.creator !== user.id}
         />
         <Spacer />
         <h4>{t('elections.configure.candidate.name')}</h4>
@@ -111,17 +113,20 @@ function Configurator({ election }) {
           onChange={handleChange}
           focusOnLastCandidate={focusOnLastCandidate}
           userCandidateAllowance={election.userCandidateAllowance}
+          isDisabled={election.creator !== user.id}
         />
         <Spacer />
         <AdvancedOptions
           userCandidateAllowance={election.userCandidateAllowance}
           onChange={handleChange}
+          isDisabled={election.creator !== user.id}
         />
       </Panel>
       <Panel>
         <Button
           errors={errors}
           onClick={handleStartElection}
+          isDisabled={election.creator !== user.id}
         >
           {t('elections.configure.start')}
         </Button>
@@ -134,6 +139,7 @@ Configurator.propTypes = {
   election: PropTypes.shape({
     fullId: PropTypes.string.isRequired,
     userCandidateAllowance: PropTypes.number.isRequired,
+    creator: PropTypes.string.isRequired,
   }).isRequired,
 }
 

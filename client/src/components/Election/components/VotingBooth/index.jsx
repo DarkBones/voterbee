@@ -85,6 +85,8 @@ function VotingBooth({
   }, [db, election, user])
 
   const handleChangeVote = (newVote, updateHasVoted = true) => {
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
+
     setVote(newVote)
     set(ref(db, `votes/${election.fullId}/${user.fullId}`), newVote)
     if (updateHasVoted) {
@@ -95,12 +97,16 @@ function VotingBooth({
   }
 
   const handleCastVote = () => {
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
+
     update(ref(db, `elections/${election.fullId}/users/${user.fullId}`), {
       hasVoted: true,
     })
   }
 
   const handleCountVotes = () => {
+    if (userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
+
     setClickedCountVotes(true)
     update(ref(db, `elections/${election.fullId}`), {
       isFinished: true,
@@ -128,6 +134,7 @@ function VotingBooth({
   }
 
   const userCanDeleteCandidate = (candidateId) => {
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return false
     if (get(election, 'candidates.length', 0) <= 1) return false
 
     if (
@@ -144,6 +151,7 @@ function VotingBooth({
   }
 
   const deleteCandidate = (candidateId) => {
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
     localStorage.setItem('dont_ask_deletion_confirmation', dontAskDeletionConfirmation)
 
     const deleteId = candidateId || candidateToBeDeleted
@@ -168,6 +176,7 @@ function VotingBooth({
   }
 
   const handleDeleteCandidate = (candidateId) => {
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
     if (localStorage.getItem('dont_ask_deletion_confirmation') === 'true') {
       deleteCandidate(candidateId)
       return
@@ -181,6 +190,7 @@ function VotingBooth({
   }
 
   const handleAddCandidate = (candidateName) => {
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
     const similarityAllowed = get(election, 'candidateNameSimilarityAllowed', 0)
     const candidateNames = map(
       get(election, 'candidates', []),

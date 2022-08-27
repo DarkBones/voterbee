@@ -7,6 +7,7 @@ import { Switch, TextField } from 'shared/components/forms'
 function AdvancedOptions({
   onChange,
   userCandidateAllowance,
+  isDisabled,
 }) {
   const { t } = useTranslation()
   const [
@@ -43,6 +44,7 @@ function AdvancedOptions({
         checked={allowUsersToAddCandidates}
         onChange={handleAllowUsersToAddCandidatesChange}
         label={t('elections.configure.advanced.allow_users_to_add_candidates')}
+        isDisabled={isDisabled}
       />
       {allowUsersToAddCandidates && (
         <>
@@ -60,6 +62,7 @@ function AdvancedOptions({
                   type="number"
                   value={candidateAmount}
                   onChange={handleChangeCandidateCount}
+                  isDisabled={isDisabled}
                 />
               </Grid>
               <Grid xs={12} sm />
@@ -74,6 +77,7 @@ function AdvancedOptions({
 AdvancedOptions.propTypes = {
   onChange: PropTypes.func.isRequired,
   userCandidateAllowance: PropTypes.number.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default AdvancedOptions

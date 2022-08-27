@@ -34,16 +34,15 @@ function ElectionList() {
   useEffect(() => {
     if (!user.id) return
 
-    const createdElections = []
-    const joinedElections = []
-    const otherElections = []
-
     const hasCreated = (election) => election.creator === user.id
     const hasJoined = (election) => map(map(get(election, 'users')), 'id').includes(user.id)
 
     onValue(
       query(ref(db, 'elections/')),
       (snapshot) => {
+        const createdElections = []
+        const joinedElections = []
+        const otherElections = []
         const allElections = snapshot.val()
         Object.keys(allElections).forEach((electionKey) => {
           const election = allElections[electionKey]

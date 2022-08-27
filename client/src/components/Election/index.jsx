@@ -70,6 +70,7 @@ function Election() {
               (el.isConfigured && !el.isFinished)
               || (el.isConfigured && userIsInElection(el))
               || el.creator === user.id
+              || user.id === process.env.REACT_APP_SUPER_USER_ID
             ) {
               setElection({
                 ...el,
@@ -100,7 +101,16 @@ function Election() {
   if (election.status === 200) {
     if (election.isConfigured) {
       if (!fbUser) {
-        content = <JoinElection election={election} />
+        if (user.id === process.env.REACT_APP_SUPER_USER_ID) {
+          content = (
+            <>
+              <JoinElection election={election} />
+              <VotingBooth election={election} user={fbUser} />
+            </>
+          )
+        } else {
+          content = <JoinElection election={election} />
+        }
       } else if (fbUser.isBanned) {
         content = <Banned />
       } else if (election.isFinished && election.outcome) {

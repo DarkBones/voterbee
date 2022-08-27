@@ -19,6 +19,7 @@ function Candidate({
   onDeleteCandidate,
   inputRef,
   userCandidateAllowance,
+  isDisabled,
 }) {
   const { t, i18n } = useTranslation()
   const tPathBase = [
@@ -56,7 +57,7 @@ function Candidate({
     <Button
       variant="icon-text"
       onClick={() => onDeleteCandidate(candidate.id)}
-      isDisabled={candidateCount < 3 && userCandidateAllowance === 0}
+      isDisabled={isDisabled || (candidateCount < 3 && userCandidateAllowance === 0)}
       tabIndex={-1}
     >
       <BiTrash size={20} />
@@ -74,6 +75,7 @@ function Candidate({
         onBackspace={handleBackspace}
         inputRef={inputRef}
         endAdornment={deleteButton}
+        isDisabled={isDisabled}
       />
       <Spacer />
     </>
@@ -86,6 +88,7 @@ function Candidates({
   onChange,
   focusOnLastCandidate,
   userCandidateAllowance,
+  isDisabled,
 }) {
   const lastCandidateRef = useRef(null)
   const user = useContext(UserContext)
@@ -147,11 +150,13 @@ function Candidates({
           onDeleteCandidate={handleDeleteCandidate}
           inputRef={index === candidates.length - 1 ? lastCandidateRef : null}
           userCandidateAllowance={userCandidateAllowance}
+          isDisabled={isDisabled}
         />
       ))}
       <Button
         onClick={handleAddCandidate}
         variant="secondary"
+        isDisabled={isDisabled}
       >
         <GoDiffAdded size={23} />
         &nbsp;
@@ -174,6 +179,7 @@ Candidate.propTypes = {
   onDeleteCandidate: PropTypes.func.isRequired,
   inputRef: PropTypes.PropTypes.shape({}),
   userCandidateAllowance: PropTypes.number.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 Candidate.defaultProps = {
@@ -186,6 +192,7 @@ Candidates.propTypes = {
   onChange: PropTypes.func.isRequired,
   focusOnLastCandidate: PropTypes.bool.isRequired,
   userCandidateAllowance: PropTypes.number.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
 }
 
 export default Candidates
