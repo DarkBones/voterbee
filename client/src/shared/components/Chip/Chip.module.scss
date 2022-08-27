@@ -1,0 +1,17 @@
+@use '../../../sass/colors.scss';
+
+:export {
+  primary: colors.$primary;
+  primary_hover: colors.$primary_hover;
+  secondary: colors.$secondary;
+  secondary_hover: colors.$secondary_hover;
+  paper: colors.$paper;
+  text: colors.$text;
+  box_shadow: 2px 2px 0px 1px colors.$text;
+  box_shadow_hover: 3px 3px 0px 2px colors.$text;
+  box_shadow_disabled: 2px 2px 0px 1px colors.$disabled_text;
+  font_weight: 600;
+  disabled: colors.$disabled;
+  disabled_text: colors.$disabled_text;
+  icon_button: colors.$icon_button;
+}
