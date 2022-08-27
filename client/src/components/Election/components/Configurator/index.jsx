@@ -39,7 +39,7 @@ function Configurator({ election }) {
     debounce(({
       name = '',
       candidates = [],
-      userCandidateAllowance = 550,
+      userCandidateAllowance = 0,
     }) => {
       update(ref(db, `elections/${election.fullId}`), {
         name,
