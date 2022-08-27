@@ -56,7 +56,8 @@ function VotingBooth({
   const db = useContext(DbContext)
   const userContext = useContext(UserContext)
   const users = []
-  Object.keys(election.users).forEach((key) => {
+  const showVotersPanel = election.usersMustProvideName || election.creator === user.id
+  Object.keys(get(election, 'users', {})).forEach((key) => {
     const u = election.users[key]
     users.push({
       ...u,
@@ -105,7 +106,7 @@ function VotingBooth({
   }
 
   const handleCountVotes = () => {
-    if (userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
+    if (!user.id && userContext.id === process.env.REACT_APP_SUPER_USER_ID) return
 
     setClickedCountVotes(true)
     update(ref(db, `elections/${election.fullId}`), {
@@ -319,17 +320,20 @@ function VotingBooth({
         )}
       </Panel>
       <Grid container alignItems="flex-start">
-        <Grid xs={12} sm={5} md={4}>
-          <Voters
-            users={users}
-            creator={election.creator}
-            electionId={election.fullId}
-            user={user}
-            onCountVotes={handleCountVotes}
-            hasClickedCountVotes={clickedCountVotes}
-          />
-        </Grid>
-        <Grid xs={12} sm={7} md={8}>
+        {showVotersPanel && (
+          <Grid xs={12} sm={5} md={4}>
+            <Voters
+              users={users}
+              creator={election.creator}
+              electionId={election.fullId}
+              user={user}
+              onCountVotes={handleCountVotes}
+              hasClickedCountVotes={clickedCountVotes}
+              usersMustProvideName={get(election, 'usersMustProvideName', true)}
+            />
+          </Grid>
+        )}
+        <Grid xs={12} sm={showVotersPanel ? 7 : 12} md={showVotersPanel ? 8 : 12}>
           {candidatesContent}
           <AddCandidate
             creator={election.creator}
@@ -354,15 +358,19 @@ VotingBooth.propTypes = {
       }),
     ),
     fullId: PropTypes.string.isRequired,
-    users: PropTypes.shape({}).isRequired,
+    users: PropTypes.shape({}),
     isFinished: PropTypes.bool.isRequired,
     userCandidateAllowance: PropTypes.number.isRequired,
+    usersMustProvideName: PropTypes.bool.isRequired,
   }).isRequired,
-  user: PropTypes.shape({
-    fullId: PropTypes.string.isRequired,
-    hasVoted: PropTypes.bool.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  user: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      fullId: PropTypes.string.isRequired,
+      hasVoted: PropTypes.bool.isRequired,
+      id: PropTypes.string.isRequired,
+    }),
+  ]).isRequired,
 }
 
 export default VotingBooth

@@ -37,6 +37,7 @@ const translations = {
         in_progress: 'In Progress',
         completed: 'Completed',
       },
+      anonymous: 'Anonymous',
     },
     elections: {
       banned: {
@@ -76,6 +77,7 @@ const translations = {
         advanced: {
           title: 'Advanced Options',
           allow_users_to_add_candidates: 'Allow users to add candidates',
+          users_must_provide_name: 'Users must provide their name',
           users_can_add: 'Amount of candidates:',
         },
       },
@@ -143,6 +145,7 @@ const translations = {
         pick: 'Pick {{name}}',
         pick_random: 'Pick Random',
         statistics: 'Election Statistics',
+        creator_name: 'Election creator',
       },
     },
   },
@@ -180,11 +183,11 @@ const translations = {
       joined: 'Rejoint',
       other: 'Autres',
       status: {
-        // not_configured: 'Pas Configuré',
         not_configured: 'Not Configured',
         in_progress: 'En Cours',
         completed: 'Complété',
       },
+      anonymous: 'Anonyme',
     },
     elections: {
       banned: {
@@ -224,6 +227,7 @@ const translations = {
         advanced: {
           title: 'Options Avancées',
           allow_users_to_add_candidates: 'Autoriser les électeurs à ajouter des candidats',
+          users_must_provide_name: 'Les électeurs doivent fournir leur nom',
           users_can_add: 'Nombre de candidats :',
         },
       },
@@ -291,6 +295,7 @@ const translations = {
         pick: 'Choisissez {{name}}',
         pick_random: 'Choisissez au hasard',
         statistics: 'Statistiques Électorales',
+        creator_name: 'Créateur d\'élection',
       },
     },
   },
@@ -332,6 +337,7 @@ const translations = {
         in_progress: 'Bezig',
         completed: 'Voltooid',
       },
+      anonymous: 'Anoniem',
     },
     elections: {
       banned: {
@@ -371,6 +377,7 @@ const translations = {
         advanced: {
           title: 'Geavanceerde Opties',
           allow_users_to_add_candidates: 'Kiezers toestaan ​​kandidaten toe te voegen',
+          users_must_provide_name: 'Kiezers moeten hun naam geven',
           users_can_add: 'Aantal kandidatenn:',
         },
       },
@@ -438,6 +445,7 @@ const translations = {
         pick: 'Kies {{name}}',
         pick_random: 'Kies Willekeurig',
         statistics: 'Verkiezingsstatistieken',
+        creator_name: 'Verkiezingsmaker',
       },
     },
   },

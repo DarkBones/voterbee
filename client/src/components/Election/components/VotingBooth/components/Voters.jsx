@@ -91,6 +91,7 @@ function Voters({
   user,
   onCountVotes,
   hasClickedCountVotes,
+  usersMustProvideName,
 }) {
   const { t } = useTranslation()
   const activeUsers = users.filter((u) => !u.isBanned)
@@ -104,7 +105,7 @@ function Voters({
   return (
     <Panel>
       <h3>{t('elections.session.voters.title')}</h3>
-      {users.map((u) => (
+      {usersMustProvideName && users.map((u) => (
         <Voter
           key={u.id}
           user={u}
@@ -171,6 +172,7 @@ Voters.propTypes = {
   }).isRequired,
   onCountVotes: PropTypes.func.isRequired,
   hasClickedCountVotes: PropTypes.bool.isRequired,
+  usersMustProvideName: PropTypes.bool.isRequired,
 }
 
 export default Voters

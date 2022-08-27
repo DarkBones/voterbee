@@ -21,6 +21,7 @@ const newElection = async (user) => {
             isFinished: false,
             userCandidateAllowance: 0,
             candidateNameSimilarityAllowed: 0,
+            usersMustProvideName: true,
           })
           return await Promise.resolve(id)
         } catch (err) {

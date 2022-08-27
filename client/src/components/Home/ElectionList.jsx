@@ -78,13 +78,19 @@ function ElectionList() {
     return <Chip label={t(`election_list.status.${label}`)} color={color} />
   }
 
-  const electionUserNames = (election) => map(get(election, 'users'), 'name').join(', ')
+  const electionUserNames = (election) => {
+    if (!get(election, 'usersMustProvideName', true)) {
+      return t('election_list.anonymous')
+    }
+    return map(get(election, 'users'), 'name').filter((n) => get(n, 'length', 0) > 0).join(', ')
+  }
 
   const handleCopy = (e, election) => {
     e.preventDefault()
     const newState = {
       name: election.name,
       candidates: election.candidates,
+      usersMustProvideName: get(election, 'usersMustProvideName', true),
     }
 
     const onSuccess = (id) => navigate(`/${id}`, { state: newState })

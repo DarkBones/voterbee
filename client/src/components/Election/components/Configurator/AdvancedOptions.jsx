@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Spacer, Grid } from 'shared/components'
 import { Switch, TextField } from 'shared/components/forms'
+import style from './AdvancedOptions.module.scss'
 
 function AdvancedOptions({
   onChange,
   userCandidateAllowance,
   isDisabled,
+  mustProvideName,
 }) {
   const { t } = useTranslation()
   const [
     allowUsersToAddCandidates, setAllowUsersToAddCandidates,
   ] = useState(userCandidateAllowance > 0)
+  const [usersMustProvideName, setUsersMustProvideName] = useState(mustProvideName)
   const [candidateAmount, setCandidateAmount] = useState(Math.max(userCandidateAllowance, 1))
 
   const handleChangeCandidateCount = ({ target: { value } }) => {
@@ -35,11 +38,27 @@ function AdvancedOptions({
     }
   }
 
+  const handleUsersMustProvideName = ({ target: { checked } }) => {
+    setUsersMustProvideName(checked)
+    onChange('usersMustProvideName', checked)
+  }
+
+  useEffect(() => {
+    setUsersMustProvideName(mustProvideName)
+  }, [mustProvideName])
+
   return (
-    <>
-      <h4>
+    <div className={style.advanced_options_container}>
+      <h4 className={style.advanced_options_title}>
         {t('elections.configure.advanced.title')}
       </h4>
+      <Switch
+        checked={usersMustProvideName}
+        onChange={handleUsersMustProvideName}
+        label={t('elections.configure.advanced.users_must_provide_name')}
+        isDisabled={isDisabled}
+      />
+      <Spacer />
       <Switch
         checked={allowUsersToAddCandidates}
         onChange={handleAllowUsersToAddCandidatesChange}
@@ -51,7 +70,6 @@ function AdvancedOptions({
           <Spacer size={1} />
           <div>
             <Grid container>
-              <Grid xs={12} sm />
               <Grid>
                 {t('elections.configure.advanced.users_can_add')}
               </Grid>
@@ -65,12 +83,11 @@ function AdvancedOptions({
                   isDisabled={isDisabled}
                 />
               </Grid>
-              <Grid xs={12} sm />
             </Grid>
           </div>
         </>
       )}
-    </>
+    </div>
   )
 }
 
@@ -78,6 +95,7 @@ AdvancedOptions.propTypes = {
   onChange: PropTypes.func.isRequired,
   userCandidateAllowance: PropTypes.number.isRequired,
   isDisabled: PropTypes.bool.isRequired,
+  mustProvideName: PropTypes.bool.isRequired,
 }
 
 export default AdvancedOptions
