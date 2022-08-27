@@ -4,6 +4,7 @@ import {
   useRef,
   useContext,
 } from 'react'
+import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   ref,
@@ -22,6 +23,7 @@ import AdvancedOptions from './AdvancedOptions'
 
 function Configurator({ election }) {
   const { t } = useTranslation()
+  const { state } = useLocation()
   const db = useContext(DbContext)
   const [suggestionIndex, setSuggestionIndex] = useState(0)
   const [focusOnLastCandidate, setFocusOnLastCandidate] = useState(false)
@@ -56,6 +58,18 @@ function Configurator({ election }) {
     setFocusOnLastCandidate(focusOnLast)
     uploadConfig(newConfig)
   }
+
+  useEffect(() => {
+    const newConfig = {}
+    newConfig.name = get(state, 'name', '')
+    newConfig.candidates = get(state, 'candidates')
+
+    if (state && Object.keys(state).length > 0) {
+      setConfig(newConfig)
+      uploadConfig(newConfig)
+      window.history.replaceState({}, document.title)
+    }
+  }, [state, uploadConfig])
 
   useEffect(() => {
     const newErrors = []

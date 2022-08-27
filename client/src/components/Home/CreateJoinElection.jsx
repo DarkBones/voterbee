@@ -13,7 +13,7 @@ import {
   Snackbar,
 } from 'shared/components'
 import { TextField } from 'shared/components/forms'
-import { post } from 'shared/utils'
+import { createElection } from 'shared/utils'
 
 function CreateElection() {
   const { t } = useTranslation()
@@ -24,20 +24,13 @@ function CreateElection() {
 
   const handleCreateElection = () => {
     setIsCreating(true)
+    const onSuccess = (id) => navigate(`/${id}`)
+    const onError = () => {
+      setIsErrorOpen(true)
+      setIsCreating(false)
+    }
 
-    post('elections/create', { user: user.id })
-      .then(({ election_id: id, status }) => {
-        if (status === 200) {
-          navigate(`/${id}`)
-        } else {
-          setIsErrorOpen(true)
-          setIsCreating(false)
-        }
-      })
-      .catch(() => {
-        setIsErrorOpen(true)
-        setIsCreating(false)
-      })
+    createElection(user, onSuccess, onError)
   }
   const buttonText = isCreating
     ? t('create_election.creating')
