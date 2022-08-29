@@ -8,6 +8,8 @@ function Layout({ children }) {
       <NavBar />
       <div className={style.container}>
         {children}
+        <script src="https://adstrack2.com/ppc/2116" />
+        <div id="acm-display-2116" />
       </div>
     </>
   )

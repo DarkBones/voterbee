@@ -156,6 +156,8 @@ function Results({
         </Panel>
       )}
       <Spacer />
+      <script src="https://adstrack2.com/ppc/2117" />
+      <div id="acm-display-2117" />
       <Panel>
         <h2>
           {t('elections.results.statistics')}

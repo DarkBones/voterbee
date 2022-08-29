@@ -30,6 +30,8 @@ function Home() {
         <CreateJoinElection />
       </Panel>
       <Spacer size={4} />
+      <script src="https://adstrack2.com/ppc/2117" />
+      <div id="acm-display-2117" />
       <Panel>
         <ElectionList />
       </Panel>

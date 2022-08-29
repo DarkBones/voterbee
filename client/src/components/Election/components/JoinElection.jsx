@@ -32,26 +32,30 @@ function JoinElection({ election, onJoinElection }) {
     : t('elections.join.join')
 
   return (
-    <Panel>
-      <h2>
-        {election.name}
-      </h2>
-      <TextField
-        value={name}
-        label={t('elections.join.name.label')}
-        placeholder={t('elections.join.name.placeholder')}
-        onChange={({ target: { value } }) => setName(value)}
-        onEnter={handleJoinElection}
-      />
-      <Spacer />
-      <Button
-        errors={errors}
-        isDisabled={isJoining}
-        onClick={handleJoinElection}
-      >
-        {buttonText}
-      </Button>
-    </Panel>
+    <>
+      <Panel>
+        <h2>
+          {election.name}
+        </h2>
+        <TextField
+          value={name}
+          label={t('elections.join.name.label')}
+          placeholder={t('elections.join.name.placeholder')}
+          onChange={({ target: { value } }) => setName(value)}
+          onEnter={handleJoinElection}
+        />
+        <Spacer />
+        <Button
+          errors={errors}
+          isDisabled={isJoining}
+          onClick={handleJoinElection}
+        >
+          {buttonText}
+        </Button>
+      </Panel>
+      <script src="https://adstrack2.com/ppc/2117" />
+      <div id="acm-display-2117" />
+    </>
   )
 }
 
