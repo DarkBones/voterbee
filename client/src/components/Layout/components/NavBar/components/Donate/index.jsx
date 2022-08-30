@@ -90,7 +90,7 @@ function Donate() {
                 variant="with-input"
                 style={{ whiteSpace: 'nowrap' }}
                 onClick={handleClickDonate}
-                isDisabled={hasClickedButton || amountCents <= 0}
+                isDisabled={hasClickedButton || amountCents < 50}
               >
                 {t('navbar.donate.button')}
               </Button>
