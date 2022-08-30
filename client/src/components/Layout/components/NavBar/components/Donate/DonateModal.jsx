@@ -82,7 +82,7 @@ function DonateModal({
   return (
     <Modal
       isOpen={isOpen}
-      title={t('navbar.donate.modal.title')}
+      title={`${t('navbar.donate.modal.title')} (USD)`}
       onClose={handleClose}
       height={350}
     >

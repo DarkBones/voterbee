@@ -23,7 +23,9 @@ const formatCurrency = (strAmount, currencyCode, reverse = false) => {
   const currency = currencies[currencyCode]
   const subunits = get(currency, 'subunits', 100)
   const decimals = Math.log(subunits) / Math.log(10)
-  let amount = parseFloat(strAmount).toFixed(decimals)
+  let amount = parseFloat(strAmount)
+
+  if (Number.isNaN(amount)) amount = 0
 
   if (!reverse) amount *= subunits
 
