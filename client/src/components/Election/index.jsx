@@ -126,7 +126,7 @@ function Election() {
             </>
           )
         } else {
-          content = <JoinElection election={election} />
+          content = <JoinElection election={election} onJoinElection={handleJoinElection} />
         }
       } else if (fbUser.isBanned) {
         content = <Banned />
